@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block base_content %}
+
+<div class="grid grid-cols-12 min-h-screen">
+
+    <div class="col-span-3 min-h-screen">
+        {% block sidenav_content %}
+        {% include 'inside/components/sidenav.html' %}
+        {% endblock sidenav_content %}
+    </div>
+    
+    <div class="col-span-9 min-h-screen">
+        {% block dashboard_content %}
+        {% include 'inside/main.html' %}
+        {% endblock dashboard_content %}
+    </div>
+</div>
+    
+
+{% endblock base_content %}

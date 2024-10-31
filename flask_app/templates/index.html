@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block base_content %}
+<div>
+    <h1>StewardWell</h1>
+    <div class="grid grid-cols-2 gap-3 justify-center items-center">
+        <div class="h-full">
+            {% include 'users/new.html' %}
+        </div>
+        <div class="h-full">
+            {% include 'users/login.html' %}
+        </div>
+    </div>
+</div>
+{% endblock base_content %}

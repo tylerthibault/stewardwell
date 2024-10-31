@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StewardWell</title>
+
+    <!-- tailwindcss -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    {% include 'tailwindcss/config.html' %}
+    {% include 'tailwindcss/components.html' %}
+
+    {% block base_css %}
+        
+    {% endblock base_css %}
+</head>
+<body class="bg-gray-100 font-sans">
+    {% block base_content %}
+        
+    {% endblock base_content %}
+
+    {% block base_js %}
+        
+    {% endblock base_js %}
+</body>
+</html>
