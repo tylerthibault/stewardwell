@@ -38,6 +38,28 @@ def family_chores(family_id):
                         if not any(assignment.status == 'pending' 
                                  for assignment in chore.assignments)]
     
+    # Get pending reward redemptions for each child
+    child_redemptions = {}
+    for member in family.members:
+        if member.role == 'child':
+            # Get recent approved chores (limit to 5)
+            approved_chores = ChoreAssignment.query\
+                .filter_by(assigned_to_id=member.user.id, status='approved')\
+                .order_by(ChoreAssignment.approved_at.desc())\
+                .limit(5)\
+                .all()
+            
+            child_redemptions[member.user.id] = RewardRedemption.query\
+                .join(RewardRedemption.reward)\
+                .filter(
+                    Reward.family_id == family_id, 
+                    RewardRedemption.status == 'pending',
+                    RewardRedemption.user_id == member.user.id
+                ).all()
+            
+            # Add recent approved chores to member object
+            member.recent_approved = approved_chores
+    
     context = {
         'user': user,
         'family': family,
@@ -45,7 +67,8 @@ def family_chores(family_id):
         'unassigned_chores': unassigned_chores,
         'pending_assignments': [a for a in user.chores_assigned if a.status == 'pending'],
         'completed_assignments': [a for a in user.chores_assigned if a.status == 'completed'],
-        'approved_assignments': [a for a in user.chores_assigned if a.status == 'approved']
+        'approved_assignments': [a for a in user.chores_assigned if a.status == 'approved'],
+        'child_redemptions': child_redemptions
     }
     return render_template('inside/chores/dashboard.html', **context)
 
@@ -176,13 +199,15 @@ def personal_store(family_id):
 @app.route('/family/<int:family_id>/family-store')
 @parent_required
 def family_store(family_id):
+    """View family store as a parent"""
     user = User.get(session_token=session['session_token'])
     family = Family.get(id=family_id)
     
-    if not family or not any(m.family_id == family_id for m in user.family_memberships):
+    if not family or not user.is_parent_in_family(family_id):
         flash("Access denied", "danger")
         return redirect('/dashboard')
     
+    # Get only family rewards (not individual rewards)
     family_rewards = [r for r in family.rewards if r.is_family_reward]
     
     context = {
@@ -446,7 +471,7 @@ def kid_family_store():
         'family': family,
         'rewards': family_rewards
     }
-    return render_template('inside/chores/family_store.html', **context)
+    return render_template('inside/chores/kid_family_store.html', **context)
 
 @app.route('/kid/rewards')
 @kid_required
@@ -579,3 +604,91 @@ def redeem_reward(family_id, reward_id):
 #         return jsonify({'success': False, 'message': str(e)}), 500
     
 #     return jsonify({'success': False, 'message': 'Error processing redemption'}), 500
+
+@app.route('/family/<int:family_id>/rewards/<int:redemption_id>/approve', methods=['POST'])
+@parent_required
+def approve_redemption(family_id, redemption_id):
+    """Approve a reward redemption"""
+    user = User.get(session_token=session['session_token'])
+    redemption = RewardRedemption.query.get(redemption_id)
+    
+    if not redemption or not user.is_parent_in_family(family_id):
+        return jsonify({'success': False, 'message': 'Access denied'}), 403
+    
+    try:
+        redemption.approve()
+        return jsonify({
+            'success': True,
+            'message': 'Reward redemption approved!'
+        })
+    except SQLAlchemyError as e:
+        return jsonify({'success': False, 'message': str(e)}), 500
+
+@app.route('/family/<int:family_id>/rewards/<int:redemption_id>/reject', methods=['POST'])
+@parent_required
+def reject_redemption(family_id, redemption_id):
+    """Reject a reward redemption and refund coins/points"""
+    user = User.get(session_token=session['session_token'])
+    redemption = RewardRedemption.query.get(redemption_id)
+    
+    if not redemption or not user.is_parent_in_family(family_id):
+        return jsonify({'success': False, 'message': 'Access denied'}), 403
+    
+    try:
+        redemption.reject()
+        return jsonify({
+            'success': True,
+            'message': 'Reward redemption rejected and coins/points refunded.'
+        })
+    except SQLAlchemyError as e:
+        return jsonify({'success': False, 'message': str(e)}), 500
+
+@app.route('/family/<int:family_id>/family-store/manage', methods=['GET', 'POST'])
+@parent_required
+def manage_family_store(family_id):
+    """Manage family goals/rewards as a parent"""
+    user = User.get(session_token=session['session_token'])
+    family = Family.get(id=family_id)
+    
+    if not family or not user.is_parent_in_family(family_id):
+        flash("Access denied", "danger")
+        return redirect('/dashboard')
+    
+    if request.method == 'POST':
+        try:
+            # Get form data with defaults for numeric fields
+            points_required = request.form.get('points_required', '0')
+            points_required = int(points_required) if points_required.strip() else 0
+            
+            # Create new family goal
+            reward = Reward.create(
+                family_id=family_id,
+                name=request.form['name'],
+                description=request.form.get('description', ''),
+                points_required=points_required,
+                is_family_reward=True,  # Always true for family goals
+                available=True
+            )
+            
+            if reward:
+                flash("Family goal created successfully!", "success")
+                return jsonify({'success': True})
+            return jsonify({'success': False, 'message': 'Error creating family goal'}), 500
+            
+        except (ValueError, KeyError) as e:
+            return jsonify({'success': False, 'message': f'Please enter valid numbers for points'}), 400
+        except SQLAlchemyError as e:
+            return jsonify({'success': False, 'message': str(e)}), 500
+    
+    # Get only family rewards
+    family_rewards = [r for r in family.rewards if r.is_family_reward]
+    
+    # Serialize rewards for JSON
+    serialized_rewards = [serialize_reward(r) for r in family_rewards]
+    
+    context = {
+        'user': user,
+        'family': family,
+        'rewards': serialized_rewards
+    }
+    return render_template('inside/chores/manage_family_store.html', **context)

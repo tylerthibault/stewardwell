@@ -4,7 +4,6 @@
 <!-- Include the subnav -->
 {% include "inside/components/chores_subnav.html" %}
 
-<!-- Existing content -->
 <div class="p-6">
     <div class="flex justify-between items-center mb-6">
         <h2 class="text-2xl font-bold">{{ family.name }} - Chores & Rewards</h2>
@@ -21,93 +20,163 @@
     {% if user.is_parent_in_family(family.id) %}
     <!-- Parent View: Chores by Family Member -->
     <div class="mb-8">
-        <h3 class="text-xl font-semibold mb-4">Family Members' Chores</h3>
+        <h3 class="text-xl font-semibold mb-4">Family Members</h3>
         
         {% for member in family.members if member.role == 'child' %}
         <div class="bg-white rounded-lg shadow mb-6">
-            <div class="px-6 py-4 border-b">
+            <!-- Member Header -->
+            <div class="px-6 py-4 border-b bg-gray-50">
                 <div class="flex justify-between items-center">
-                    <h4 class="font-semibold">{{ member.user.first_name }}'s Chores</h4>
-                    <div class="text-sm">
-                        <span class="text-green-600">{{ member.user.coin_balance }} coins</span>
+                    <div>
+                        <h4 class="font-semibold text-lg">{{ member.user.first_name }}'s Dashboard</h4>
+                        <p class="text-sm text-gray-600">Balance: {{ member.user.coin_balance }} coins</p>
+                    </div>
+                    <div class="flex space-x-4">
+                        <a href="{{ url_for('switch_child_view', family_id=family.id, child_id=member.user.id) }}" 
+                           class="text-blue-600 hover:text-blue-800">
+                            View As {{ member.user.first_name }}
+                        </a>
                     </div>
                 </div>
             </div>
             
-            <!-- Pending Chores -->
-            <div class="divide-y">
-                {% set member_chores = member.user.chores_assigned|selectattr('status', 'equalto', 'pending')|list %}
-                {% if member_chores %}
-                {% for assignment in member_chores %}
-                <div class="p-4">
-                    <div class="flex justify-between items-center">
-                        <div>
-                            <h5 class="font-medium">{{ assignment.chore.name }}</h5>
-                            <p class="text-sm text-gray-600">{{ assignment.chore.description }}</p>
-                            <div class="text-sm mt-1">
-                                <span class="text-green-600">+{{ assignment.chore.coin_value }} coins</span>
-                                <span class="text-blue-600 ml-2">+{{ assignment.chore.family_points }} family points</span>
+            <!-- Content Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 p-4">
+                <!-- Pending Chores Section -->
+                <div class="bg-white rounded border">
+                    <div class="px-4 py-2 bg-gray-50 border-b">
+                        <h5 class="font-medium">Pending Chores</h5>
+                    </div>
+                    <div class="p-4">
+                        {% set member_chores = member.user.chores_assigned|selectattr('status', 'equalto', 'pending')|list %}
+                        {% if member_chores %}
+                        <div class="space-y-3">
+                            {% for assignment in member_chores %}
+                            <div class="flex justify-between items-start border-b pb-3 last:border-0 last:pb-0">
+                                <div>
+                                    <p class="font-medium">{{ assignment.chore.name }}</p>
+                                    <p class="text-sm text-gray-600">{{ assignment.chore.description }}</p>
+                                    <div class="text-sm mt-1">
+                                        <span class="text-green-600">+{{ assignment.chore.coin_value }} coins</span>
+                                        <span class="text-blue-600 ml-2">+{{ assignment.chore.family_points }} points</span>
+                                    </div>
+                                </div>
+                                <div class="flex space-x-2">
+                                    <button onclick="showCloneChoreModal({{ assignment.chore.id }}, '{{ assignment.chore.name }}')"
+                                            class="bg-green-500 text-white px-3 py-1 rounded text-sm hover:bg-green-600">
+                                        Clone
+                                    </button>
+                                    <button onclick="unassignChore({{ assignment.id }})"
+                                            class="text-red-600 hover:text-red-900 text-sm">
+                                        Unassign
+                                    </button>
+                                </div>
                             </div>
+                            {% endfor %}
                         </div>
-                        <div class="space-x-2">
-                            {% if assignment.status == 'completed' %}
-                            <button onclick="approveChore({{ assignment.id }})"
-                                    class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
-                                Approve
-                            </button>
-                            {% endif %}
-                            <button onclick="showCloneChoreModal({{ assignment.chore.id }}, '{{ assignment.chore.name }}')"
-                                    class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
-                                Clone
-                            </button>
-                            <button onclick="unassignChore({{ assignment.id }})"
-                                    class="text-yellow-600 hover:text-yellow-900">
-                                Unassign
-                            </button>
-                        </div>
+                        {% else %}
+                        <p class="text-gray-600 text-center">No pending chores</p>
+                        {% endif %}
                     </div>
                 </div>
-                {% endfor %}
-                {% else %}
-                <div class="p-6 text-center text-gray-600">
-                    No pending chores
-                </div>
-                {% endif %}
-            </div>
 
-            <!-- Completed & Awaiting Approval -->
-            <div class="border-t">
-                <div class="px-6 py-4 border-b bg-gray-50">
-                    <h5 class="font-medium">Completed Chores (Awaiting Approval)</h5>
-                </div>
-                <div class="divide-y">
-                    {% set completed_chores = member.user.chores_assigned|selectattr('status', 'equalto', 'completed')|list %}
-                    {% if completed_chores %}
-                    {% for assignment in completed_chores %}
-                    <div class="p-4 bg-gray-50">
-                        <div class="flex justify-between items-center">
-                            <div>
-                                <h5 class="font-medium">{{ assignment.chore.name }}</h5>
-                                <p class="text-sm text-gray-600">Completed: {{ assignment.completed_at.strftime('%Y-%m-%d %H:%M') }}</p>
+                <!-- Awaiting Approval Section -->
+                <div class="bg-white rounded border">
+                    <div class="px-4 py-2 bg-gray-50 border-b">
+                        <h5 class="font-medium">Awaiting Approval</h5>
+                    </div>
+                    <div class="p-4">
+                        {% set completed_chores = member.user.chores_assigned|selectattr('status', 'equalto', 'completed')|list %}
+                        {% if completed_chores %}
+                        <div class="space-y-3">
+                            {% for assignment in completed_chores %}
+                            <div class="flex justify-between items-start border-b pb-3 last:border-0 last:pb-0">
+                                <div>
+                                    <p class="font-medium">{{ assignment.chore.name }}</p>
+                                    <p class="text-sm text-gray-600">Completed: {{ assignment.completed_at.strftime('%Y-%m-%d %H:%M') }}</p>
+                                </div>
+                                <div class="flex space-x-2">
+                                    <button onclick="approveChore({{ assignment.id }})"
+                                            class="bg-green-500 text-white px-3 py-1 rounded text-sm hover:bg-green-600">
+                                        Approve
+                                    </button>
+                                    <button onclick="rejectChore({{ assignment.id }})"
+                                            class="bg-red-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600">
+                                        Reject
+                                    </button>
+                                </div>
                             </div>
-                            <div class="space-x-2">
-                                <button onclick="approveChore({{ assignment.id }})"
-                                        class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
-                                    Approve
-                                </button>
-                                <button onclick="rejectChore({{ assignment.id }})"
-                                        class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
-                                    Reject
-                                </button>
-                            </div>
+                            {% endfor %}
                         </div>
+                        {% else %}
+                        <p class="text-gray-600 text-center">No chores awaiting approval</p>
+                        {% endif %}
                     </div>
-                    {% endfor %}
-                    {% else %}
-                    <div class="p-6 text-center text-gray-600">
-                        No chores awaiting approval
+                </div>
+
+                <!-- Pending Rewards Section -->
+                <div class="bg-white rounded border">
+                    <div class="px-4 py-2 bg-gray-50 border-b">
+                        <h5 class="font-medium">Pending Rewards</h5>
                     </div>
-                    {% endif %}
+                    <div class="p-4">
+                        {% set member_redemptions = child_redemptions.get(member.user.id, []) %}
+                        {% if member_redemptions %}
+                        <div class="space-y-3">
+                            {% for redemption in member_redemptions %}
+                            <div class="flex justify-between items-start border-b pb-3 last:border-0 last:pb-0">
+                                <div>
+                                    <p class="font-medium">{{ redemption.reward.name }}</p>
+                                    <p class="text-sm text-gray-600">{{ redemption.reward.description }}</p>
+                                    <div class="text-sm mt-1">
+                                        {% if redemption.reward.is_family_reward %}
+                                        <span class="text-blue-600">{{ redemption.reward.points_required }} points</span>
+                                        {% else %}
+                                        <span class="text-green-600">{{ redemption.reward.coin_cost }} coins</span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="flex space-x-2">
+                                    <button onclick="approveRedemption({{ redemption.id }})"
+                                            class="bg-green-500 text-white px-3 py-1 rounded text-sm hover:bg-green-600">
+                                        Approve
+                                    </button>
+                                    <button onclick="rejectRedemption({{ redemption.id }})"
+                                            class="bg-red-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600">
+                                        Reject
+                                    </button>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        <p class="text-gray-600 text-center">No pending reward redemptions</p>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Recent Activity Section -->
+                <div class="bg-white rounded border">
+                    <div class="px-4 py-2 bg-gray-50 border-b">
+                        <h5 class="font-medium">Recent Activity</h5>
+                    </div>
+                    <div class="p-4">
+                        {% if member.recent_approved %}
+                        <div class="space-y-3">
+                            {% for assignment in member.recent_approved %}
+                            <div class="border-b pb-3 last:border-0 last:pb-0">
+                                <p class="font-medium">{{ assignment.chore.name }}</p>
+                                <p class="text-sm text-gray-600">Approved: {{ assignment.approved_at.strftime('%Y-%m-%d %H:%M') }}</p>
+                                <div class="text-sm mt-1">
+                                    <span class="text-green-600">+{{ assignment.chore.coin_value }} coins earned</span>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        <p class="text-gray-600 text-center">No recent activity</p>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
         </div>
@@ -215,7 +284,7 @@
                     <h5 class="font-medium">{{ assignment.chore.name }}</h5>
                     <p class="text-sm text-gray-600">Completed: {{ assignment.completed_at.strftime('%Y-%m-%d %H:%M') }}</p>
                     <div class="text-sm mt-1">
-                        <span class="text-yellow-600">Awaiting approval</span>
+                        <span class="text-yellow-600">Waiting for parent approval</span>
                     </div>
                 </div>
                 {% endfor %}
@@ -320,14 +389,15 @@ function completeChore(assignmentId) {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            window.location.reload();
+            showToast('Chore completed successfully!', 'success');
+            setTimeout(() => window.location.reload(), 1000);
         } else {
-            alert('Error completing chore: ' + data.message);
+            showToast('Error completing chore: ' + data.message, 'error');
         }
     })
     .catch(error => {
         console.error('Error:', error);
-        alert('Error completing chore');
+        showToast('Error completing chore', 'error');
     });
 }
 
@@ -343,14 +413,39 @@ function approveChore(assignmentId) {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            window.location.reload();
+            showToast('Chore approved successfully!', 'success');
+            setTimeout(() => window.location.reload(), 1000);
         } else {
-            alert('Error approving chore: ' + data.message);
+            showToast('Error approving chore: ' + data.message, 'error');
         }
     })
     .catch(error => {
         console.error('Error:', error);
-        alert('Error approving chore');
+        showToast('Error approving chore', 'error');
+    });
+}
+
+function rejectChore(assignmentId) {
+    if (!confirm('Reject this chore?')) return;
+    
+    fetch(`/family/{{ family.id }}/chores/assignment/${assignmentId}/reject`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showToast('Chore rejected', 'success');
+            setTimeout(() => window.location.reload(), 1000);
+        } else {
+            showToast('Error rejecting chore: ' + data.message, 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showToast('Error rejecting chore', 'error');
     });
 }
 
@@ -366,14 +461,15 @@ function unassignChore(assignmentId) {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            window.location.reload();
+            showToast('Chore unassigned successfully!', 'success');
+            setTimeout(() => window.location.reload(), 1000);
         } else {
-            alert('Error unassigning chore: ' + data.message);
+            showToast('Error unassigning chore: ' + data.message, 'error');
         }
     })
     .catch(error => {
         console.error('Error:', error);
-        alert('Error unassigning chore');
+        showToast('Error unassigning chore', 'error');
     });
 }
 
@@ -389,14 +485,15 @@ function deleteChore(choreId, choreName) {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            window.location.reload();
+            showToast('Chore deleted successfully!', 'success');
+            setTimeout(() => window.location.reload(), 1000);
         } else {
-            alert('Error deleting chore: ' + data.message);
+            showToast('Error deleting chore: ' + data.message, 'error');
         }
     })
     .catch(error => {
         console.error('Error:', error);
-        alert('Error deleting chore');
+        showToast('Error deleting chore', 'error');
     });
 }
 
@@ -412,6 +509,54 @@ function showCloneChoreModal(choreId, choreName) {
 function hideCloneChoreModal() {
     document.getElementById('cloneChoreModal').classList.add('hidden');
     currentChoreToClone = null;
+}
+
+function approveRedemption(redemptionId) {
+    if (!confirm('Approve this reward redemption?')) return;
+    
+    fetch(`/family/{{ family.id }}/rewards/${redemptionId}/approve`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showToast('Reward redemption approved!', 'success');
+            setTimeout(() => window.location.reload(), 1000);
+        } else {
+            showToast('Error approving redemption: ' + data.message, 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showToast('Error approving redemption', 'error');
+    });
+}
+
+function rejectRedemption(redemptionId) {
+    if (!confirm('Reject this reward redemption? This will refund the coins/points.')) return;
+    
+    fetch(`/family/{{ family.id }}/rewards/${redemptionId}/reject`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showToast('Reward redemption rejected and coins/points refunded.', 'success');
+            setTimeout(() => window.location.reload(), 1000);
+        } else {
+            showToast('Error rejecting redemption: ' + data.message, 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showToast('Error rejecting redemption', 'error');
+    });
 }
 
 // Add form submission handler for cloning
@@ -432,18 +577,19 @@ document.getElementById('cloneChoreForm').addEventListener('submit', function(e)
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            window.location.reload();
+            showToast('Chore cloned successfully!', 'success');
+            setTimeout(() => window.location.reload(), 1000);
         } else {
-            alert('Error cloning chore: ' + data.message);
+            showToast('Error cloning chore: ' + data.message, 'error');
         }
     })
     .catch(error => {
         console.error('Error:', error);
-        alert('Error cloning chore');
+        showToast('Error cloning chore', 'error');
     });
 });
 
-// Close modal when clicking outside
+// Close modals when clicking outside
 document.getElementById('assignChoreModal').addEventListener('click', function(e) {
     if (e.target === this) {
         hideAssignChoreModal();
@@ -456,4 +602,4 @@ document.getElementById('cloneChoreModal').addEventListener('click', function(e)
     }
 });
 </script>
-{% endblock %} 
+{% endblock %}

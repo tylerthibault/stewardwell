@@ -20,6 +20,10 @@ class User(db.Model):
     pin_code = db.Column(db.String(6))  # For kid's easy login
     is_child = db.Column(db.Boolean, default=False)
     parent_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)  # For linking kids to parents
+    settings = db.Column(db.JSON, default=lambda: {
+        'module_chores': True,
+        'module_budget': True
+    })
 
     # Relationships
     family_memberships = db.relationship('FamilyMember', back_populates='user', cascade='all, delete-orphan')
@@ -240,4 +244,15 @@ class User(db.Model):
     def get_managed_children(self):
         """Get all children managed by this parent"""
         return User.query.filter_by(parent_id=self.id).all()
+
+    def update_settings(self, **settings):
+        """Update user settings"""
+        try:
+            self.settings.update(settings)
+            db.session.commit()
+            return True
+        except SQLAlchemyError as e:
+            db.session.rollback()
+            flash("Error updating settings: " + str(e), "danger")
+            return False
 

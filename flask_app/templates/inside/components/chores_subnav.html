@@ -15,9 +15,9 @@
                         My Chores
                     </a>
                     
-                    <a href="{{ url_for('personal_store', family_id=family.id) }}"
+                    <a href="{{ url_for('kid_rewards_store') }}"
                        class="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium
-                       {% if request.endpoint == 'personal_store' %}
+                       {% if request.endpoint == 'kid_rewards_store' %}
                        border-blue-500 text-gray-900
                        {% else %}
                        border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700
@@ -25,9 +25,9 @@
                         Rewards Store
                     </a>
                     
-                    <a href="{{ url_for('family_store', family_id=family.id) }}"
+                    <a href="{{ url_for('kid_family_store') }}"
                        class="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium
-                       {% if request.endpoint == 'family_store' %}
+                       {% if request.endpoint == 'kid_family_store' %}
                        border-blue-500 text-gray-900
                        {% else %}
                        border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700
@@ -56,7 +56,7 @@
                         Manage Rewards
                     </a>
                     
-                    <a href="{{ url_for('family_store', family_id=family.id) }}"
+                    <a href="{{ url_for('family_store', family_id=family.id) }}/manage"
                        class="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium
                        {% if request.endpoint == 'family_store' %}
                        border-blue-500 text-gray-900
@@ -78,28 +78,11 @@
                     <span class="ml-2 text-blue-600 font-semibold">{{ family.total_points }}</span>
                 </div>
                 {% else %}
-                <!-- Parent View: Show family points and child selector -->
+                <!-- Parent View: Show family points -->
                 <div class="flex items-center space-x-4">
                     <div>
                         <span class="text-gray-500">Family Points:</span>
                         <span class="ml-2 text-blue-600 font-semibold">{{ family.total_points }}</span>
-                    </div>
-                    <div class="relative">
-                        <select onchange="switchView(this.value)" 
-                                class="ml-4 border rounded-lg px-2 py-1 text-sm appearance-none pr-8">
-                            <option value="parent" {% if not session.get('child_view') %}selected{% endif %}>Parent View</option>
-                            {% for member in family.members if member.role == 'child' %}
-                            <option value="{{ member.user.id }}" 
-                                    {% if session.get('child_view')|int == member.user.id %}selected{% endif %}>
-                                {{ member.user.first_name }}'s View ({{ member.user.coin_balance }} coins)
-                            </option>
-                            {% endfor %}
-                        </select>
-                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
-                            </svg>
-                        </div>
                     </div>
                 </div>
                 {% endif %}

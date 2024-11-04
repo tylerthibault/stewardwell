@@ -19,6 +19,22 @@ def settings():
         }
     return render_template('/inside/settings.html', **context)
 
+@app.route('/settings/update', methods=['POST'])
+@login_required
+def update_settings():
+    user = users.User.get(session_token=session['session_token'])
+    
+    # Get module settings from form
+    settings = {
+        'module_chores': 'module_chores' in request.form,
+        'module_budget': 'module_budget' in request.form
+    }
+    
+    if user.update_settings(**settings):
+        flash("Settings updated successfully!", "success")
+    
+    return redirect('/settings')
+
 
 # ********* LOGIN *********
 @app.route('/login', methods=['GET', 'POST'])

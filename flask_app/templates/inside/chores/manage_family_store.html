@@ -1,0 +1,155 @@
+{% extends "inside/dashboard.html" %}
+
+{% block dashboard_content %}
+<!-- Include the subnav -->
+{% include "inside/components/chores_subnav.html" %}
+
+<div class="p-6">
+    <div class="flex justify-between items-center mb-6">
+        <div>
+            <h2 class="text-2xl font-bold">Manage Family Goals</h2>
+            <p class="text-gray-600">Create and manage family-wide rewards that everyone can work towards!</p>
+        </div>
+        <div class="space-x-4">
+            <button onclick="showAddGoalModal()" 
+                    class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+                Add Family Goal
+            </button>
+        </div>
+    </div>
+
+    <!-- Family Goals Grid -->
+    {% if rewards %}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for reward in rewards %}
+        <div class="bg-white rounded-lg shadow p-4">
+            <div class="flex justify-between items-start mb-2">
+                <h4 class="font-bold">{{ reward.name }}</h4>
+                <div class="flex space-x-2">
+                    <button onclick="editGoal({{ reward.id }})"
+                            class="text-blue-600 hover:text-blue-900">
+                        Edit
+                    </button>
+                    <button onclick="toggleGoal({{ reward.id }}, {{ 'false' if reward.available else 'true' }})"
+                            class="text-{{ 'red' if reward.available else 'green' }}-600 hover:text-{{ 'red' if reward.available else 'green' }}-900">
+                        {{ 'Disable' if reward.available else 'Enable' }}
+                    </button>
+                </div>
+            </div>
+            <p class="text-gray-600 mb-2">{{ reward.description }}</p>
+            <div class="text-sm">
+                <span class="text-blue-600">{{ reward.points_required }} family points</span>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="bg-white rounded-lg shadow p-6 text-center">
+        <p class="text-gray-600">No family goals created yet.</p>
+        <button onclick="showAddGoalModal()" 
+                class="text-blue-600 hover:text-blue-700">
+            Create your first family goal
+        </button>
+    </div>
+    {% endif %}
+</div>
+
+<!-- Add/Edit Goal Modal -->
+<div id="goalModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full">
+    <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+        <div class="mt-3">
+            <h3 class="text-lg font-semibold mb-4" id="modalTitle">Add Family Goal</h3>
+            <form id="goalForm" method="POST">
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2">Name</label>
+                    <input type="text" name="name" required
+                           class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2">Description</label>
+                    <textarea name="description" rows="3"
+                            class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"></textarea>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2">Points Required</label>
+                    <input type="number" name="points_required" min="0" required
+                           class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500">
+                </div>
+                <div class="flex justify-end gap-4">
+                    <button type="button" onclick="hideGoalModal()"
+                            class="px-4 py-2 border rounded-lg hover:bg-gray-50">
+                        Cancel
+                    </button>
+                    <button type="submit"
+                            class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+                        Save Goal
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+function showAddGoalModal() {
+    const form = document.getElementById('goalForm');
+    form.action = "{{ url_for('manage_family_store', family_id=family.id) }}";
+    form.reset();
+    
+    document.getElementById('modalTitle').textContent = 'Add Family Goal';
+    document.getElementById('goalModal').classList.remove('hidden');
+}
+
+function hideGoalModal() {
+    document.getElementById('goalModal').classList.add('hidden');
+}
+
+function editGoal(goalId) {
+    const goal = {{ rewards|tojson|safe }}.find(r => r.id === goalId);
+    if (!goal) return;
+    
+    const form = document.getElementById('goalForm');
+    form.action = `/family/{{ family.id }}/rewards/${goalId}/edit`;
+    form.name.value = goal.name;
+    form.description.value = goal.description;
+    form.points_required.value = goal.points_required;
+    
+    document.getElementById('modalTitle').textContent = 'Edit Family Goal';
+    document.getElementById('goalModal').classList.remove('hidden');
+}
+
+function toggleGoal(goalId, makeAvailable) {
+    if (!confirm(`Are you sure you want to ${makeAvailable ? 'enable' : 'disable'} this family goal?`)) return;
+    
+    fetch(`/family/{{ family.id }}/rewards/${goalId}/toggle`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            available: makeAvailable
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showToast(`Family goal ${makeAvailable ? 'enabled' : 'disabled'} successfully!`, 'success');
+            setTimeout(() => window.location.reload(), 1000);
+        } else {
+            showToast('Error updating goal: ' + data.message, 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showToast('Error updating goal', 'error');
+    });
+}
+
+// Close modal when clicking outside
+document.getElementById('goalModal').addEventListener('click', function(e) {
+    if (e.target === this) {
+        hideGoalModal();
+    }
+});
+</script>
+{% endblock %} 

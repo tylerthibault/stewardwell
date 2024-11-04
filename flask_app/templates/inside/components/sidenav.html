@@ -1,13 +1,14 @@
 <aside class="w-64 bg-blue-900 text-white flex flex-col h-full">
     <div class="p-6 text-center">
         <h1 class="text-2xl font-bold">StewardWell</h1>
-        <p class="text-sm mt-1">Welcome, {{ user.first_name }}</p>
+        <p class="text-sm mt-1">Welcome, {{ user.first_name if user else 'Guest' }}</p>
     </div>
     <nav class="flex-grow px-6 mt-4">
         <ul>
             <li class="my-2">
                 <a href="{{ url_for('dashboard') }}" class="block py-2 px-4 rounded hover:bg-blue-700">Home</a>
             </li>
+            {% if user %}
             <li class="my-2">
                 <a href="{{ url_for('profile') }}" class="block py-2 px-4 rounded hover:bg-blue-700">Profile</a>
             </li>
@@ -21,12 +22,17 @@
             <li class="my-2">
                 <a href="{{ url_for('family_dashboard', family_id=user.get_primary_family().id) }}" class="block py-2 px-4 rounded hover:bg-blue-700">Family Dashboard</a>
             </li>
+            {% if user.settings.get('module_budget', True) %}
             <li class="my-2">
                 <a href="{{ url_for('family_budgets', family_id=user.get_primary_family().id) }}" class="block py-2 px-4 rounded hover:bg-blue-700">Family Budget</a>
             </li>
+            {% endif %}
+            {% if user.settings.get('module_chores', True) %}
             <li class="my-2">
                 <a href="{{ url_for('family_chores', family_id=user.get_primary_family().id) }}" class="block py-2 px-4 rounded hover:bg-blue-700">Chores & Rewards</a>
             </li>
+            {% endif %}
+            {% endif %}
             {% endif %}
             <li class="my-2">
                 <a href="{{ url_for('logout') }}" class="block py-2 px-4 rounded hover:bg-blue-700">Logout</a>
