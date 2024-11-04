@@ -1,0 +1,118 @@
+{% extends "inside/dashboard.html" %}
+
+{% block dashboard_content %}
+<div class="p-6">
+    <h2 class="text-2xl font-bold mb-6">Create New Budget for {{ family.name }}</h2>
+
+    <form action="{{ url_for('create_budget', family_id=family.id) }}" method="POST" class="max-w-2xl">
+        <!-- Basic Budget Information -->
+        <div class="bg-white rounded-lg shadow p-6 mb-6">
+            <h3 class="text-lg font-semibold mb-4">Budget Details</h3>
+            
+            <div class="mb-4">
+                <label for="name" class="block text-gray-700 font-bold mb-2">Budget Name</label>
+                <input type="text" name="name" id="name" 
+                       class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+                       placeholder="e.g., Monthly Budget June 2024"
+                       required>
+            </div>
+
+            <div class="mb-4">
+                <label for="description" class="block text-gray-700 font-bold mb-2">Description</label>
+                <textarea name="description" id="description" rows="3"
+                          class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+                          placeholder="Brief description of this budget"></textarea>
+            </div>
+        </div>
+
+        <!-- Budget Categories -->
+        <div class="bg-white rounded-lg shadow p-6 mb-6">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-semibold">Budget Categories</h3>
+                <button type="button" onclick="addCategory()" 
+                        class="text-blue-500 hover:text-blue-700">
+                    + Add Category
+                </button>
+            </div>
+
+            <div id="categories-container">
+                <!-- Initial category -->
+                <div class="category-entry mb-4 bg-gray-50 p-4 rounded">
+                    <div class="flex gap-4">
+                        <div class="flex-1">
+                            <label class="block text-gray-700 font-bold mb-2">Category Name</label>
+                            <input type="text" name="categories[0][name]"
+                                   class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+                                   placeholder="e.g., Groceries" required>
+                        </div>
+                        <div class="flex-1">
+                            <label class="block text-gray-700 font-bold mb-2">Planned Amount</label>
+                            <input type="number" name="categories[0][planned_amount]" step="0.01" min="0"
+                                   class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+                                   placeholder="0.00" required>
+                        </div>
+                        <div class="flex items-end">
+                            <button type="button" onclick="removeCategory(this)" 
+                                    class="text-red-500 hover:text-red-700 mb-2">
+                                Remove
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex justify-end gap-4">
+            <a href="{{ url_for('family_budgets', family_id=family.id) }}" 
+               class="px-4 py-2 border rounded-lg hover:bg-gray-50">
+                Cancel
+            </a>
+            <button type="submit" 
+                    class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+                Create Budget
+            </button>
+        </div>
+    </form>
+</div>
+
+<script>
+let categoryCount = 1;
+
+function addCategory() {
+    const container = document.getElementById('categories-container');
+    const newCategory = document.createElement('div');
+    newCategory.className = 'category-entry mb-4 bg-gray-50 p-4 rounded';
+    newCategory.innerHTML = `
+        <div class="flex gap-4">
+            <div class="flex-1">
+                <label class="block text-gray-700 font-bold mb-2">Category Name</label>
+                <input type="text" name="categories[${categoryCount}][name]"
+                       class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+                       placeholder="e.g., Groceries" required>
+            </div>
+            <div class="flex-1">
+                <label class="block text-gray-700 font-bold mb-2">Planned Amount</label>
+                <input type="number" name="categories[${categoryCount}][planned_amount]" step="0.01" min="0"
+                       class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+                       placeholder="0.00" required>
+            </div>
+            <div class="flex items-end">
+                <button type="button" onclick="removeCategory(this)" 
+                        class="text-red-500 hover:text-red-700 mb-2">
+                    Remove
+                </button>
+            </div>
+        </div>
+    `;
+    container.appendChild(newCategory);
+    categoryCount++;
+}
+
+function removeCategory(button) {
+    const categoryEntry = button.closest('.category-entry');
+    if (document.querySelectorAll('.category-entry').length > 1) {
+        categoryEntry.remove();
+    }
+}
+</script>
+{% endblock %} 

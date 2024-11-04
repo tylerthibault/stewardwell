@@ -1,0 +1,109 @@
+{% extends "inside/dashboard.html" %}
+
+{% block dashboard_content %}
+<div class="p-6">
+    <h2 class="text-2xl font-bold mb-6">Create New Chore for {{ family.name }}</h2>
+
+    <form action="{{ url_for('create_chore', family_id=family.id) }}" method="POST" class="max-w-2xl">
+        <!-- Basic Chore Information -->
+        <div class="bg-white rounded-lg shadow p-6 mb-6">
+            <h3 class="text-lg font-semibold mb-4">Chore Details</h3>
+            
+            <div class="mb-4">
+                <label for="name" class="block text-gray-700 font-bold mb-2">Chore Name</label>
+                <input type="text" name="name" id="name" 
+                       class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+                       placeholder="e.g., Clean Room"
+                       required>
+            </div>
+
+            <div class="mb-4">
+                <label for="description" class="block text-gray-700 font-bold mb-2">Description</label>
+                <textarea name="description" id="description" rows="3"
+                          class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+                          placeholder="Describe what needs to be done..."></textarea>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label for="coin_value" class="block text-gray-700 font-bold mb-2">Coins Reward</label>
+                    <input type="number" name="coin_value" id="coin_value" 
+                           class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+                           min="0" value="0" required>
+                </div>
+                <div>
+                    <label for="family_points" class="block text-gray-700 font-bold mb-2">Family Points</label>
+                    <input type="number" name="family_points" id="family_points" 
+                           class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+                           min="0" value="0" required>
+                </div>
+            </div>
+        </div>
+
+        <!-- Schedule Information -->
+        <div class="bg-white rounded-lg shadow p-6 mb-6">
+            <h3 class="text-lg font-semibold mb-4">Schedule</h3>
+            
+            <div class="mb-4">
+                <label class="flex items-center">
+                    <input type="checkbox" name="recurring" id="recurring" 
+                           class="form-checkbox h-5 w-5 text-blue-600"
+                           onchange="toggleRecurringOptions()">
+                    <span class="ml-2 text-gray-700">This is a recurring chore</span>
+                </label>
+            </div>
+
+            <div id="recurringOptions" class="hidden">
+                <div class="mb-4">
+                    <label for="recurring_frequency" class="block text-gray-700 font-bold mb-2">Frequency</label>
+                    <select name="recurring_frequency" id="recurring_frequency"
+                            class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500">
+                        <option value="daily">Daily</option>
+                        <option value="weekly">Weekly</option>
+                        <option value="monthly">Monthly</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label for="deadline" class="block text-gray-700 font-bold mb-2">Deadline (optional)</label>
+                <input type="datetime-local" name="deadline" id="deadline"
+                       class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500">
+            </div>
+        </div>
+
+        <div class="flex justify-end gap-4">
+            <a href="{{ url_for('family_chores', family_id=family.id) }}" 
+               class="px-4 py-2 border rounded-lg hover:bg-gray-50">
+                Cancel
+            </a>
+            <button type="submit" 
+                    class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+                Create Chore
+            </button>
+        </div>
+    </form>
+</div>
+
+<script>
+function toggleRecurringOptions() {
+    const recurringCheckbox = document.getElementById('recurring');
+    const recurringOptions = document.getElementById('recurringOptions');
+    const frequencySelect = document.getElementById('recurring_frequency');
+    
+    if (recurringCheckbox.checked) {
+        recurringOptions.classList.remove('hidden');
+        frequencySelect.required = true;
+    } else {
+        recurringOptions.classList.add('hidden');
+        frequencySelect.required = false;
+        frequencySelect.value = 'daily';  // Reset to default
+    }
+}
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function() {
+    toggleRecurringOptions();
+});
+</script>
+{% endblock %} 

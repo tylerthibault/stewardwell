@@ -3,6 +3,7 @@ import secrets
 from flask_app import db, bcrypt
 from flask import flash
 from sqlalchemy.exc import SQLAlchemyError
+from datetime import datetime
 
 class User(db.Model):
     __tablename__ = 'users'
@@ -11,15 +12,31 @@ class User(db.Model):
     first_name = db.Column(db.String(50), nullable=False)
     last_name = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
-    password = db.Column(db.String(255), nullable=False)  # Password is hashed, so set to a larger length
+    password = db.Column(db.String(255), nullable=False)
     session_token = db.Column(db.String(255), unique=True)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    coin_balance = db.Column(db.Integer, default=0)
+    pin_code = db.Column(db.String(6))  # For kid's easy login
+    is_child = db.Column(db.Boolean, default=False)
+    parent_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)  # For linking kids to parents
+
+    # Relationships
+    family_memberships = db.relationship('FamilyMember', back_populates='user', cascade='all, delete-orphan')
+    transactions = db.relationship('BudgetTransaction', back_populates='user', cascade='all, delete-orphan')
+    reward_redemptions = db.relationship('RewardRedemption', back_populates='user', cascade='all, delete-orphan')
+    chores_assigned = db.relationship('ChoreAssignment', 
+                                    foreign_keys='ChoreAssignment.assigned_to_id',
+                                    backref='assigned_to')
+    chores_created = db.relationship('ChoreAssignment', 
+                                   foreign_keys='ChoreAssignment.assigned_by_id',
+                                   backref='assigned_by')
+    children = db.relationship('User', 
+                             backref=db.backref('parent', remote_side=[id]),
+                             foreign_keys='User.parent_id')
 
     def __repr__(self):
         return f"<User {self.first_name} {self.last_name}>"
-
-
-    def __repr__(self):
-        return f"<User {self.name}>"
 
     # ********* CREATE *********
     @classmethod
@@ -150,4 +167,77 @@ class User(db.Model):
 
     def check_password(self, password):
         return bcrypt.check_password_hash(self.password, password)
+
+    def get_families(self):
+        """Get all families this user belongs to"""
+        return [membership.family for membership in self.family_memberships]
+
+    def get_primary_family(self):
+        """Get the first family this user belongs to (if any)"""
+        membership = self.family_memberships[0] if self.family_memberships else None
+        return membership.family if membership else None
+
+    def is_parent_in_family(self, family_id):
+        """Check if user is a parent in the specified family"""
+        membership = next((m for m in self.family_memberships if m.family_id == family_id), None)
+        return membership and membership.role == 'parent'
+
+    def add_coins(self, amount):
+        """Add coins to user's balance"""
+        try:
+            self.coin_balance += amount
+            db.session.commit()
+            return True
+        except SQLAlchemyError as e:
+            db.session.rollback()
+            flash("Error adding coins: " + str(e), "danger")
+            return False
+
+    def use_coins(self, amount):
+        """Use coins from user's balance"""
+        if self.coin_balance < amount:
+            flash("Not enough coins", "danger")
+            return False
+        
+        try:
+            self.coin_balance -= amount
+            db.session.commit()
+            return True
+        except SQLAlchemyError as e:
+            db.session.rollback()
+            flash("Error using coins: " + str(e), "danger")
+            return False
+
+    def get_pending_chores(self):
+        """Get all pending chores assigned to the user"""
+        return [assignment for assignment in self.chores_assigned if assignment.status == 'pending']
+
+    def get_completed_chores(self):
+        """Get all completed chores by the user"""
+        return [assignment for assignment in self.chores_assigned if assignment.status == 'completed']
+
+    def get_approved_chores(self):
+        """Get all approved chores by the user"""
+        return [assignment for assignment in self.chores_assigned if assignment.status == 'approved']
+
+    def switch_to_child(self, child_id):
+        """For parents to switch to child view"""
+        if not self.is_parent_in_family(family_id):
+            return False
+        
+        child = User.query.get(child_id)
+        if not child or child.parent_id != self.id:
+            return False
+        
+        return child
+
+    @classmethod
+    def verify_pin(cls, email, pin):
+        """Verify child's PIN code"""
+        user = cls.query.filter_by(email=email, pin_code=pin, is_child=True).first()
+        return user
+
+    def get_managed_children(self):
+        """Get all children managed by this parent"""
+        return User.query.filter_by(parent_id=self.id).all()
 

@@ -15,6 +15,20 @@
                 <a href="{{ url_for('settings') }}" class="block py-2 px-4 rounded hover:bg-blue-700">Settings</a>
             </li>
             <li class="my-2">
+                <a href="{{ url_for('create_family') }}" class="block py-2 px-4 rounded hover:bg-blue-700">Create Family</a>
+            </li>
+            {% if user.get_primary_family() %}
+            <li class="my-2">
+                <a href="{{ url_for('family_dashboard', family_id=user.get_primary_family().id) }}" class="block py-2 px-4 rounded hover:bg-blue-700">Family Dashboard</a>
+            </li>
+            <li class="my-2">
+                <a href="{{ url_for('family_budgets', family_id=user.get_primary_family().id) }}" class="block py-2 px-4 rounded hover:bg-blue-700">Family Budget</a>
+            </li>
+            <li class="my-2">
+                <a href="{{ url_for('family_chores', family_id=user.get_primary_family().id) }}" class="block py-2 px-4 rounded hover:bg-blue-700">Chores & Rewards</a>
+            </li>
+            {% endif %}
+            <li class="my-2">
                 <a href="{{ url_for('logout') }}" class="block py-2 px-4 rounded hover:bg-blue-700">Logout</a>
             </li>
         </ul>

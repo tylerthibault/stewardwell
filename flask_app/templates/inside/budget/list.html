@@ -1,0 +1,65 @@
+{% extends "inside/dashboard.html" %}
+
+{% block dashboard_content %}
+<div class="p-6">
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold">{{ family.name }} - Budget Management</h2>
+        {% if user.is_parent_in_family(family.id) %}
+        <a href="{{ url_for('create_budget', family_id=family.id) }}" 
+           class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+            Create New Budget
+        </a>
+        {% endif %}
+    </div>
+
+    {% if budgets %}
+    <div class="grid grid-cols-1 gap-6">
+        {% for budget in budgets %}
+        <div class="bg-white rounded-lg shadow p-6">
+            <div class="flex justify-between items-start mb-4">
+                <div>
+                    <h3 class="text-xl font-bold">{{ budget.name }}</h3>
+                    <p class="text-gray-600">{{ budget.description }}</p>
+                </div>
+                <span class="text-lg font-semibold">${{ "%.2f"|format(budget.total_amount) }}</span>
+            </div>
+
+            <div class="space-y-4">
+                {% for category in budget.categories %}
+                <div class="bg-gray-50 p-4 rounded">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="font-medium">{{ category.name }}</span>
+                        <span>${{ "%.2f"|format(category.actual_amount) }} / ${{ "%.2f"|format(category.planned_amount) }}</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2.5">
+                        {% set percentage = (category.actual_amount / category.planned_amount * 100) if category.planned_amount > 0 else 0 %}
+                        {% set width = percentage if percentage <= 100 else 100 %}
+                        {% set color = 'bg-red-600' if percentage > 100 else 'bg-blue-600' %}
+                        <div class="{{ color }} h-2.5 rounded-full" style="width: {{ width }}%"></div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="mt-4 flex justify-end space-x-2">
+                <a href="{{ url_for('view_budget', family_id=family.id, budget_id=budget.id) }}" 
+                   class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                    View Details
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="bg-white rounded-lg shadow p-6 text-center">
+        <p class="text-gray-600 mb-4">No budgets created yet.</p>
+        {% if user.is_parent_in_family(family.id) %}
+        <a href="{{ url_for('create_budget', family_id=family.id) }}" 
+           class="text-blue-500 hover:text-blue-700">
+            Create your first budget
+        </a>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %} 

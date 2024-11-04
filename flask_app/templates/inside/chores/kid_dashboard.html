@@ -1,0 +1,205 @@
+{% extends "inside/kid_dashboard.html" %}
+
+{% block content %}
+<div class="p-6">
+    <div class="flex justify-between items-center mb-6">
+        <div>
+            <h2 class="text-2xl font-bold">My Chores</h2>
+            <p class="text-gray-600">Complete chores to earn coins!</p>
+        </div>
+    </div>
+
+    <!-- Pending Chores -->
+    <div class="mb-8">
+        <h3 class="text-xl font-semibold mb-4">To Do</h3>
+        <div class="bg-white rounded-lg shadow">
+            {% if pending_assignments %}
+            <div class="divide-y">
+                {% for assignment in pending_assignments %}
+                <div class="p-4">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h4 class="font-medium">{{ assignment.chore.name }}</h4>
+                            <p class="text-sm text-gray-600">{{ assignment.chore.description }}</p>
+                            <div class="text-sm mt-1">
+                                <span class="text-green-600">+{{ assignment.chore.coin_value }} coins</span>
+                                <span class="text-blue-600 ml-2">+{{ assignment.chore.family_points }} family points</span>
+                            </div>
+                        </div>
+                        <div class="flex space-x-2">
+                            <button onclick="completeChore({{ assignment.id }})"
+                                    class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+                                Mark Complete
+                            </button>
+                            {% if session.get('viewing_as_child') %}
+                            <button onclick="completeAndApproveChore({{ assignment.id }})"
+                                    class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                                Complete & Approve
+                            </button>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="p-6 text-center text-gray-600">
+                No chores to do right now!
+                <p class="text-sm mt-1">Check back later for new chores.</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Completed Chores (Awaiting Approval) -->
+    <div class="mb-8">
+        <h3 class="text-xl font-semibold mb-4">Waiting for Approval</h3>
+        <div class="bg-white rounded-lg shadow">
+            {% if completed_assignments %}
+            <div class="divide-y">
+                {% for assignment in completed_assignments %}
+                <div class="p-4 bg-gray-50">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h4 class="font-medium">{{ assignment.chore.name }}</h4>
+                            <p class="text-sm text-gray-600">Completed: {{ assignment.completed_at.strftime('%Y-%m-%d %H:%M') }}</p>
+                            <div class="text-sm mt-1">
+                                <span class="text-yellow-600">Waiting for parent approval</span>
+                            </div>
+                        </div>
+                        {% if session.get('viewing_as_child') %}
+                        <button onclick="approveChore({{ assignment.id }})"
+                                class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+                            Approve
+                        </button>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="p-6 text-center text-gray-600">
+                No chores awaiting approval
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Recently Approved -->
+    <div>
+        <h3 class="text-xl font-semibold mb-4">Recently Approved</h3>
+        <div class="bg-white rounded-lg shadow">
+            {% if approved_assignments %}
+            <div class="divide-y">
+                {% for assignment in approved_assignments %}
+                <div class="p-4">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h4 class="font-medium">{{ assignment.chore.name }}</h4>
+                            <p class="text-sm text-gray-600">Approved: {{ assignment.approved_at.strftime('%Y-%m-%d %H:%M') }}</p>
+                            <div class="text-sm mt-1">
+                                <span class="text-green-600">+{{ assignment.chore.coin_value }} coins earned!</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="p-6 text-center text-gray-600">
+                No approved chores yet
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+function completeChore(assignmentId) {
+    if (!confirm('Mark this chore as complete?')) return;
+    
+    fetch(`/family/{{ family.id }}/chores/assignment/${assignmentId}/complete`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showToast('Chore completed successfully!', 'success');
+            setTimeout(() => window.location.reload(), 1000);
+        } else {
+            showToast('Error completing chore: ' + data.message, 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showToast('Error completing chore', 'error');
+    });
+}
+
+function completeAndApproveChore(assignmentId) {
+    if (!confirm('Complete and approve this chore?')) return;
+    
+    // First complete the chore
+    fetch(`/family/{{ family.id }}/chores/assignment/${assignmentId}/complete`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Then approve it
+            return fetch(`/family/{{ family.id }}/chores/assignment/${assignmentId}/approve`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+        } else {
+            throw new Error(data.message);
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showToast('Chore completed and approved!', 'success');
+            setTimeout(() => window.location.reload(), 1000);
+        } else {
+            showToast('Error approving chore: ' + data.message, 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showToast('Error processing chore', 'error');
+    });
+}
+
+function approveChore(assignmentId) {
+    if (!confirm('Approve this chore?')) return;
+    
+    fetch(`/family/{{ family.id }}/chores/assignment/${assignmentId}/approve`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showToast('Chore approved successfully!', 'success');
+            setTimeout(() => window.location.reload(), 1000);
+        } else {
+            showToast('Error approving chore: ' + data.message, 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showToast('Error approving chore', 'error');
+    });
+}
+</script>
+{% endblock %} 
