@@ -2,20 +2,83 @@
 
 {% block base_content %}
 
-<div class="flex min-h-screen">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StewardWell</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+    <!-- Mobile Menu Button -->
+    <div class="lg:hidden fixed top-0 left-0 w-full bg-blue-900 text-white p-4 z-50 flex justify-between items-center">
+        <h1 class="text-xl font-bold">StewardWell</h1>
+        <button onclick="toggleMobileMenu()" class="p-2">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+        </button>
+    </div>
 
-    <div class="w-1/6 min-h-screen">
-        {% block sidenav_content %}
-        {% include 'inside/components/sidenav.html' %}
-        {% endblock sidenav_content %}
+    <div class="flex h-screen">
+        <!-- Sidebar - Hidden on mobile by default -->
+        <div id="sidebar" class="hidden lg:block lg:w-64 lg:flex-shrink-0">
+            {% if user.is_child or session.get('viewing_as_child') %}
+                {% include "inside/components/kid_sidenav.html" %}
+            {% else %}
+                {% include "inside/components/sidenav.html" %}
+            {% endif %}
+        </div>
+
+        <!-- Main Content -->
+        <main class="flex-1 overflow-y-auto lg:pt-0 pt-16">
+            {% block dashboard_content %}{% endblock %}
+        </main>
     </div>
-    
-    <div class="w-5/6 min-h-screen">
-        {% block dashboard_content %}
-        {% include 'inside/main.html' %}
-        {% endblock dashboard_content %}
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobileMenu" class="fixed inset-0 bg-gray-600 bg-opacity-75 z-40 hidden" onclick="toggleMobileMenu()"></div>
+
+    <!-- Mobile Sidebar -->
+    <div id="mobileSidebar" class="fixed inset-y-0 left-0 w-64 bg-blue-900 transform -translate-x-full transition-transform duration-300 ease-in-out z-50">
+        {% if user.is_child or session.get('viewing_as_child') %}
+            {% include "inside/components/kid_sidenav.html" %}
+        {% else %}
+            {% include "inside/components/sidenav.html" %}
+        {% endif %}
     </div>
-</div>
-    
+
+    <script>
+    function toggleMobileMenu() {
+        const sidebar = document.getElementById('mobileSidebar');
+        const overlay = document.getElementById('mobileMenu');
+        
+        if (sidebar.classList.contains('-translate-x-full')) {
+            // Open menu
+            sidebar.classList.remove('-translate-x-full');
+            overlay.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        } else {
+            // Close menu
+            sidebar.classList.add('-translate-x-full');
+            overlay.classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+    }
+
+    // Close mobile menu when window is resized to desktop size
+    window.addEventListener('resize', function() {
+        if (window.innerWidth >= 1024) { // lg breakpoint
+            const sidebar = document.getElementById('mobileSidebar');
+            const overlay = document.getElementById('mobileMenu');
+            sidebar.classList.add('-translate-x-full');
+            overlay.classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+    });
+    </script>
+</body>
+</html>
 
 {% endblock base_content %}
