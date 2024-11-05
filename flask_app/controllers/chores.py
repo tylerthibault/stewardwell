@@ -7,6 +7,7 @@ from flask_app.models.chores import Chore
 from flask_app.models.chore_assignments import ChoreAssignment
 from flask_app.models.rewards import Reward
 from flask_app.models.reward_redemptions import RewardRedemption
+from flask_app.models.categories import Category
 from datetime import datetime
 from sqlalchemy.exc import SQLAlchemyError
 
@@ -83,9 +84,27 @@ def create_chore(family_id):
         return redirect('/dashboard')
     
     if request.method == 'GET':
-        return render_template('inside/chores/create.html', user=user, family=family)
+        # Get categories for the dropdown
+        categories = Category.get_by_family(family_id)
+        return render_template('inside/chores/create.html', 
+                             user=user, 
+                             family=family, 
+                             categories=categories)
     
     try:
+        # Handle category creation if needed
+        if 'new_category' in request.form and request.form['new_category'].strip():
+            category = Category.create(
+                name=request.form['new_category'],
+                family_id=family_id
+            )
+            category_id = category.id
+        else:
+            category_id = request.form.get('category_id')
+            if category_id:
+                category_id = int(category_id)
+        
+        # Create the chore
         chore = Chore.create(
             family_id=family_id,
             name=request.form['name'],
@@ -93,7 +112,8 @@ def create_chore(family_id):
             coin_value=int(request.form['coin_value']),
             family_points=int(request.form['family_points']),
             recurring=bool(request.form.get('recurring', False)),
-            recurring_frequency=request.form.get('recurring_frequency')
+            recurring_frequency=request.form.get('recurring_frequency'),
+            category_id=category_id
         )
         
         if chore:
@@ -251,13 +271,17 @@ def manage_rewards(family_id):
             
             if reward:
                 flash("Reward created successfully!", "success")
-                return jsonify({'success': True})
-            return jsonify({'success': False, 'message': 'Error creating reward'}), 500
+                return redirect(url_for('manage_rewards', family_id=family_id))
+            
+            flash("Error creating reward", "danger")
+            return redirect(url_for('manage_rewards', family_id=family_id))
             
         except (ValueError, KeyError) as e:
-            return jsonify({'success': False, 'message': f'Please enter valid numbers for costs and points'}), 400
+            flash("Please enter valid numbers for costs and points", "danger")
+            return redirect(url_for('manage_rewards', family_id=family_id))
         except SQLAlchemyError as e:
-            return jsonify({'success': False, 'message': str(e)}), 500
+            flash(str(e), "danger")
+            return redirect(url_for('manage_rewards', family_id=family_id))
     
     # Get rewards for both individual and family categories
     individual_rewards = [r for r in family.rewards if not r.is_family_reward]
@@ -401,21 +425,19 @@ def delete_chore(family_id, chore_id):
 @app.route('/kid/dashboard')
 @kid_required
 def kid_dashboard():
+    """Display kid's dashboard with their chores"""
     if 'viewing_as_child' in session:
-        # Parent viewing as child - use child's data
-        child_data = session['viewing_as_child']
-        user = User.query.get(child_data['id'])
-        family = Family.query.get(child_data['family_id'])
+        user = User.query.get(session['viewing_as_child']['id'])
+        family = Family.query.get(session['viewing_as_child']['family_id'])
     else:
-        # Regular child login
         user = User.get(session_token=session['session_token'])
         family = user.get_primary_family()
-    
+
     if not family:
         flash("No family found", "danger")
         return redirect('/logout')
     
-    # Get assignments and sort them by status, with eager loading of chore relationship
+    # Get assignments and sort them by status
     assignments = ChoreAssignment.query\
         .filter_by(assigned_to_id=user.id)\
         .join(ChoreAssignment.chore)\
@@ -473,17 +495,14 @@ def kid_family_store():
     }
     return render_template('inside/chores/kid_family_store.html', **context)
 
-@app.route('/kid/rewards')
+@app.route('/kid/rewards-store')
 @kid_required
 def kid_rewards_store():
-    """View rewards store as a child"""
+    """View personal rewards store as a kid"""
     if 'viewing_as_child' in session:
-        # Parent viewing as child - use child's data
-        child_data = session['viewing_as_child']
-        user = User.query.get(child_data['id'])
-        family = Family.query.get(child_data['family_id'])
+        user = User.query.get(session['viewing_as_child']['id'])
+        family = Family.query.get(session['viewing_as_child']['family_id'])
     else:
-        # Regular child login
         user = User.get(session_token=session['session_token'])
         family = user.get_primary_family()
     
@@ -491,14 +510,16 @@ def kid_rewards_store():
         flash("No family found", "danger")
         return redirect('/logout')
     
-    individual_rewards = [r for r in family.rewards if not r.is_family_reward]
+    # Get only personal rewards that are available
+    personal_rewards = [r for r in family.rewards 
+                       if not r.is_family_reward and r.available]
     
     context = {
         'user': user,
         'family': family,
-        'rewards': individual_rewards
+        'rewards': personal_rewards
     }
-    return render_template('inside/chores/rewards_store.html', **context)
+    return render_template('inside/chores/kid_rewards_store.html', **context)
 
 @app.route('/pin-login', methods=['POST'])
 def pin_login_submit():
@@ -692,3 +713,142 @@ def manage_family_store(family_id):
         'rewards': serialized_rewards
     }
     return render_template('inside/chores/manage_family_store.html', **context)
+
+@app.route('/chores')
+@login_required
+def chores_dashboard():
+    user = User.get(session_token=session['session_token'])
+    
+    # Check if chores module is enabled
+    if not user.settings or not user.settings.get('module_chores'):
+        flash("Chores module is not enabled", "warning")
+        return redirect('/dashboard')
+        
+    # ... rest of the route code ...
+
+@app.route('/family/<int:family_id>/categories', methods=['GET', 'POST'])
+@parent_required
+def manage_categories(family_id):
+    """Manage chore categories"""
+    user = User.get(session_token=session['session_token'])
+    family = Family.get(id=family_id)
+    
+    if not family or not user.is_parent_in_family(family_id):
+        flash("Access denied", "danger")
+        return redirect('/dashboard')
+    
+    if request.method == 'POST':
+        try:
+            category = Category.create(
+                name=request.form['name'],
+                family_id=family_id
+            )
+            flash("Category created successfully!", "success")
+            return redirect(url_for('manage_categories', family_id=family_id))
+        except SQLAlchemyError as e:
+            flash(str(e), "danger")
+            return redirect(url_for('manage_categories', family_id=family_id))
+    
+    categories = Category.get_by_family(family_id)
+    return render_template('inside/chores/manage_categories.html', 
+                         categories=categories, family=family, user=user)
+
+@app.route('/family/<int:family_id>/categories/<int:category_id>/delete', methods=['POST'])
+@parent_required
+def delete_category(family_id, category_id):
+    """Delete a category"""
+    user = User.get(session_token=session['session_token'])
+    if not user.is_parent_in_family(family_id):
+        return jsonify({'success': False, 'message': 'Access denied'}), 403
+    
+    try:
+        category = Category.query.get(category_id)
+        if category and category.family_id == family_id:
+            db.session.delete(category)
+            db.session.commit()
+            return jsonify({'success': True})
+        return jsonify({'success': False, 'message': 'Category not found'}), 404
+    except SQLAlchemyError as e:
+        return jsonify({'success': False, 'message': str(e)}), 500
+
+@app.route('/family/<int:family_id>/rewards/<int:reward_id>/toggle', methods=['POST'])
+@parent_required
+def toggle_reward(family_id, reward_id):
+    """Toggle a reward's availability"""
+    user = User.get(session_token=session['session_token'])
+    family = Family.get(id=family_id)
+    
+    if not family or not user.is_parent_in_family(family_id):
+        return jsonify({'success': False, 'message': 'Access denied'}), 403
+    
+    reward = Reward.query.get(reward_id)
+    if not reward or reward.family_id != family_id:
+        return jsonify({'success': False, 'message': 'Reward not found'}), 404
+    
+    try:
+        # Toggle the availability
+        reward.available = not reward.available
+        db.session.commit()
+        
+        message = "Reward enabled" if reward.available else "Reward disabled"
+        flash(message, "success")
+        
+        # Redirect based on reward type
+        if reward.is_family_reward:
+            return redirect(url_for('manage_family_store', family_id=family_id))
+        else:
+            return redirect(url_for('manage_rewards', family_id=family_id))
+            
+    except SQLAlchemyError as e:
+        db.session.rollback()
+        flash(str(e), "danger")
+        return redirect(url_for('manage_rewards', family_id=family_id))
+
+@app.route('/family/<int:family_id>/rewards/<int:reward_id>/edit', methods=['POST'])
+@parent_required
+def edit_reward(family_id, reward_id):
+    """Edit an existing reward"""
+    user = User.get(session_token=session['session_token'])
+    family = Family.get(id=family_id)
+    
+    if not family or not user.is_parent_in_family(family_id):
+        return jsonify({'success': False, 'message': 'Access denied'}), 403
+    
+    reward = Reward.query.get(reward_id)
+    if not reward or reward.family_id != family_id:
+        return jsonify({'success': False, 'message': 'Reward not found'}), 404
+    
+    try:
+        # Update reward details
+        reward.name = request.form['name']
+        reward.description = request.form.get('description', '')
+        
+        # Handle coin cost for personal rewards
+        if not reward.is_family_reward:
+            coin_cost = request.form.get('coin_cost', '0')
+            reward.coin_cost = int(coin_cost) if coin_cost.strip() else 0
+        
+        # Handle points required for family rewards
+        if reward.is_family_reward:
+            points_required = request.form.get('points_required', '0')
+            reward.points_required = int(points_required) if points_required.strip() else 0
+        
+        db.session.commit()
+        flash("Reward updated successfully!", "success")
+        
+        # Redirect based on reward type
+        if reward.is_family_reward:
+            return redirect(url_for('manage_family_store', family_id=family_id))
+        else:
+            return redirect(url_for('manage_rewards', family_id=family_id))
+            
+    except (ValueError, KeyError) as e:
+        flash("Please enter valid numbers for costs and points", "danger")
+    except SQLAlchemyError as e:
+        db.session.rollback()
+        flash(str(e), "danger")
+    
+    # If there's an error, redirect back based on reward type
+    if reward.is_family_reward:
+        return redirect(url_for('manage_family_store', family_id=family_id))
+    return redirect(url_for('manage_rewards', family_id=family_id))

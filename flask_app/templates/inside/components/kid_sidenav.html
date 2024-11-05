@@ -1,0 +1,102 @@
+<!-- Simple Kid Navigation -->
+<aside class="w-64 bg-blue-900 text-white flex flex-col h-screen">
+    <div class="p-6 text-center">
+        <div class="mb-4">
+            {% if user.settings and user.settings.get('avatar') %}
+            <img src="{{ url_for('static', filename='img/avatars/' + user.settings.get('avatar') + '.png') }}"
+                 alt="{{ user.first_name }}'s avatar"
+                 class="w-20 h-20 rounded-full mx-auto bg-white p-1">
+            {% else %}
+            <div class="w-20 h-20 rounded-full mx-auto bg-white text-blue-900 flex items-center justify-center text-2xl font-bold">
+                {{ user.first_name[0] }}{{ user.last_name[0] }}
+            </div>
+            {% endif %}
+        </div>
+        <h1 class="text-2xl font-bold">StewardWell</h1>
+        <p class="text-sm mt-1">Hi, {{ user.first_name }}!</p>
+        <div class="mt-4 bg-blue-800 rounded-lg p-3">
+            <p class="text-sm">My Coins</p>
+            <p class="text-2xl font-bold">{{ user.coin_balance }}</p>
+        </div>
+    </div>
+    <nav class="flex-grow px-6 mt-4 flex flex-col">
+        <ul class="flex-grow space-y-2">
+            <li>
+                <a href="{{ url_for('kid_dashboard') }}" 
+                   class="block py-2 px-4 rounded hover:bg-blue-700 {% if request.endpoint == 'kid_dashboard' %}bg-blue-700{% endif %}">
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                  d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                        </svg>
+                        My Chores
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="{{ url_for('kid_rewards_store') }}" 
+                   class="block py-2 px-4 rounded hover:bg-blue-700 {% if request.endpoint == 'kid_rewards_store' %}bg-blue-700{% endif %}">
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                  d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/>
+                        </svg>
+                        Rewards Store
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="{{ url_for('kid_family_store') }}" 
+                   class="block py-2 px-4 rounded hover:bg-blue-700 {% if request.endpoint == 'kid_family_store' %}bg-blue-700{% endif %}">
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                  d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                        </svg>
+                        Family Goals
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="{{ url_for('kid_settings') }}" 
+                   class="block py-2 px-4 rounded hover:bg-blue-700 {% if request.endpoint == 'kid_settings' %}bg-blue-700{% endif %}">
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                  d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                        </svg>
+                        Settings
+                    </div>
+                </a>
+            </li>
+        </ul>
+        <!-- Logout/Return buttons at the bottom -->
+        <div class="mb-6">
+            {% if session.get('viewing_as_child') %}
+            <a href="{{ url_for('switch_child_view', family_id=family.id) }}" 
+               class="block py-2 px-4 rounded hover:bg-blue-700 text-center">
+                <div class="flex items-center justify-center">
+                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                              d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"/>
+                    </svg>
+                    Return to Parent View
+                </div>
+            </a>
+            {% else %}
+            <a href="{{ url_for('logout') }}" 
+               class="block py-2 px-4 rounded hover:bg-blue-700 text-center">
+                <div class="flex items-center justify-center">
+                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                              d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                    </svg>
+                    Logout
+                </div>
+            </a>
+            {% endif %}
+        </div>
+    </nav>
+</aside>

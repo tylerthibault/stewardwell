@@ -1,0 +1,84 @@
+{% extends "inside/kid_dashboard.html" %}
+
+{% block dashboard_content %}
+<div class="p-6">
+    <div class="flex justify-between items-center mb-6">
+        <div>
+            <h2 class="text-2xl font-bold">Rewards Store</h2>
+            <p class="text-gray-600">Spend your coins on cool rewards!</p>
+        </div>
+        <div class="bg-green-100 rounded-lg px-4 py-2">
+            <span class="text-sm text-gray-600">Your Balance:</span>
+            <span class="text-xl font-bold text-green-600 ml-2">{{ user.coin_balance }} coins</span>
+        </div>
+    </div>
+
+    {% if rewards %}
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {% for reward in rewards %}
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
+            <div class="p-6">
+                <div class="flex justify-between items-start mb-4">
+                    <h3 class="text-lg font-bold text-gray-900">{{ reward.name }}</h3>
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                        {{ reward.coin_cost }} coins
+                    </span>
+                </div>
+                
+                {% if reward.description %}
+                <p class="text-gray-600 mb-6">{{ reward.description }}</p>
+                {% endif %}
+
+                <button onclick="redeemReward({{ reward.id }})"
+                        class="w-full bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors
+                               {% if user.coin_balance < reward.coin_cost %}opacity-50 cursor-not-allowed{% endif %}"
+                        {% if user.coin_balance < reward.coin_cost %}disabled{% endif %}>
+                    {% if user.coin_balance >= reward.coin_cost %}
+                        Redeem Reward
+                    {% else %}
+                        Need {{ reward.coin_cost - user.coin_balance }} more coins
+                    {% endif %}
+                </button>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="bg-white rounded-lg shadow p-8 text-center">
+        <div class="flex flex-col items-center">
+            <svg class="w-16 h-16 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                      d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/>
+            </svg>
+            <p class="text-gray-600 text-lg">No rewards available right now</p>
+            <p class="text-gray-500 text-sm mt-2">Check back later for new rewards!</p>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+function redeemReward(rewardId) {
+    if (!confirm('Are you sure you want to redeem this reward?')) return;
+    
+    fetch(`/family/{{ family.id }}/rewards/${rewardId}/redeem`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            window.location.reload();
+        } else {
+            alert('Error redeeming reward: ' + data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error redeeming reward');
+    });
+}
+</script>
+{% endblock %} 

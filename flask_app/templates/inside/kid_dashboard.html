@@ -6,59 +6,26 @@
     <title>StewardWell - Kid Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-50">
-    <div class="min-h-screen flex">
-        <!-- Simple Kid Navigation -->
-        <aside class="w-64 bg-blue-900 text-white flex flex-col h-screen">
-            <div class="p-6 text-center">
-                <h1 class="text-2xl font-bold">StewardWell</h1>
-                <p class="text-sm mt-1">Welcome, {{ user.first_name }}!</p>
-                <div class="mt-4 bg-blue-800 rounded-lg p-3">
-                    <p class="text-sm">My Coins</p>
-                    <p class="text-2xl font-bold">{{ user.coin_balance }}</p>
-                </div>
-            </div>
-            <nav class="flex-grow px-6 mt-4 flex flex-col">
-                <ul class="flex-grow">
-                    <li class="my-2">
-                        <a href="{{ url_for('kid_dashboard') }}" 
-                           class="block py-2 px-4 rounded hover:bg-blue-700 {% if request.endpoint == 'kid_dashboard' %}bg-blue-700{% endif %}">
-                            My Chores
-                        </a>
-                    </li>
-                    <li class="my-2">
-                        <a href="{{ url_for('kid_rewards_store') }}" 
-                           class="block py-2 px-4 rounded hover:bg-blue-700 {% if request.endpoint == 'kid_rewards_store' %}bg-blue-700{% endif %}">
-                            Rewards Store
-                        </a>
-                    </li>
-                    <li class="my-2">
-                        <a href="{{ url_for('kid_family_store') }}" 
-                           class="block py-2 px-4 rounded hover:bg-blue-700 {% if request.endpoint == 'kid_family_store' %}bg-blue-700{% endif %}">
-                            Family Goals
-                        </a>
-                    </li>
-                </ul>
-                <!-- Logout/Return buttons at the bottom -->
-                <div class="mb-6">
-                    {% if session.get('viewing_as_child') %}
-                    <a href="{{ url_for('switch_child_view', family_id=family.id) }}" 
-                       class="block py-2 px-4 rounded hover:bg-blue-700 text-center mb-2">
-                        Return to Parent View
-                    </a>
-                    {% else %}
-                    <a href="{{ url_for('logout') }}" 
-                       class="block py-2 px-4 rounded hover:bg-blue-700 text-center">
-                        Logout
-                    </a>
-                    {% endif %}
-                </div>
-            </nav>
-        </aside>
+<body class="bg-gray-100">
+    <div class="flex h-screen">
+        <!-- Include Kid Sidenav -->
+        {% include "inside/components/kid_sidenav.html" %}
 
         <!-- Main Content -->
         <main class="flex-1 overflow-y-auto">
-            {% block content %}{% endblock %}
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="p-4">
+                        {% for category, message in messages %}
+                            <div class="p-4 mb-4 rounded-lg {% if category == 'danger' %}bg-red-100 text-red-700{% else %}bg-green-100 text-green-700{% endif %}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+
+            {% block dashboard_content %}{% endblock %}
         </main>
     </div>
 </body>

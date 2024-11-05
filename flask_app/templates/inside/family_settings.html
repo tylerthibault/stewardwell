@@ -1,0 +1,305 @@
+{% extends "inside/dashboard.html" %}
+
+{% block dashboard_content %}
+{% include "inside/components/family_subnav.html" %}
+
+<div class="p-6">
+    <div class="flex justify-between items-center mb-6">
+        <div>
+            <h2 class="text-2xl font-bold">{{ family.name }} - Settings</h2>
+            <p class="text-gray-600">Manage your family members and settings</p>
+        </div>
+        {% if user.is_parent_in_family(family.id) %}
+        <div class="space-x-4">
+            <button onclick="showAddMemberModal('parent')" 
+                    class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+                Add Parent
+            </button>
+            <button onclick="showAddMemberModal('child')" 
+                    class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+                Add Child
+            </button>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Family Members Section -->
+    <div class="bg-white rounded-lg shadow mb-6">
+        <div class="px-6 py-4 border-b">
+            <h3 class="text-lg font-semibold">Family Members</h3>
+        </div>
+        <div class="p-6">
+            <!-- Parents Section -->
+            <div class="mb-8">
+                <h4 class="text-md font-medium text-gray-700 mb-4">Parents</h4>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {% for member in family.members if member.role == 'parent' %}
+                    <div class="bg-gray-50 rounded-lg p-4">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold">
+                                    {{ member.user.first_name[0] }}{{ member.user.last_name[0] }}
+                                </div>
+                            </div>
+                            <div class="ml-4">
+                                <h5 class="font-medium">{{ member.user.first_name }} {{ member.user.last_name }}</h5>
+                                <p class="text-sm text-gray-600">{{ member.user.email }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Children Section -->
+            <div>
+                <h4 class="text-md font-medium text-gray-700 mb-4">Children</h4>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {% for member in family.members if member.role == 'child' %}
+                    <div class="bg-gray-50 rounded-lg p-4">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0">
+                                    <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center text-white font-bold">
+                                        {{ member.user.first_name[0] }}{{ member.user.last_name[0] }}
+                                    </div>
+                                </div>
+                                <div class="ml-4">
+                                    <h5 class="font-medium">{{ member.user.first_name }} {{ member.user.last_name }}</h5>
+                                    <p class="text-sm text-gray-600">PIN: {{ member.user.pin_code or 'Not set' }}</p>
+                                </div>
+                            </div>
+                            {% if user.is_parent_in_family(family.id) %}
+                            <div class="flex items-center space-x-2">
+                                <button onclick="editMember({{ member.id }}, '{{ member.user.first_name }}', '{{ member.user.last_name }}', '{{ member.user.pin_code }}')"
+                                        class="text-blue-600 hover:text-blue-800">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                              d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                                    </svg>
+                                </button>
+                                <button onclick="removeMember({{ member.id }})"
+                                        class="text-red-600 hover:text-red-800">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                    </svg>
+                                </button>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Family Settings Section -->
+    {% if user.is_parent_in_family(family.id) %}
+    <div class="bg-white rounded-lg shadow">
+        <div class="px-6 py-4 border-b">
+            <h3 class="text-lg font-semibold">Family Settings</h3>
+        </div>
+        <div class="p-6">
+            <form action="{{ url_for('update_family_settings', family_id=family.id) }}" method="POST">
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Family Name</label>
+                        <input type="text" name="name" value="{{ family.name }}" required
+                               class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500">
+                    </div>
+                    
+                    <div class="flex justify-end">
+                        <button type="submit" 
+                                class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+                            Save Settings
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<!-- Add Member Modal -->
+<div id="addMemberModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full">
+    <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+        <div class="mt-3">
+            <h3 class="text-lg font-semibold mb-4" id="modalTitle">Add Family Member</h3>
+            <form id="addMemberForm" action="{{ url_for('add_family_member', family_id=family.id) }}" method="POST">
+                <div class="space-y-4">
+                    <input type="hidden" name="role" id="memberRole">
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">First Name</label>
+                        <input type="text" name="first_name" required
+                               class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Last Name</label>
+                        <input type="text" name="last_name" required
+                               class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500">
+                    </div>
+                    
+                    <div id="pinSection" class="hidden">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">PIN Code (4-6 digits)</label>
+                        <input type="text" name="pin_code" pattern="\d{4,6}" maxlength="6"
+                               class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+                               placeholder="Enter 4-6 digit PIN">
+                    </div>
+                    
+                    <div class="flex items-center mb-4">
+                        <input type="checkbox" name="create_account" id="createAccount"
+                               class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                               onchange="toggleAccountFields()">
+                        <label for="createAccount" class="ml-2 block text-sm text-gray-900">
+                            Create login account
+                        </label>
+                    </div>
+                    
+                    <div id="accountFields" class="hidden space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                            <input type="email" name="email"
+                                   class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                            <input type="password" name="password"
+                                   class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Confirm Password</label>
+                            <input type="password" name="confirm_password"
+                                   class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500">
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-end gap-4">
+                        <button type="button" onclick="hideModal('addMemberModal')"
+                                class="px-4 py-2 border rounded-lg hover:bg-gray-50">
+                            Cancel
+                        </button>
+                        <button type="submit"
+                                class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+                            Add Member
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Member Modal -->
+<div id="editMemberModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full">
+    <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+        <div class="mt-3">
+            <h3 class="text-lg font-semibold mb-4">Edit Member</h3>
+            <form id="editMemberForm" method="POST">
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">First Name</label>
+                        <input type="text" name="first_name" id="editFirstName" required
+                               class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Last Name</label>
+                        <input type="text" name="last_name" id="editLastName" required
+                               class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">PIN Code (4-6 digits)</label>
+                        <input type="text" name="pin_code" id="editPinCode" pattern="\d{4,6}" maxlength="6"
+                               class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+                               placeholder="Enter 4-6 digit PIN">
+                    </div>
+                    
+                    <div class="flex justify-end gap-4">
+                        <button type="button" onclick="hideModal('editMemberModal')"
+                                class="px-4 py-2 border rounded-lg hover:bg-gray-50">
+                            Cancel
+                        </button>
+                        <button type="submit"
+                                class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+                            Save Changes
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+function showAddMemberModal(role) {
+    document.getElementById('memberRole').value = role;
+    document.getElementById('modalTitle').textContent = `Add ${role.charAt(0).toUpperCase() + role.slice(1)}`;
+    document.getElementById('pinSection').style.display = role === 'child' ? 'block' : 'none';
+    document.getElementById('addMemberModal').classList.remove('hidden');
+}
+
+function hideModal(modalId) {
+    document.getElementById(modalId).classList.add('hidden');
+}
+
+function toggleAccountFields() {
+    const accountFields = document.getElementById('accountFields');
+    accountFields.style.display = document.getElementById('createAccount').checked ? 'block' : 'none';
+}
+
+function editMember(memberId, firstName, lastName, pinCode) {
+    const form = document.getElementById('editMemberForm');
+    form.action = `/family/{{ family.id }}/member/${memberId}/edit`;
+    
+    document.getElementById('editFirstName').value = firstName;
+    document.getElementById('editLastName').value = lastName;
+    document.getElementById('editPinCode').value = pinCode || '';
+    
+    document.getElementById('editMemberModal').classList.remove('hidden');
+}
+
+function removeMember(memberId) {
+    if (!confirm('Are you sure you want to remove this member from the family?')) return;
+    
+    fetch(`/family/{{ family.id }}/member/${memberId}/remove`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            window.location.reload();
+        } else {
+            alert('Error removing member: ' + data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error removing member');
+    });
+}
+
+// Close modals when clicking outside
+document.getElementById('addMemberModal').addEventListener('click', function(e) {
+    if (e.target === this) {
+        hideModal('addMemberModal');
+    }
+});
+
+document.getElementById('editMemberModal').addEventListener('click', function(e) {
+    if (e.target === this) {
+        hideModal('editMemberModal');
+    }
+});
+</script>
+{% endblock %} 

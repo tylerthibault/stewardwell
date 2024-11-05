@@ -273,3 +273,39 @@ def remove_family_member(family_id, member_id):
     except SQLAlchemyError as e:
         db.session.rollback()
         return jsonify({'success': False, 'message': str(e)}), 500
+
+@app.route('/family/<int:family_id>/settings')
+@login_required
+def family_settings(family_id):
+    user = User.get(session_token=session['session_token'])
+    family = Family.get(id=family_id)
+    
+    if not family or not any(m.family_id == family_id for m in user.family_memberships):
+        flash("Access denied", "danger")
+        return redirect('/dashboard')
+    
+    context = {
+        'user': user,
+        'family': family
+    }
+    return render_template('inside/family_settings.html', **context)
+
+@app.route('/family/<int:family_id>/settings/update', methods=['POST'])
+@login_required
+def update_family_settings(family_id):
+    user = User.get(session_token=session['session_token'])
+    family = Family.get(id=family_id)
+    
+    if not family or not user.is_parent_in_family(family_id):
+        flash("Access denied", "danger")
+        return redirect('/dashboard')
+    
+    try:
+        family.name = request.form['name']
+        db.session.commit()
+        flash("Family settings updated successfully!", "success")
+    except SQLAlchemyError as e:
+        db.session.rollback()
+        flash("Error updating family settings: " + str(e), "danger")
+    
+    return redirect(url_for('family_settings', family_id=family_id))

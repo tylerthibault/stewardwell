@@ -17,6 +17,7 @@ class Chore(db.Model):
     recurring_frequency = db.Column(db.String(20))  # daily, weekly, monthly
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    category_id = db.Column(db.Integer, db.ForeignKey('categories.id'), nullable=True)
 
     # Relationships
     family = db.relationship('Family', back_populates='chores')

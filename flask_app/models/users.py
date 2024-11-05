@@ -4,6 +4,7 @@ from flask_app import db, bcrypt
 from flask import flash
 from sqlalchemy.exc import SQLAlchemyError
 from datetime import datetime
+from sqlalchemy.dialects.postgresql import JSON  # or JSONB
 
 class User(db.Model):
     __tablename__ = 'users'
@@ -20,10 +21,8 @@ class User(db.Model):
     pin_code = db.Column(db.String(6))  # For kid's easy login
     is_child = db.Column(db.Boolean, default=False)
     parent_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)  # For linking kids to parents
-    settings = db.Column(db.JSON, default=lambda: {
-        'module_chores': True,
-        'module_budget': True
-    })
+    settings = db.Column(JSON, default=dict)  # or JSONB for PostgreSQL
+    last_login = db.Column(db.DateTime)
 
     # Relationships
     family_memberships = db.relationship('FamilyMember', back_populates='user', cascade='all, delete-orphan')
@@ -247,6 +246,9 @@ class User(db.Model):
 
     def update_settings(self, **settings):
         """Update user settings"""
+        if self.settings is None:
+            self.settings = {}
+        
         try:
             self.settings.update(settings)
             db.session.commit()
@@ -255,4 +257,13 @@ class User(db.Model):
             db.session.rollback()
             flash("Error updating settings: " + str(e), "danger")
             return False
+
+    @classmethod
+    def get_recent_children(cls, limit=5):
+        """Get recently logged in children"""
+        return cls.query.filter_by(is_child=True)\
+                   .filter(cls.last_login.isnot(None))\
+                   .order_by(cls.last_login.desc())\
+                   .limit(limit)\
+                   .all()
 

@@ -30,10 +30,18 @@
                             class="text-blue-600 hover:text-blue-900">
                         Edit
                     </button>
-                    <button onclick="toggleGoal({{ reward.id }}, {{ 'false' if reward.available else 'true' }})"
-                            class="text-{{ 'red' if reward.available else 'green' }}-600 hover:text-{{ 'red' if reward.available else 'green' }}-900">
-                        {{ 'Disable' if reward.available else 'Enable' }}
-                    </button>
+                    <form action="{{ url_for('toggle_reward', family_id=family.id, reward_id=reward.id) }}" 
+                          method="POST" 
+                          class="inline-block">
+                        <button type="submit" 
+                                class="px-2 py-1 text-sm rounded {% if reward.available %}bg-red-500 hover:bg-red-600{% else %}bg-green-500 hover:bg-green-600{% endif %} text-white">
+                            {% if reward.available %}
+                                Disable
+                            {% else %}
+                                Enable
+                            {% endif %}
+                        </button>
+                    </form>
                 </div>
             </div>
             <p class="text-gray-600 mb-2">{{ reward.description }}</p>

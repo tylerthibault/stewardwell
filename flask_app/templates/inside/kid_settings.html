@@ -1,0 +1,40 @@
+{% extends "inside/kid_dashboard.html" %}
+
+{% block dashboard_content %}
+<div class="p-6">
+    <h2 class="text-2xl font-bold mb-6">My Settings</h2>
+
+    <!-- Avatar Selection -->
+    <div class="bg-white rounded-lg shadow p-6 mb-6">
+        <h3 class="text-lg font-semibold mb-4">Choose Your Avatar</h3>
+        <p class="text-gray-600 mb-4">Pick a cool avatar to represent you!</p>
+
+        <form action="{{ url_for('update_kid_settings') }}" method="POST">
+            <div class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 mb-6">
+                {% for avatar in avatars %}
+                <label class="cursor-pointer">
+                    <input type="radio" 
+                           name="avatar" 
+                           value="{{ avatar }}" 
+                           class="hidden peer"
+                           {% if user.settings and user.settings.get('avatar') == avatar %}checked{% endif %}>
+                    <div class="aspect-square rounded-lg border-2 p-2 hover:bg-gray-50 peer-checked:border-blue-500 peer-checked:bg-blue-50 transition-all">
+                        <img src="{{ url_for('static', filename='img/avatars/' + avatar + '.png') }}" 
+                             alt="{{ avatar }}"
+                             class="w-full h-full object-contain">
+                        <p class="text-center text-sm mt-2 capitalize">{{ avatar }}</p>
+                    </div>
+                </label>
+                {% endfor %}
+            </div>
+
+            <div class="flex justify-end">
+                <button type="submit" 
+                        class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+                    Save Settings
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %} 

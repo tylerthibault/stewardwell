@@ -1,0 +1,32 @@
+{% extends "inside/dashboard.html" %}
+
+{% block dashboard_content %}
+<div class="p-6">
+    <h2 class="text-2xl font-bold mb-6">Join a Family</h2>
+
+    <div class="bg-white rounded-lg shadow p-6">
+        <form action="{{ url_for('process_join_family') }}" method="POST" class="space-y-4">
+            <div>
+                <label for="invite_code" class="block text-sm font-medium text-gray-700">Family Invite Code</label>
+                <input type="text" 
+                       id="invite_code" 
+                       name="invite_code" 
+                       required
+                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                       placeholder="Enter the family invite code">
+            </div>
+
+            <div class="flex justify-end">
+                <a href="{{ url_for('settings') }}" 
+                   class="mr-4 px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">
+                    Cancel
+                </a>
+                <button type="submit" 
+                        class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+                    Join Family
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %} 

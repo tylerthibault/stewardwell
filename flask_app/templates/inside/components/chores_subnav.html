@@ -1,93 +1,19 @@
-<div class="bg-white shadow">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
-            <div class="flex">
-                <div class="flex space-x-8">
-                    {% if user.is_child or session.get('viewing_as_child') %}
-                    <!-- Child Navigation -->
-                    <a href="{{ url_for('kid_dashboard') }}" 
-                       class="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium
-                       {% if request.endpoint == 'kid_dashboard' %}
-                       border-blue-500 text-gray-900
-                       {% else %}
-                       border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700
-                       {% endif %}">
-                        My Chores
-                    </a>
-                    
-                    <a href="{{ url_for('kid_rewards_store') }}"
-                       class="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium
-                       {% if request.endpoint == 'kid_rewards_store' %}
-                       border-blue-500 text-gray-900
-                       {% else %}
-                       border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700
-                       {% endif %}">
-                        Rewards Store
-                    </a>
-                    
-                    <a href="{{ url_for('kid_family_store') }}"
-                       class="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium
-                       {% if request.endpoint == 'kid_family_store' %}
-                       border-blue-500 text-gray-900
-                       {% else %}
-                       border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700
-                       {% endif %}">
-                        Family Goals
-                    </a>
-                    {% else %}
-                    <!-- Parent Navigation -->
-                    <a href="{{ url_for('family_chores', family_id=family.id) }}" 
-                       class="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium
-                       {% if request.endpoint == 'family_chores' %}
-                       border-blue-500 text-gray-900
-                       {% else %}
-                       border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700
-                       {% endif %}">
-                        Dashboard
-                    </a>
-                    
-                    <a href="{{ url_for('manage_rewards', family_id=family.id) }}"
-                       class="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium
-                       {% if request.endpoint == 'manage_rewards' %}
-                       border-blue-500 text-gray-900
-                       {% else %}
-                       border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700
-                       {% endif %}">
-                        Manage Rewards
-                    </a>
-                    
-                    <a href="{{ url_for('family_store', family_id=family.id) }}/manage"
-                       class="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium
-                       {% if request.endpoint == 'family_store' %}
-                       border-blue-500 text-gray-900
-                       {% else %}
-                       border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700
-                       {% endif %}">
-                        Family Goals
-                    </a>
-                    {% endif %}
-                </div>
-            </div>
-            <div class="flex items-center">
-                {% if user.is_child or session.get('viewing_as_child') %}
-                <!-- Child View: Show personal balance -->
-                <div class="flex-shrink-0">
-                    <span class="text-gray-500">My Coins:</span>
-                    <span class="ml-2 text-green-600 font-semibold">{{ user.coin_balance }}</span>
-                    <span class="ml-4 text-gray-500">Family Points:</span>
-                    <span class="ml-2 text-blue-600 font-semibold">{{ family.total_points }}</span>
-                </div>
-                {% else %}
-                <!-- Parent View: Show family points -->
-                <div class="flex items-center space-x-4">
-                    <div>
-                        <span class="text-gray-500">Family Points:</span>
-                        <span class="ml-2 text-blue-600 font-semibold">{{ family.total_points }}</span>
-                    </div>
-                </div>
-                {% endif %}
-            </div>
-        </div>
+<div class="bg-white border-b">
+    <div class="px-6 py-3">
+        <nav class="flex space-x-4">
+            <a href="{{ url_for('family_chores', family_id=family.id) }}" 
+               class="px-3 py-2 rounded-md text-sm font-medium {% if request.endpoint == 'family_chores' %}bg-blue-100 text-blue-700{% else %}text-gray-600 hover:text-gray-900{% endif %}">
+                Dashboard
+            </a>
+            <a href="{{ url_for('manage_rewards', family_id=family.id) }}" 
+               class="px-3 py-2 rounded-md text-sm font-medium {% if request.endpoint == 'manage_rewards' %}bg-blue-100 text-blue-700{% else %}text-gray-600 hover:text-gray-900{% endif %}">
+                Manage Rewards
+            </a>
+            <a href="{{ url_for('manage_family_store', family_id=family.id) }}" 
+               class="px-3 py-2 rounded-md text-sm font-medium {% if request.endpoint == 'manage_family_store' %}bg-blue-100 text-blue-700{% else %}text-gray-600 hover:text-gray-900{% endif %}">
+                Family Goals
+            </a>
+        </nav>
     </div>
 </div>
 

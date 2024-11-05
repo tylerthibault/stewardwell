@@ -28,6 +28,27 @@
                 {% endif %}
             {% endwith %}
 
+            <!-- Recent Users Section -->
+            {% if recent_children %}
+            <div class="bg-white rounded-lg shadow-sm p-4 mb-6">
+                <h3 class="text-lg font-medium text-gray-900 mb-4">Recently Logged In</h3>
+                <div class="grid grid-cols-2 gap-3">
+                    {% for child in recent_children %}
+                    <button onclick="fillUserInfo('{{ child.first_name }}', '{{ child.last_name }}')"
+                            class="flex items-center p-3 border rounded-lg hover:bg-gray-50 transition-colors w-full">
+                        <div class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold mr-3">
+                            {{ child.first_name[0] }}{{ child.last_name[0] }}
+                        </div>
+                        <div class="text-left">
+                            <div class="font-medium">{{ child.first_name }}</div>
+                            <div class="text-sm text-gray-500">{{ child.last_name }}</div>
+                        </div>
+                    </button>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
             <form class="mt-8 space-y-6" action="{{ url_for('pin_login') }}" method="POST">
                 <div class="rounded-md shadow-sm space-y-4">
                     <div>
@@ -65,5 +86,13 @@
             </div>
         </div>
     </div>
+
+    <script>
+    function fillUserInfo(firstName, lastName) {
+        document.getElementById('first_name').value = firstName;
+        document.getElementById('last_name').value = lastName;
+        document.getElementById('pin').focus();
+    }
+    </script>
 </body>
 </html> 
