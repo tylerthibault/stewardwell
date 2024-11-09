@@ -4,6 +4,9 @@ from app.models.user import User, Chore, ChoreCategory
 from app import db
 from datetime import datetime, timedelta
 from functools import wraps
+import logging
+
+logger = logging.getLogger(__name__)
 
 chores_bp = Blueprint('chores', __name__, url_prefix='/chores')
 
@@ -43,52 +46,50 @@ def list_chores():
                          overdue_chores=overdue_chores,
                          categories=categories)
 
-@chores_bp.route('/create', methods=['POST'])
+@chores_bp.route('/create', methods=['GET', 'POST'])
 @login_required
 @parent_required
 def create_chore():
-    title = request.form.get('title')
-    description = request.form.get('description')
-    coins = request.form.get('coins', type=int)
-    points = request.form.get('points', type=int)
-    frequency = request.form.get('frequency')
-    assigned_to_id = request.form.get('assigned_to_id', type=int)
-    has_due_date = request.form.get('has_due_date')
-    due_date_str = request.form.get('due_date')
-    category_id = request.form.get('category_id')
-    
-    if not all([title, coins, points, frequency, assigned_to_id]):
-        flash('Please fill in all required fields.', 'danger')
-        return redirect(url_for('chores.list_chores'))
-    
     try:
-        # Only process due date if checkbox is checked and date is provided
-        due_date = None
-        if has_due_date and due_date_str:
-            due_date = datetime.strptime(due_date_str, '%Y-%m-%d')
-        
-        chore = Chore(
-            title=title,
-            description=description,
-            coins=coins,
-            points=points,
-            frequency=frequency,
-            due_date=due_date,
-            category_id=category_id if category_id else None,
-            family_id=current_user.family_id,
-            assigned_to_id=assigned_to_id,
-            created_by_id=current_user.id
-        )
-        
-        db.session.add(chore)
-        db.session.commit()
-        flash('Chore created successfully!', 'success')
-        
+        form = ChoreForm()
+        if form.validate_on_submit():
+            chore = Chore(
+                title=form.title.data,
+                description=form.description.data,
+                points=form.points.data,
+                due_date=form.due_date.data,
+                family_id=current_user.family_id,
+                created_by_id=current_user.id,
+                assigned_to_id=form.assigned_to.data,
+                category_id=form.category.data
+            )
+            
+            db.session.add(chore)
+            db.session.commit()
+            
+            logger.info("New chore created",
+                       extra={
+                           "chore_id": chore.id,
+                           "title": chore.title,
+                           "assigned_to": chore.assigned_to_id,
+                           "created_by": current_user.id,
+                           "family_id": current_user.family_id
+                       })
+            
+            flash('Chore created successfully!', 'success')
+            return redirect(url_for('chores.list_chores'))
+            
     except Exception as e:
         db.session.rollback()
+        logger.error("Error creating chore",
+                    exc_info=True,
+                    extra={
+                        "form_data": request.form,
+                        "user_id": current_user.id
+                    })
         flash('Error creating chore.', 'danger')
     
-    return redirect(url_for('chores.list_chores'))
+    return render_template('chores/create.html', form=form)
 
 @chores_bp.route('/<int:chore_id>/complete', methods=['POST'])
 @login_required

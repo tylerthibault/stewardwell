@@ -3,10 +3,14 @@ from flask_login import login_required, current_user
 from app import db, bcrypt
 from app.forms.settings import UpdateProfileForm, ChangePasswordForm
 from app.models.user import User, Family, FamilyJoinRequest, ModuleSettings
+from app.models.chore import Chore
 from datetime import datetime
 from functools import wraps
+from app.utils.logger import get_logger
 
 settings_bp = Blueprint('settings', __name__, url_prefix='/settings')
+
+logger = get_logger()
 
 def parent_required(f):
     @wraps(f)
@@ -17,50 +21,73 @@ def parent_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
-@settings_bp.route('/', methods=['GET', 'POST'])
+@settings_bp.route('/profile', methods=['GET', 'POST'])
 @login_required
 def profile():
     profile_form = UpdateProfileForm()
     password_form = ChangePasswordForm()
     
-    # Get current module settings
-    module_settings = {}
-    if current_user.family:
-        settings = ModuleSettings.query.filter_by(family_id=current_user.family_id).all()
-        module_settings = {
-            setting.module_name: setting.is_enabled 
-            for setting in settings
-        }
-    
-    if profile_form.submit_profile.data and profile_form.validate():
-        current_user.username = profile_form.username.data
-        current_user.email = profile_form.email.data
+    try:
+        # Get current module settings
+        module_settings = {}
+        if current_user.family:
+            settings = ModuleSettings.query.filter_by(family_id=current_user.family_id).all()
+            module_settings = {
+                setting.module_name: setting.is_enabled 
+                for setting in settings
+            }
         
-        try:
-            db.session.commit()
-            flash('Your profile has been updated!', 'success')
-        except Exception as e:
-            db.session.rollback()
-            flash('Error updating profile. Username or email might be taken.', 'danger')
-        
-        return redirect(url_for('settings.profile'))
-        
-    elif password_form.submit_password.data and password_form.validate():
-        if bcrypt.check_password_hash(current_user.password_hash, password_form.current_password.data):
-            current_user.password_hash = bcrypt.generate_password_hash(
-                password_form.new_password.data
-            ).decode('utf-8')
+        if profile_form.submit_profile.data and profile_form.validate():
+            current_user.username = profile_form.username.data
+            current_user.email = profile_form.email.data
             
             try:
                 db.session.commit()
-                flash('Your password has been updated!', 'success')
+                logger.info("User profile updated successfully",
+                           extra={
+                               "user_id": current_user.id,
+                               "new_username": profile_form.username.data,
+                               "new_email": profile_form.email.data
+                           })
+                flash('Your profile has been updated!', 'success')
             except Exception as e:
                 db.session.rollback()
-                flash('Error updating password.', 'danger')
-        else:
-            flash('Current password is incorrect.', 'danger')
+                logger.error("Error updating user profile",
+                           exc_info=True,
+                           extra={"user_id": current_user.id})
+                flash('Error updating profile. Username or email might be taken.', 'danger')
             
-        return redirect(url_for('settings.profile'))
+            return redirect(url_for('settings.profile'))
+            
+        elif password_form.submit_password.data and password_form.validate():
+            if bcrypt.check_password_hash(current_user.password_hash, password_form.current_password.data):
+                current_user.password_hash = bcrypt.generate_password_hash(
+                    password_form.new_password.data
+                ).decode('utf-8')
+                
+                try:
+                    db.session.commit()
+                    logger.info("User password changed successfully",
+                              extra={"user_id": current_user.id})
+                    flash('Your password has been updated!', 'success')
+                except Exception as e:
+                    db.session.rollback()
+                    logger.error("Error updating user password",
+                               exc_info=True,
+                               extra={"user_id": current_user.id})
+                    flash('Error updating password.', 'danger')
+            else:
+                logger.warning("Failed password change attempt - incorrect current password",
+                             extra={"user_id": current_user.id})
+                flash('Current password is incorrect.', 'danger')
+                
+            return redirect(url_for('settings.profile'))
+            
+    except Exception as e:
+        logger.error("Unexpected error in profile settings",
+                    exc_info=True,
+                    extra={"user_id": current_user.id})
+        flash('An unexpected error occurred.', 'danger')
     
     # Pre-fill profile form with current data
     if request.method == 'GET':
@@ -263,3 +290,85 @@ def manage_modules():
     }
     
     return render_template('settings/modules.html', modules=modules)
+
+@settings_bp.route('/child-profile')
+@login_required
+def child_profile():
+    if current_user.is_parent:
+        return redirect(url_for('settings.profile'))
+    
+    # Available avatars
+    avatars = [
+        {'id': 'ninja', 'icon': 'fa-user-ninja'},
+        {'id': 'astronaut', 'icon': 'fa-user-astronaut'},
+        {'id': 'superhero', 'icon': 'fa-user-superhero'},
+        {'id': 'robot', 'icon': 'fa-robot'},
+        {'id': 'alien', 'icon': 'fa-user-alien'},
+        {'id': 'graduate', 'icon': 'fa-user-graduate'},
+        {'id': 'secret', 'icon': 'fa-user-secret'},
+        {'id': 'tie', 'icon': 'fa-user-tie'}
+    ]
+    
+    # Get completed chores count
+    completed_chores_count = Chore.query.filter_by(
+        assigned_to_id=current_user.id,
+        status='completed'
+    ).count()
+    
+    return render_template('settings/child_profile.html',
+                         avatars=avatars,
+                         completed_chores_count=completed_chores_count)
+
+@settings_bp.route('/update-avatar', methods=['POST'])
+@login_required
+def update_avatar():
+    if current_user.is_parent:
+        return redirect(url_for('settings.profile'))
+    
+    avatar = request.form.get('avatar')
+    if avatar:
+        try:
+            current_user.avatar = avatar
+            db.session.commit()
+            flash('Avatar updated successfully!', 'success')
+        except Exception as e:
+            db.session.rollback()
+            flash('Error updating avatar.', 'danger')
+    
+    return redirect(url_for('settings.child_profile'))
+
+@settings_bp.route('/update-pin', methods=['POST'])
+@login_required
+def update_pin():
+    if current_user.is_parent:
+        return redirect(url_for('settings.profile'))
+    
+    current_pin = request.form.get('current_pin')
+    new_pin = request.form.get('new_pin')
+    confirm_pin = request.form.get('confirm_pin')
+    
+    if not all([current_pin, new_pin, confirm_pin]):
+        flash('Please fill in all PIN fields.', 'danger')
+        return redirect(url_for('settings.child_profile'))
+    
+    if current_pin != current_user.pin:
+        flash('Current PIN is incorrect.', 'danger')
+        return redirect(url_for('settings.child_profile'))
+    
+    if new_pin != confirm_pin:
+        flash('New PINs do not match.', 'danger')
+        return redirect(url_for('settings.child_profile'))
+    
+    if not new_pin.isdigit() or len(new_pin) != 4:
+        flash('PIN must be exactly 4 digits.', 'danger')
+        return redirect(url_for('settings.child_profile'))
+    
+    try:
+        current_user.pin = new_pin
+        db.session.commit()
+        flash('PIN updated successfully!', 'success')
+    except Exception as e:
+        db.session.rollback()
+        flash('Error updating PIN.', 'danger')
+    
+    return redirect(url_for('settings.child_profile'))

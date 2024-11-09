@@ -1,6 +1,14 @@
 <div class="sidebar">
     <div class="sidebar-header">
         <h3>StewardWell</h3>
+        <p class="welcome-message">
+            Welcome, {{ current_user.username }}!
+            {% if not current_user.is_parent %}
+            <span class="coins-display">
+                <i class="fas fa-coins"></i> {{ current_user.coins }}
+            </span>
+            {% endif %}
+        </p>
     </div>
 
     <ul class="nav flex-column">
@@ -69,6 +77,11 @@
                             <i class="fas fa-flag"></i> Goals
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('rewards.purchase_history') }}">
+                            <i class="fas fa-history"></i> Purchase History
+                        </a>
+                    </li>
                 </ul>
             </div>
         </li>
@@ -105,14 +118,18 @@
         </li>
         {% endif %}
 
-        {% if current_user.is_parent %}
-        <!-- Settings Section -->
+        <!-- Settings Section (for both parents and children) -->
         <li class="nav-item">
+            {% if current_user.is_parent %}
             <a class="nav-link" href="{{ url_for('settings.profile') }}">
                 <i class="fas fa-cog"></i> Settings
             </a>
+            {% else %}
+            <a class="nav-link" href="{{ url_for('settings.child_profile') }}">
+                <i class="fas fa-cog"></i> My Profile
+            </a>
+            {% endif %}
         </li>
-        {% endif %}
 
         <!-- Logout -->
         <li class="nav-item mt-auto">
@@ -166,6 +183,28 @@
 .sidebar-header h3 {
     margin: 0;
     font-size: 1.5rem;
+    margin-bottom: 8px;
+}
+
+.welcome-message {
+    font-size: 0.9rem;
+    margin: 0;
+    color: rgba(255, 255, 255, 0.8);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.coins-display {
+    background: rgba(255, 215, 0, 0.2);
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+}
+
+.coins-display i {
+    color: #ffd700;
+    margin-right: 4px;
 }
 
 .sidebar .collapse .nav-link {

@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, flash, redirect, url_for, request,
 from flask_login import login_required, current_user
 from app.models.user import User, Reward, RewardRedemption, RewardCategory
 from app import db
-from datetime import datetime
+from datetime import datetime, timedelta
 from functools import wraps
 
 rewards_bp = Blueprint('rewards', __name__, url_prefix='/rewards')
@@ -325,4 +325,53 @@ def delete_category(category_id):
         db.session.rollback()
         flash('Error deleting category.', 'danger')
     
-    return redirect(url_for('rewards.list_categories')) 
+    return redirect(url_for('rewards.list_categories'))
+
+@rewards_bp.route('/purchase-history')
+@login_required
+def purchase_history():
+    # Get filter parameters
+    child_id = request.args.get('child_id', type=int)
+    status = request.args.get('status')
+    date_range = request.args.get('date_range', 'all')
+    
+    # Base query
+    query = RewardRedemption.query.join(Reward).filter(
+        Reward.family_id == current_user.family_id
+    )
+    
+    # Apply filters
+    if not current_user.is_parent:
+        # Children can only see their own redemptions
+        query = query.filter(RewardRedemption.user_id == current_user.id)
+    elif child_id:
+        # Filter by specific child
+        query = query.filter(RewardRedemption.user_id == child_id)
+    
+    if status:
+        query = query.filter(RewardRedemption.status == status)
+    
+    # Date range filter
+    if date_range == 'today':
+        query = query.filter(RewardRedemption.redeemed_at >= datetime.utcnow().date())
+    elif date_range == 'week':
+        week_ago = datetime.utcnow() - timedelta(days=7)
+        query = query.filter(RewardRedemption.redeemed_at >= week_ago)
+    elif date_range == 'month':
+        month_ago = datetime.utcnow() - timedelta(days=30)
+        query = query.filter(RewardRedemption.redeemed_at >= month_ago)
+    
+    # Order by most recent first
+    redemptions = query.order_by(RewardRedemption.redeemed_at.desc()).all()
+    
+    # Get list of children for filter dropdown (parents only)
+    children = []
+    if current_user.is_parent:
+        children = User.query.filter_by(
+            family_id=current_user.family_id,
+            is_parent=False
+        ).order_by(User.username).all()
+    
+    return render_template('rewards/purchase_history.html',
+                         redemptions=redemptions,
+                         children=children) 

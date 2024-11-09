@@ -3,6 +3,8 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_bcrypt import Bcrypt
 from config import Config
+from app.utils.logger import setup_logger
+import os
 
 db = SQLAlchemy()
 login_manager = LoginManager()
@@ -13,14 +15,27 @@ def load_user(id):
     from app.models.user import User
     return User.query.get(int(id))
 
-def create_app():
+def create_app(config_class=Config):
     app = Flask(__name__)
-    app.config.from_object(Config)
+    app.config.from_object(config_class)
     
     # Initialize extensions
     db.init_app(app)
     login_manager.init_app(app)
     bcrypt.init_app(app)
+    
+    # Ensure instance folder exists
+    try:
+        os.makedirs(app.instance_path, exist_ok=True)
+    except Exception as e:
+        print(f"Error creating instance path: {e}")
+    
+    # Setup logger
+    logger = setup_logger(app)
+    if logger is None:
+        print("Warning: Failed to initialize logger")
+    else:
+        app.logger = logger
     
     # Set up login manager
     login_manager.login_view = 'auth.login'

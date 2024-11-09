@@ -1,47 +1,180 @@
 {% extends "base.html" %}
 
-{% block title %}Kid Login{% endblock %}
+{% block title %}Child Login{% endblock %}
 
 {% block content %}
 <div class="container">
-    <div class="form-wrapper">
-        <h1>Kid Login</h1>
-        <p class="text-muted mb-4">Enter your family code and PIN to access your account</p>
-        
-        <form method="POST" action="">
-            {{ form.hidden_tag() }}
-            <div class="form-group">
-                {{ form.family_code.label(class="form-label") }}
-                {{ form.family_code(class="form-control", placeholder="Enter family code (ask your parents)", style="text-transform: uppercase;") }}
-                {% if form.family_code.errors %}
-                    {% for error in form.family_code.errors %}
-                        <span class="text-danger">{{ error }}</span>
-                    {% endfor %}
-                {% endif %}
-                <div class="form-text">This is the code your parents received when they created the family account.</div>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <!-- Family Code Step -->
+            <div id="familyCodeStep" class="card mt-5 {% if family %}d-none{% endif %}">
+                <div class="card-header text-center">
+                    <h3>Enter Family Code</h3>
+                </div>
+                <div class="card-body">
+                    <form id="familyCodeForm" method="POST" action="{{ url_for('auth.verify_family_code') }}">
+                        <div class="mb-3">
+                            <input type="text" 
+                                   class="form-control form-control-lg text-center" 
+                                   name="family_code" 
+                                   placeholder="FAMILY123"
+                                   required
+                                   pattern="[A-Z0-9]{6}"
+                                   maxlength="6"
+                                   style="letter-spacing: 0.5em;">
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Continue</button>
+                    </form>
+                </div>
             </div>
-            <div class="form-group">
-                {{ form.pin.label(class="form-label") }}
-                {{ form.pin(class="form-control", placeholder="Enter your 4-digit PIN") }}
-                {% if form.pin.errors %}
-                    {% for error in form.pin.errors %}
-                        <span class="text-danger">{{ error }}</span>
-                    {% endfor %}
-                {% endif %}
+
+            <!-- Children Selection Step -->
+            <div id="childrenStep" class="card mt-5 {% if not family %}d-none{% endif %}">
+                <div class="card-header text-center">
+                    <h3>Select Your Profile</h3>
+                    {% if family %}
+                    <p class="text-muted mb-0">{{ family.name }}</p>
+                    {% endif %}
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-3">
+                        {% if family %}
+                            {% for child in family.members if not child.is_parent %}
+                            <button class="btn btn-lg btn-outline-primary child-select" 
+                                    onclick="showPinPad('{{ child.username }}', {{ child.id }})">
+                                <i class="fas fa-user-circle me-2"></i>
+                                {{ child.username }}
+                            </button>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <button class="btn btn-link w-100 mt-3" onclick="resetFamilyCode()">
+                        <i class="fas fa-arrow-left me-2"></i>Change Family
+                    </button>
+                </div>
             </div>
-            {{ form.submit(class="btn btn-success w-100 mt-3") }}
-        </form>
-        
-        <div class="mt-3 text-center">
-            <p><a href="{{ url_for('auth.login') }}" class="text-muted">Back to login options</a></p>
+
+            <!-- PIN Pad Step -->
+            <div id="pinPadStep" class="card mt-5 d-none">
+                <div class="card-header text-center">
+                    <h3>Enter PIN</h3>
+                    <p class="text-muted mb-0" id="selectedChildName"></p>
+                </div>
+                <div class="card-body">
+                    <form id="pinForm" method="POST" action="{{ url_for('auth.child_login') }}">
+                        <input type="hidden" name="child_id" id="childIdInput">
+                        <div class="mb-3">
+                            <input type="password" 
+                                   class="form-control form-control-lg text-center" 
+                                   name="pin"
+                                   id="pinInput"
+                                   required
+                                   pattern="[0-9]{4}"
+                                   maxlength="4"
+                                   inputmode="numeric"
+                                   style="letter-spacing: 0.5em;"
+                                   autocomplete="off">
+                        </div>
+                        
+                        <!-- PIN Pad -->
+                        <div class="pin-pad">
+                            {% for row in [[1,2,3], [4,5,6], [7,8,9], ['clear',0,'enter']] %}
+                            <div class="row g-2 mb-2">
+                                {% for num in row %}
+                                <div class="col">
+                                    {% if num == 'clear' %}
+                                    <button type="button" class="btn btn-warning w-100" onclick="clearPin()">
+                                        <i class="fas fa-backspace"></i>
+                                    </button>
+                                    {% elif num == 'enter' %}
+                                    <button type="submit" class="btn btn-success w-100">
+                                        <i class="fas fa-arrow-right"></i>
+                                    </button>
+                                    {% else %}
+                                    <button type="button" class="btn btn-outline-primary w-100" 
+                                            onclick="addPinDigit({{ num }})">
+                                        {{ num }}
+                                    </button>
+                                    {% endif %}
+                                </div>
+                                {% endfor %}
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </form>
+                    <button class="btn btn-link w-100 mt-3" onclick="backToChildren()">
+                        <i class="fas fa-arrow-left me-2"></i>Back to Profiles
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
+<style>
+.pin-pad .btn {
+    height: 50px;
+    font-size: 1.25rem;
+}
+
+.child-select {
+    font-size: 1.25rem;
+    padding: 1rem;
+}
+
+.form-control-lg {
+    font-size: 2rem;
+    height: 70px;
+}
+</style>
+
 <script>
-    // Auto-uppercase family code input
-    document.getElementById('family_code').addEventListener('input', function(e) {
-        this.value = this.value.toUpperCase();
+function showPinPad(childName, childId) {
+    document.getElementById('childrenStep').classList.add('d-none');
+    document.getElementById('pinPadStep').classList.remove('d-none');
+    document.getElementById('selectedChildName').textContent = childName;
+    document.getElementById('childIdInput').value = childId;
+    document.getElementById('pinInput').value = '';
+}
+
+function backToChildren() {
+    document.getElementById('pinPadStep').classList.add('d-none');
+    document.getElementById('childrenStep').classList.remove('d-none');
+}
+
+function addPinDigit(digit) {
+    const input = document.getElementById('pinInput');
+    if (input.value.length < 4) {
+        input.value += digit;
+        input.dispatchEvent(new Event('input'));
+    }
+}
+
+function clearPin() {
+    const input = document.getElementById('pinInput');
+    input.value = '';
+    input.dispatchEvent(new Event('input'));
+}
+
+function resetFamilyCode() {
+    fetch("{{ url_for('auth.reset_family_code') }}", {
+        method: 'POST'
+    }).then(() => {
+        location.reload();
     });
+}
+
+document.getElementById('pinInput').addEventListener('input', function(e) {
+    this.value = this.value.replace(/[^0-9]/g, '');
+    if (this.value.length > 4) {
+        this.value = this.value.slice(0, 4);
+    }
+});
+
+document.getElementById('pinInput').addEventListener('keypress', function(e) {
+    if (!/[0-9]/.test(e.key)) {
+        e.preventDefault();
+    }
+});
 </script>
 {% endblock %} 

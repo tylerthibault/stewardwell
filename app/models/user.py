@@ -3,6 +3,10 @@ from flask_login import UserMixin
 from datetime import datetime
 import random
 import string
+from app.models.chore import Chore
+from app.utils.logger import get_logger
+
+logger = get_logger()
 
 def generate_family_code():
     """Generate a 6-character family code"""
@@ -35,17 +39,46 @@ class User(db.Model, UserMixin):
     created_goal_categories = db.relationship('GoalCategory', back_populates='created_by')
     created_goals = db.relationship('Goal', back_populates='created_by')
 
+    # Add this field to your existing User model
+    avatar = db.Column(db.String(50), default='fa-user-circle')
+
+    def update_coins(self, amount):
+        try:
+            self.coins += amount
+            db.session.commit()
+            logger.info("User coins updated",
+                       extra={
+                           "user_id": self.id,
+                           "amount_changed": amount,
+                           "new_balance": self.coins
+                       })
+            return True
+        except Exception as e:
+            db.session.rollback()
+            logger.error("Error updating user coins",
+                        exc_info=True,
+                        extra={
+                            "user_id": self.id,
+                            "attempted_amount": amount
+                        })
+            return False
+
 class Family(db.Model):
+    __tablename__ = 'family'
+    
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(64), nullable=False)
-    family_code = db.Column(db.String(6), unique=True, nullable=False, default=generate_family_code)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    name = db.Column(db.String(100), nullable=False)
+    family_code = db.Column(db.String(8), unique=True, nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     
     # Relationships
-    members = db.relationship('User', backref='family')
-    goals = db.relationship('Goal', back_populates='family')
-    goal_categories = db.relationship('GoalCategory', back_populates='family')
-    chores = db.relationship('Chore', backref='family', lazy='dynamic')
+    users = db.relationship('User', backref='family', lazy=True)
+    chores = db.relationship('app.models.chore.Chore', backref='family', lazy=True)
+    goal_categories = db.relationship('GoalCategory', back_populates='family', lazy=True)
+    goals = db.relationship('Goal', back_populates='family', lazy=True)
+    
+    def __repr__(self):
+        return f'<Family {self.name}>'
 
 class FamilyGoal(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -85,30 +118,6 @@ class ChoreCategory(db.Model):
     # Relationships
     chores = db.relationship('Chore', backref='category', lazy='dynamic')
     created_by = db.relationship('User', foreign_keys=[created_by_id])
-
-class Chore(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(100), nullable=False)
-    description = db.Column(db.Text)
-    coins = db.Column(db.Integer, default=0)  # Individual reward
-    points = db.Column(db.Integer, default=0)  # Family points
-    frequency = db.Column(db.String(20))  # daily, weekly, monthly
-    due_date = db.Column(db.DateTime)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    
-    # Add category relationship
-    category_id = db.Column(db.Integer, db.ForeignKey('chore_category.id'))
-    
-    # Existing relationships
-    family_id = db.Column(db.Integer, db.ForeignKey('family.id'), nullable=False)
-    assigned_to_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    created_by_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    
-    assigned_to = db.relationship('User', foreign_keys=[assigned_to_id], backref='assigned_chores')
-    created_by = db.relationship('User', foreign_keys=[created_by_id], backref='created_chores')
-    
-    status = db.Column(db.String(20), default='pending')  # pending, completed, overdue
-    completed_at = db.Column(db.DateTime)
 
 class RewardCategory(db.Model):
     id = db.Column(db.Integer, primary_key=True)
