@@ -1,4 +1,4 @@
-from app import create_app, db
+from flask_app import create_app, db
 from app.models.user import User, Family, FamilyGoal, FamilyJoinRequest
 import os
 import atexit
