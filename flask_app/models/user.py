@@ -22,8 +22,8 @@ class ModuleSettings(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
-    # Remove duplicate backref definition
-    family = db.relationship('Family')
+    # Update relationship to use back_populates
+    family = db.relationship('Family', back_populates='module_settings')
 
     __table_args__ = (
         db.UniqueConstraint('module_name', 'family_id', name='unique_module_per_family'),
@@ -36,10 +36,10 @@ class Family(db.Model):
     family_code = db.Column(db.String(6), unique=True, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     
-    # Relationships
+    # Update relationships to use back_populates
     members = db.relationship('User', backref='family', lazy=True)
     chores = db.relationship('Chore', backref='family', lazy=True)
-    module_settings = db.relationship('ModuleSettings', backref='family_settings', lazy=True)
+    module_settings = db.relationship('ModuleSettings', back_populates='family', lazy=True)
     goals = db.relationship('Goal', back_populates='family', lazy=True)
     goal_categories = db.relationship('GoalCategory', back_populates='family', lazy=True)
 
@@ -112,6 +112,9 @@ class FamilyJoinRequest(db.Model):
     family = db.relationship('Family', backref='join_requests')
 
 class ChoreCategory(db.Model):
+    __tablename__ = 'chore_category'
+    __table_args__ = {'extend_existing': True}
+    
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
     color = db.Column(db.String(7), default="#6c757d")  # Hex color code

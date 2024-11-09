@@ -1,0 +1,14 @@
+<!-- Category Selection -->
+<div class="form-group mb-3">
+    <label for="category_id" class="form-label">Category</label>
+    <select class="form-control" id="category_id" name="category_id" onchange="handleCategoryChange(this)">
+        <option value="">No Category</option>
+        <option value="new">+ Add New Category</option>
+    </select>
+</div>
+
+<!-- Hidden category input fields -->
+<div id="new_category_container" style="display: none;" class="mt-2">
+    <input type="text" class="form-control" id="new_category_name" name="name"
+           placeholder="Enter new category name" spellcheck="false">
+</div> 

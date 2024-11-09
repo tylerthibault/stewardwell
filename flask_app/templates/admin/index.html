@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block authenticated_content %}
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Admin Dashboard</h2>
+    </div>
+
+    <div class="row">
+        <!-- Users Card -->
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="card-title">
+                            <i class="fas fa-users me-2"></i>
+                            Users
+                        </h5>
+                        <a href="{{ url_for('admin.users') }}" class="btn btn-sm btn-primary">
+                            Manage
+                        </a>
+                    </div>
+                    <p class="card-text mt-3">
+                        Manage user accounts, roles, and permissions.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Families Card -->
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="card-title">
+                            <i class="fas fa-home me-2"></i>
+                            Families
+                        </h5>
+                        <a href="{{ url_for('admin.families') }}" class="btn btn-sm btn-primary">
+                            Manage
+                        </a>
+                    </div>
+                    <p class="card-text mt-3">
+                        View and manage family accounts and settings.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- System Settings Card -->
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="card-title">
+                            <i class="fas fa-cogs me-2"></i>
+                            System
+                        </h5>
+                        <a href="{{ url_for('admin.system') }}" class="btn btn-sm btn-primary">
+                            Configure
+                        </a>
+                    </div>
+                    <p class="card-text mt-3">
+                        Configure system settings and view system status.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- System Stats -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">System Statistics</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3 text-center">
+                            <h3>{{ stats.total_users }}</h3>
+                            <p>Total Users</p>
+                        </div>
+                        <div class="col-md-3 text-center">
+                            <h3>{{ stats.total_families }}</h3>
+                            <p>Total Families</p>
+                        </div>
+                        <div class="col-md-3 text-center">
+                            <h3>{{ stats.total_chores }}</h3>
+                            <p>Total Chores</p>
+                        </div>
+                        <div class="col-md-3 text-center">
+                            <h3>{{ stats.total_rewards }}</h3>
+                            <p>Total Rewards</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

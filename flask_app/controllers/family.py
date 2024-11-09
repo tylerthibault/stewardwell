@@ -1,10 +1,13 @@
 from flask import Blueprint, render_template, flash, redirect, url_for, request
 from flask_login import login_required, current_user
-from flask_app.models.user import User, Family
+from flask_app.models.user import User, Family, FamilyJoinRequest
 from flask_app import db, bcrypt
+from flask_app.utils.logger import get_logger
 from functools import wraps
+from datetime import datetime
 
 family_bp = Blueprint('family', __name__, url_prefix='/family')
+logger = get_logger()
 
 def parent_required(f):
     @wraps(f)
@@ -20,17 +23,32 @@ def parent_required(f):
 @parent_required
 def members():
     if not current_user.family:
-        flash('You need to create a family first.', 'warning')
+        flash('You need to be part of a family to view members.', 'warning')
         return redirect(url_for('main.dashboard'))
     
-    family = current_user.family
-    parents = [member for member in family.members if member.is_parent]
-    children = [member for member in family.members if not member.is_parent]
-    
-    return render_template('family/members.html', 
-                         family=family,
-                         parents=parents,
-                         children=children)
+    try:
+        family = current_user.family
+        parents = User.query.filter_by(family_id=family.id, is_parent=True).all()
+        children = User.query.filter_by(family_id=family.id, is_parent=False).all()
+        
+        # Get pending join requests
+        pending_requests = FamilyJoinRequest.query.filter_by(
+            family_id=family.id,
+            status='pending'
+        ).order_by(FamilyJoinRequest.created_at.desc()).all()
+        
+        return render_template('family/members.html',
+                             family=family,
+                             parents=parents,
+                             children=children,
+                             pending_requests=pending_requests)
+                             
+    except Exception as e:
+        logger.error("Error loading family members page",
+                    exc_info=True,
+                    extra={"user_id": current_user.id})
+        flash('Error loading family members.', 'danger')
+        return redirect(url_for('main.dashboard'))
 
 @family_bp.route('/add-parent', methods=['POST'])
 @login_required
@@ -188,4 +206,53 @@ def edit_child(child_id):
         db.session.rollback()
         flash('Error updating child account. Username might be taken.', 'danger')
     
+    return redirect(url_for('family.members'))
+
+@family_bp.route('/approve-request/<int:request_id>', methods=['POST'])
+@login_required
+@parent_required
+def approve_request(request_id):
+    join_request = FamilyJoinRequest.query.get_or_404(request_id)
+    
+    # Verify the request is for the current user's family
+    if join_request.family_id != current_user.family_id:
+        flash('Invalid request.', 'danger')
+        return redirect(url_for('family.members'))
+    
+    try:
+        # Update user's family
+        join_request.user.family_id = current_user.family_id
+        join_request.status = 'accepted'
+        join_request.resolved_at = datetime.utcnow()
+        
+        db.session.commit()
+        flash(f'{join_request.user.username} has been added to your family!', 'success')
+        
+    except Exception as e:
+        db.session.rollback()
+        flash('Error processing request.', 'danger')
+        
+    return redirect(url_for('family.members'))
+
+@family_bp.route('/reject-request/<int:request_id>', methods=['POST'])
+@login_required
+@parent_required
+def reject_request(request_id):
+    join_request = FamilyJoinRequest.query.get_or_404(request_id)
+    
+    # Verify the request is for the current user's family
+    if join_request.family_id != current_user.family_id:
+        flash('Invalid request.', 'danger')
+        return redirect(url_for('family.members'))
+    
+    try:
+        join_request.status = 'rejected'
+        join_request.resolved_at = datetime.utcnow()
+        db.session.commit()
+        flash('Join request has been rejected.', 'success')
+        
+    except Exception as e:
+        db.session.rollback()
+        flash('Error processing request.', 'danger')
+        
     return redirect(url_for('family.members')) 

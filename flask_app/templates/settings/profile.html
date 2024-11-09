@@ -50,6 +50,29 @@
         </div>
     </div>
 
+    <!-- Family Settings -->
+    {% if not current_user.family %}
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="mb-0">Join Family</h5>
+        </div>
+        <div class="card-body">
+            <form method="POST" action="{{ url_for('settings.join_family') }}">
+                <div class="mb-3">
+                    <label for="family_code" class="form-label">Family Code</label>
+                    <input type="text" class="form-control" id="family_code" name="family_code" 
+                           required pattern="[A-Z0-9]{6}" maxlength="6"
+                           placeholder="Enter 6-character family code">
+                    <div class="form-text">
+                        Ask your family administrator for the family code.
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Join Family</button>
+            </form>
+        </div>
+    </div>
+    {% endif %}
+
     <!-- Module Settings (Only for Parents) -->
     {% if current_user.is_parent %}
     <div class="card">

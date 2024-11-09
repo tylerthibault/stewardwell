@@ -2,6 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, TextAreaField, IntegerField, SelectField, DateField, SubmitField
 from wtforms.validators import DataRequired, Optional, NumberRange
 from flask_login import current_user
+from flask_app.models.user import ChoreCategory
 
 class ChoreForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
@@ -23,8 +24,7 @@ class ChoreForm(FlaskForm):
             self.assigned_to = SelectField('Assign To', choices=children, validators=[DataRequired()])
             
             # Get categories for this family
-            from flask_app.models.user import ChoreCategory
             categories = ChoreCategory.query.filter_by(family_id=current_user.family_id).all()
             category_choices = [(str(cat.id), cat.name) for cat in categories]
             category_choices.insert(0, ('', 'No Category'))  # Add empty choice
-            self.category = SelectField('Category', choices=category_choices, validators=[Optional()]) 
+            self.category = SelectField('Category', choices=category_choices, validators=[Optional()])
