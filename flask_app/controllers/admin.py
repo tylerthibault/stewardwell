@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, flash, redirect, url_for
 from flask_login import login_required, current_user
 from functools import wraps
-from app.utils.logger import get_logger
+from flask_app.utils.logger import get_logger
 
 admin_bp = Blueprint('admin', __name__, url_prefix='/admin')
 logger = get_logger()

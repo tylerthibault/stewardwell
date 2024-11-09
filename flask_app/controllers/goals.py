@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, flash, redirect, url_for, request, jsonify
 from flask_login import login_required, current_user
-from app.models.user import User, Goal, GoalCategory
-from app import db
+from flask_app.models.user import User, Goal, GoalCategory
+from flask_app import db
 from datetime import datetime
 from functools import wraps
 

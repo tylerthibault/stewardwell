@@ -1,8 +1,8 @@
 from flask_app import create_app, db
-from app.models.user import User, Family, FamilyGoal, FamilyJoinRequest
+from flask_app.models.user import User, Family, FamilyGoal, FamilyJoinRequest
 import os
 import atexit
-from app.seed import seed_database
+from flask_app.seed import seed_database
 
 app = create_app()
 

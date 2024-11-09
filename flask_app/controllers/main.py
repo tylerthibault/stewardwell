@@ -1,8 +1,8 @@
 from flask import Blueprint, render_template, current_app, request, flash, redirect, url_for
 from flask_login import current_user, login_required
-from app.models.user import User, Family
-from app import db
-from app.seed import seed_database
+from flask_app.models.user import User, Family
+from flask_app import db
+from flask_app.seed import seed_database
 import secrets
 
 main_bp = Blueprint('main', __name__)

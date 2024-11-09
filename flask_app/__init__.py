@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, current_user
 from flask_bcrypt import Bcrypt
 from config import Config
-from app.utils.logger import setup_logger
+from flask_app.utils.logger import setup_logger
 import os
 
 db = SQLAlchemy()
@@ -12,7 +12,7 @@ bcrypt = Bcrypt()
 
 @login_manager.user_loader
 def load_user(id):
-    from app.models.user import User
+    from flask_app.models.user import User
     return User.query.get(int(id))
 
 def create_app(config_class=Config):
@@ -42,14 +42,14 @@ def create_app(config_class=Config):
     login_manager.login_message_category = 'info'
     
     # Register blueprints here
-    from app.controllers.main import main_bp
-    from app.controllers.auth import auth_bp
-    from app.controllers.admin import admin_bp
-    from app.controllers.family import family_bp
-    from app.controllers.settings import settings_bp
-    from app.controllers.chores import chores_bp
-    from app.controllers.rewards import rewards_bp
-    from app.controllers.goals import goals_bp
+    from flask_app.controllers.main import main_bp
+    from flask_app.controllers.auth import auth_bp
+    from flask_app.controllers.admin import admin_bp
+    from flask_app.controllers.family import family_bp
+    from flask_app.controllers.settings import settings_bp
+    from flask_app.controllers.chores import chores_bp
+    from flask_app.controllers.rewards import rewards_bp
+    from flask_app.controllers.goals import goals_bp
     
     app.register_blueprint(main_bp)
     app.register_blueprint(auth_bp)
@@ -61,7 +61,7 @@ def create_app(config_class=Config):
     app.register_blueprint(goals_bp)
     
     # Register CLI commands
-    from app.commands import init_commands
+    from flask_app.commands import init_commands
     init_commands(app)
     
     # Add context processor for module settings
@@ -71,7 +71,7 @@ def create_app(config_class=Config):
             return {'module_settings': {}}
             
         # Import ModuleSettings here to avoid circular import
-        from app.models.user import ModuleSettings
+        from flask_app.models.user import ModuleSettings
         
         settings = ModuleSettings.query.filter_by(family_id=current_user.family_id).all()
         module_settings = {

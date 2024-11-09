@@ -1,10 +1,10 @@
-from app import db
+from flask_app import db
 from flask_login import UserMixin
 from datetime import datetime
 import random
 import string
-from app.models.chore import Chore
-from app.utils.logger import get_logger
+from flask_app.models.chore import Chore
+from flask_app.utils.logger import get_logger
 
 logger = get_logger()
 

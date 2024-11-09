@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, flash, redirect, url_for, request, jsonify
 from flask_login import login_required, current_user
-from app.models.user import User, Reward, RewardRedemption, RewardCategory
-from app import db
+from flask_app.models.user import User, Reward, RewardRedemption, RewardCategory
+from flask_app import db
 from datetime import datetime, timedelta
 from functools import wraps
 

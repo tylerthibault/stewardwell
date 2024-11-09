@@ -1,12 +1,12 @@
 from flask import Blueprint, render_template, flash, redirect, url_for, request, jsonify, current_app
 from flask_login import login_required, current_user
-from app import db, bcrypt
-from app.forms.settings import UpdateProfileForm, ChangePasswordForm
-from app.models.user import User, Family, FamilyJoinRequest, ModuleSettings
-from app.models.chore import Chore
+from flask_app import db, bcrypt
+from flask_app.forms.settings import UpdateProfileForm, ChangePasswordForm
+from flask_app.models.user import User, Family, FamilyJoinRequest, ModuleSettings
+from flask_app.models.chore import Chore
 from datetime import datetime
 from functools import wraps
-from app.utils.logger import get_logger
+from flask_app.utils.logger import get_logger
 import os
 
 settings_bp = Blueprint('settings', __name__, url_prefix='/settings')

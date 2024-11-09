@@ -1,7 +1,7 @@
 import click
 from flask.cli import with_appcontext
-from app import db, bcrypt
-from app.models.user import User
+from flask_app import db, bcrypt
+from flask_app.models.user import User
 
 def init_commands(app):
     app.cli.add_command(make_superuser)
