@@ -1,197 +1,183 @@
 # Templates Documentation
 
-## Directory Structure
-```
-app/templates/
-├── base.html                # Base template with common structure
-├── partials/               # Reusable template parts
-│   ├── _navbar.html        # Top navigation for non-auth users
-│   ├── _sidebar.html       # Side navigation for auth users
-│   └── _flash_messages.html # Flash message display
-├── auth/                   # Authentication templates
-│   ├── login.html          # Main login options
-│   ├── parent_login.html   # Parent-specific login
-│   ├── child_login.html    # Child PIN login
-│   └── register.html       # Registration form
-└── main/                   # Main application templates
-    ├── index.html          # Landing page
-    ├── dashboard.html      # User dashboard
-    └── reset_db.html       # Database reset (dev only)
-```
-
-## Template Inheritance
+## Layout Structure
 1. **Base Template (base.html)**
    ```jinja
-   {% block title %}{% endblock %}
-   {% if current_user.is_authenticated %}
-       {% block authenticated_content %}{% endblock %}
-   {% else %}
-       {% block content %}{% endblock %}
-   {% endif %}
+   - Common head elements
+   - Navigation includes
+   - Flash messages
+   - Content blocks
+   - Common scripts
    ```
 
-2. **Authenticated Pages**
+2. **Dashboard Template (dashboard.html)**
    ```jinja
-   {% extends "base.html" %}
-   {% block authenticated_content %}
-   <!-- Content for logged-in users -->
-   {% endblock %}
+   Components:
+   - Family header with name
+   - Statistics cards (members, chores, points)
+   - Member cards with chores
+   - Activity feed (future)
    ```
 
-3. **Public Pages**
+3. **Chores Templates**
    ```jinja
-   {% extends "base.html" %}
-   {% block content %}
-   <!-- Content for non-authenticated users -->
-   {% endblock %}
+   list.html:
+   - Chore statistics
+   - Pending chores table
+   - Completed chores table
+   - Add chore modal
+   
+   categories.html:
+   - Category cards
+   - Category management
+   - Edit/delete modals
    ```
 
-## Partial Templates
-1. **Navbar (_navbar.html)**
-   - Logo/Brand
-   - Login/Register links
-   - Responsive toggle
+## Component Structure
 
-2. **Sidebar (_sidebar.html)**
-   - User welcome
-   - Role-based navigation
-   - Logout option
+### Dashboard Components
+1. **Member Card with Chores**
+   ```jinja
+   <div class="member-card-with-chores">
+       <div class="member-header">
+           <div class="member-avatar">{{ initials }}</div>
+           <div class="member-info">
+               <h4>{{ username }}</h4>
+               <p>{{ coins }} coins</p>
+           </div>
+       </div>
+       <div class="member-chores">
+           {% for chore in pending_chores %}
+               <div class="chore-item">...</div>
+           {% endfor %}
+       </div>
+   </div>
+   ```
 
-3. **Flash Messages (_flash_messages.html)**
-   - Success/Error messages
-   - Dismissible alerts
+2. **Chore Item**
+   ```jinja
+   <div class="chore-item">
+       <div class="chore-info">
+           <span class="chore-title">{{ title }}</span>
+           <div class="chore-rewards">
+               <span class="coins-badge">{{ coins }}</span>
+               <span class="points-badge">{{ points }}</span>
+           </div>
+       </div>
+       <div class="chore-due-date">{{ due_date }}</div>
+   </div>
+   ```
+
+### Chore Management Components
+1. **Add Chore Form**
+   ```jinja
+   <form action="{{ url_for('chores.create_chore') }}" method="POST">
+       - Title input
+       - Description textarea
+       - Coins/Points inputs
+       - Category select/create
+       - Frequency select
+       - Due date toggle
+       - Assign to select
+   </form>
+   ```
+
+2. **Category Management**
+   ```jinja
+   <div class="category-card">
+       - Category header with icon
+       - Color indicator
+       - Chore count
+       - Edit/Delete actions
+   </div>
+   ```
+
+## Template Inheritance
+```jinja
+base.html
+├── authenticated_content block
+│   ├── dashboard.html
+│   ├── chores/list.html
+│   └── chores/categories.html
+└── content block
+    └── auth templates
+```
 
 ## Common Components
-1. **Forms**
+1. **Statistics Cards**
    ```jinja
-   {{ form.hidden_tag() }}
-   {{ form.field.label }}
-   {{ form.field(class="form-control") }}
-   {% if form.field.errors %}
-       {% for error in form.field.errors %}
-           <span class="text-danger">{{ error }}</span>
-       {% endfor %}
-   {% endif %}
-   ```
-
-2. **Cards**
-   ```jinja
-   <div class="card">
-       <div class="card-header">
+   <div class="dashboard-cards">
+       <div class="card">
            <h3>{{ title }}</h3>
-       </div>
-       <div class="card-body">
-           {{ content }}
+           <div class="stat">{{ value }}</div>
+           <p>{{ description }}</p>
        </div>
    </div>
    ```
 
-3. **Member Display**
+2. **Action Buttons**
    ```jinja
-   <div class="member-card">
-       <div class="member-avatar">{{ member.username[:2].upper() }}</div>
-       <div class="member-info">
-           <h4>{{ member.username }}</h4>
-           <p>{{ member.role }}</p>
+   <div class="btn-group">
+       <button class="btn btn-primary">
+           <i class="fas {{ icon }}"></i> {{ text }}
+       </button>
+   </div>
+   ```
+
+## Modal Patterns
+1. **Add/Edit Forms**
+   ```jinja
+   <div class="modal fade" id="modalId">
+       <div class="modal-dialog">
+           <div class="modal-content">
+               <div class="modal-header">...</div>
+               <div class="modal-body">
+                   <form>...</form>
+               </div>
+           </div>
        </div>
    </div>
    ```
 
-## Template Variables
-1. **User Information**
-   - current_user.username
-   - current_user.is_parent
-   - current_user.is_superuser
-   - current_user.family
-
-2. **Flash Messages**
-   - category (success, danger, info)
-   - message content
-
-3. **Form Data**
-   - form.errors
-   - form.field.data
-   - form.validate_on_submit()
+2. **Confirmation Dialogs**
+   ```jinja
+   <div class="modal fade" id="confirmModal">
+       <div class="modal-dialog">
+           <div class="modal-content">
+               <div class="modal-body">
+                   <p>{{ confirmation_message }}</p>
+               </div>
+               <div class="modal-footer">
+                   <form method="POST">...</form>
+               </div>
+           </div>
+       </div>
+   </div>
+   ```
 
 ## JavaScript Integration
-1. **Form Validation**
+1. **Form Handlers**
    ```javascript
-   document.getElementById('form-id').addEventListener('submit', function(e) {
-       // Validation logic
+   document.querySelector('form').addEventListener('submit', async (e) => {
+       e.preventDefault();
+       // Form submission logic
    });
    ```
 
-2. **Dynamic UI**
+2. **Dynamic UI Updates**
    ```javascript
-   document.getElementById('toggle-id').addEventListener('change', function() {
-       // UI update logic
+   document.getElementById('toggle').addEventListener('change', function() {
+       // Toggle visibility logic
    });
    ```
 
-## Future Templates
-1. **Chores Management**
-   - chores/list.html
-   - chores/create.html
-   - chores/edit.html
+## Future Enhancements
+1. **Real-time Updates**
+   - WebSocket integration
+   - Live chore completion
+   - Instant notifications
 
-2. **Rewards System**
-   - rewards/store.html
-   - rewards/inventory.html
-   - rewards/redeem.html
-
-3. **Family Goals**
-   - goals/list.html
-   - goals/create.html
-   - goals/progress.html 
-
-## Settings Templates
-1. **Profile Settings (profile.html)**
-   ```jinja
-   - Username update form
-   - Email update form
-   - Password change form
-   - Family code display (for parents)
-   ```
-
-2. **Join Family (join_family.html)**
-   ```jinja
-   - Family code input
-   - Submit request button
-   - Form validation
-   - Error messages
-   ```
-
-3. **Pending Requests (pending_requests.html)**
-   ```jinja
-   - Request list table
-   - Accept/Reject buttons
-   - User information display
-   - Timestamp information
-   ```
-
-## Template Components
-[Previous components remain...]
-
-4. **Join Request Display**
-   ```jinja
-   <div class="request-item">
-       <div class="user-info">{{ request.user.username }}</div>
-       <div class="timestamp">{{ request.created_at }}</div>
-       <div class="actions">
-           <button>Accept</button>
-           <button>Reject</button>
-       </div>
-   </div>
-   ```
-
-## Navigation Updates
-1. **Sidebar Conditions**
-   ```jinja
-   {% if not current_user.family %}
-       <a href="{{ url_for('settings.join_family') }}">Join Family</a>
-   {% endif %}
-   
-   {% if current_user.is_parent %}
-       <a href="{{ url_for('settings.pending_requests') }}">Join Requests</a>
-   {% endif %}
-   ```
+2. **Enhanced Interactivity**
+   - Drag-and-drop chores
+   - Interactive rewards
+   - Progress animations
