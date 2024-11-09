@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Join Family{% endblock %}
+
+{% block authenticated_content %}
+<div class="content-container">
+    <div class="page-header">
+        <h1>Join a Family</h1>
+        <p class="text-muted">Enter the family code to request to join</p>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <form method="POST">
+                        <div class="mb-3">
+                            <label for="family_code" class="form-label">Family Code</label>
+                            <input type="text" class="form-control" id="family_code" name="family_code" 
+                                   required maxlength="6" style="text-transform: uppercase;">
+                            <div class="form-text">Ask a parent for their family code</div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Send Join Request</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

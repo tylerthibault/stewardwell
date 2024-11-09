@@ -1,0 +1,317 @@
+{% extends "base.html" %}
+
+{% block title %}Chores{% endblock %}
+
+{% block authenticated_content %}
+<div class="content-container">
+    <div class="page-header d-flex justify-content-between align-items-center">
+        <div>
+            <h1>Chores</h1>
+            <p class="text-muted">Manage and track family chores</p>
+        </div>
+        {% if current_user.is_parent %}
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addChoreModal">
+            <i class="fas fa-plus"></i> Add Chore
+        </button>
+        {% endif %}
+    </div>
+
+    <!-- Chores Overview Cards -->
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Pending</h5>
+                    <h2>{{ pending_chores|length }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-success text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Completed</h5>
+                    <h2>{{ completed_chores|length }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-danger text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Overdue</h5>
+                    <h2>{{ overdue_chores|length }}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pending Chores -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3>Pending Chores</h3>
+        </div>
+        <div class="card-body">
+            {% if pending_chores %}
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Points</th>
+                            <th>Assigned To</th>
+                            <th>Due Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for chore in pending_chores %}
+                        <tr>
+                            <td>
+                                {{ chore.title }}
+                                {% if chore.description %}
+                                <i class="fas fa-info-circle text-muted" 
+                                   data-bs-toggle="tooltip" 
+                                   title="{{ chore.description }}"></i>
+                                {% endif %}
+                            </td>
+                            <td>{{ chore.points }}</td>
+                            <td>{{ chore.assigned_to.username }}</td>
+                            <td>
+                                {% if chore.due_date %}
+                                    {{ chore.due_date.strftime('%Y-%m-%d') }}
+                                {% else %}
+                                    <span class="text-muted">No due date</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if current_user.is_parent or current_user.id == chore.assigned_to_id %}
+                                <form action="{{ url_for('chores.complete_chore', chore_id=chore.id) }}" 
+                                      method="POST" class="d-inline">
+                                    <button type="submit" class="btn btn-success btn-sm">
+                                        <i class="fas fa-check"></i> Complete
+                                    </button>
+                                </form>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p class="text-muted text-center my-4">No pending chores</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Completed Chores -->
+    <div class="card">
+        <div class="card-header">
+            <h3>Completed Chores</h3>
+        </div>
+        <div class="card-body">
+            {% if completed_chores %}
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Points</th>
+                            <th>Completed By</th>
+                            <th>Completed At</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for chore in completed_chores %}
+                        <tr>
+                            <td>{{ chore.title }}</td>
+                            <td>{{ chore.points }}</td>
+                            <td>{{ chore.assigned_to.username }}</td>
+                            <td>{{ chore.completed_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p class="text-muted text-center my-4">No completed chores</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Add Chore Modal -->
+{% if current_user.is_parent %}
+<div class="modal fade" id="addChoreModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add New Chore</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form action="{{ url_for('chores.create_chore') }}" method="POST">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Title</label>
+                        <input type="text" class="form-control" id="title" name="title" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="coins" class="form-label">Coins Reward</label>
+                            <input type="number" class="form-control" id="coins" name="coins" required min="0"
+                                   placeholder="Individual coins reward">
+                            <div class="form-text">Coins go to the child who completes the chore</div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="points" class="form-label">Family Points</label>
+                            <input type="number" class="form-control" id="points" name="points" required min="0"
+                                   placeholder="Family points reward">
+                            <div class="form-text">Points contribute to family goals</div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="category_id" class="form-label">Category</label>
+                        <select class="form-control" id="category_select" onchange="handleCategorySelect(this)">
+                            <option value="">No Category</option>
+                            {% for category in categories %}
+                            <option value="{{ category.id }}">
+                                {{ category.name }}
+                            </option>
+                            {% endfor %}
+                            <option value="new">+ Add New Category</option>
+                        </select>
+                        
+                        <!-- Hidden category input field -->
+                        <div id="new_category_container" style="display: none;" class="mt-2">
+                            <input type="text" class="form-control" id="new_category_name" 
+                                   placeholder="Enter new category name">
+                            <div class="row mt-2">
+                                <div class="col-md-6">
+                                    <input type="color" class="form-control" id="new_category_color" 
+                                           value="#6c757d" title="Choose category color">
+                                </div>
+                                <div class="col-md-6">
+                                    <select class="form-control" id="new_category_icon">
+                                        <option value="fa-list">List</option>
+                                        <option value="fa-home">Home</option>
+                                        <option value="fa-book">Book</option>
+                                        <option value="fa-broom">Broom</option>
+                                        <option value="fa-utensils">Kitchen</option>
+                                        <option value="fa-bed">Bedroom</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Hidden input to store the final category_id -->
+                        <input type="hidden" name="category_id" id="category_id">
+                    </div>
+                    <div class="mb-3">
+                        <label for="frequency" class="form-label">Frequency</label>
+                        <select class="form-control" id="frequency" name="frequency" required>
+                            <option value="once">One Time</option>
+                            <option value="daily">Daily</option>
+                            <option value="weekly">Weekly</option>
+                            <option value="monthly">Monthly</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="assigned_to_id" class="form-label">Assign To</label>
+                        <select class="form-control" id="assigned_to_id" name="assigned_to_id" required>
+                            {% for member in current_user.family.members if not member.is_parent %}
+                            <option value="{{ member.id }}">{{ member.username }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="checkbox" id="has_due_date" name="has_due_date">
+                            <label class="form-check-label" for="has_due_date">
+                                Set Due Date
+                            </label>
+                        </div>
+                        <div id="due_date_container" style="display: none;">
+                            <input type="date" class="form-control" id="due_date" name="due_date">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Create Chore</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<script>
+// Initialize tooltips
+var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+    return new bootstrap.Tooltip(tooltipTriggerEl)
+})
+
+// Due date toggle
+document.getElementById('has_due_date').addEventListener('change', function() {
+    const dueDateContainer = document.getElementById('due_date_container');
+    const dueDateInput = document.getElementById('due_date');
+    
+    dueDateContainer.style.display = this.checked ? 'block' : 'none';
+    dueDateInput.required = this.checked;
+    
+    if (!this.checked) {
+        dueDateInput.value = '';
+    }
+});
+
+function handleCategorySelect(selectElement) {
+    const newCategoryContainer = document.getElementById('new_category_container');
+    const categoryIdInput = document.getElementById('category_id');
+    
+    if (selectElement.value === 'new') {
+        newCategoryContainer.style.display = 'block';
+        categoryIdInput.value = '';  // Clear the category_id
+    } else {
+        newCategoryContainer.style.display = 'none';
+        categoryIdInput.value = selectElement.value;  // Set the selected category_id
+    }
+}
+
+// Add form submit handler
+document.querySelector('#addChoreModal form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const categorySelect = document.getElementById('category_select');
+    
+    if (categorySelect.value === 'new') {
+        // Create new category first
+        const response = await fetch("{{ url_for('chores.create_category') }}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                name: document.getElementById('new_category_name').value,
+                color: document.getElementById('new_category_color').value,
+                icon: document.getElementById('new_category_icon').value
+            })
+        });
+        
+        if (response.ok) {
+            const result = await response.json();
+            document.getElementById('category_id').value = result.category_id;
+        } else {
+            alert('Error creating category');
+            return;
+        }
+    }
+    
+    // Submit the form
+    this.submit();
+});
+</script>
+{% endblock %} 

@@ -1,0 +1,85 @@
+<nav class="sidebar">
+    <div class="sidebar-header">
+        <h1>StewardWell</h1>
+        <p>Welcome, {{ current_user.username }}</p>
+    </div>
+    
+    <div class="sidebar-menu">
+        <a href="{{ url_for('main.dashboard') }}" class="menu-item {% if request.endpoint == 'main.dashboard' %}active{% endif %}">
+            <i class="fas fa-home"></i>
+            <span>Dashboard</span>
+        </a>
+        
+        {% if current_user.is_superuser %}
+            <div class="menu-divider"></div>
+            <div class="menu-label">Admin Controls</div>
+            <a href="{{ url_for('admin.manage_users') }}" class="menu-item {% if request.endpoint == 'admin.manage_users' %}active{% endif %}">
+                <i class="fas fa-users-cog"></i>
+                <span>Manage Users</span>
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-sitemap"></i>
+                <span>Manage Families</span>
+            </a>
+            <a href="{{ url_for('main.reset_db') }}" class="menu-item">
+                <i class="fas fa-database"></i>
+                <span>Reset Database</span>
+            </a>
+            <div class="menu-divider"></div>
+        {% endif %}
+        
+        {% if current_user.is_parent %}
+            <a href="{{ url_for('family.members') }}" class="menu-item {% if request.endpoint == 'family.members' %}active{% endif %}">
+                <i class="fas fa-users"></i>
+                <span>Family Members</span>
+            </a>
+            <a href="{{ url_for('chores.list_chores') }}" class="menu-item {% if request.endpoint == 'chores.list_chores' %}active{% endif %}">
+                <i class="fas fa-tasks"></i>
+                <span>Manage Chores</span>
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-gift"></i>
+                <span>Rewards</span>
+            </a>
+        {% else %}
+            <a href="{{ url_for('chores.list_chores') }}" class="menu-item {% if request.endpoint == 'chores.list_chores' %}active{% endif %}">
+                <i class="fas fa-tasks"></i>
+                <span>My Chores</span>
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-coins"></i>
+                <span>My Rewards</span>
+            </a>
+        {% endif %}
+        
+        <a href="#" class="menu-item">
+            <i class="fas fa-trophy"></i>
+            <span>Family Goals</span>
+        </a>
+        
+        <div class="menu-divider"></div>
+        
+        {% if current_user.is_parent %}
+            <a href="{{ url_for('settings.pending_requests') }}" class="menu-item {% if request.endpoint == 'settings.pending_requests' %}active{% endif %}">
+                <i class="fas fa-user-plus"></i>
+                <span>Join Requests</span>
+            </a>
+        {% endif %}
+        
+        {% if not current_user.family %}
+            <a href="{{ url_for('settings.join_family') }}" class="menu-item {% if request.endpoint == 'settings.join_family' %}active{% endif %}">
+                <i class="fas fa-users"></i>
+                <span>Join Family</span>
+            </a>
+        {% endif %}
+        
+        <a href="{{ url_for('settings.profile') }}" class="menu-item {% if request.endpoint == 'settings.profile' %}active{% endif %}">
+            <i class="fas fa-cog"></i>
+            <span>Settings</span>
+        </a>
+        <a href="{{ url_for('auth.logout') }}" class="menu-item">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Logout</span>
+        </a>
+    </div>
+</nav> 

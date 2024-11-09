@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Kid Login{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="form-wrapper">
+        <h1>Kid Login</h1>
+        <p class="text-muted mb-4">Enter your family code and PIN to access your account</p>
+        
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                {{ form.family_code.label(class="form-label") }}
+                {{ form.family_code(class="form-control", placeholder="Enter family code (ask your parents)", style="text-transform: uppercase;") }}
+                {% if form.family_code.errors %}
+                    {% for error in form.family_code.errors %}
+                        <span class="text-danger">{{ error }}</span>
+                    {% endfor %}
+                {% endif %}
+                <div class="form-text">This is the code your parents received when they created the family account.</div>
+            </div>
+            <div class="form-group">
+                {{ form.pin.label(class="form-label") }}
+                {{ form.pin(class="form-control", placeholder="Enter your 4-digit PIN") }}
+                {% if form.pin.errors %}
+                    {% for error in form.pin.errors %}
+                        <span class="text-danger">{{ error }}</span>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            {{ form.submit(class="btn btn-success w-100 mt-3") }}
+        </form>
+        
+        <div class="mt-3 text-center">
+            <p><a href="{{ url_for('auth.login') }}" class="text-muted">Back to login options</a></p>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Auto-uppercase family code input
+    document.getElementById('family_code').addEventListener('input', function(e) {
+        this.value = this.value.toUpperCase();
+    });
+</script>
+{% endblock %} 

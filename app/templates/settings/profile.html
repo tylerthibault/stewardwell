@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+
+{% block title %}Settings{% endblock %}
+
+{% block authenticated_content %}
+<div class="content-container">
+    <div class="page-header">
+        <h1>Settings</h1>
+        <p class="text-muted">Manage your account settings and preferences</p>
+    </div>
+
+    <div class="row">
+        <!-- Profile Settings -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Profile Settings</h3>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="">
+                        {{ profile_form.hidden_tag() }}
+                        <div class="mb-3">
+                            {{ profile_form.username.label(class="form-label") }}
+                            {{ profile_form.username(class="form-control") }}
+                            {% if profile_form.username.errors %}
+                                {% for error in profile_form.username.errors %}
+                                    <span class="text-danger">{{ error }}</span>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                        <div class="mb-3">
+                            {{ profile_form.email.label(class="form-label") }}
+                            {{ profile_form.email(class="form-control") }}
+                            {% if profile_form.email.errors %}
+                                {% for error in profile_form.email.errors %}
+                                    <span class="text-danger">{{ error }}</span>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                        {{ profile_form.submit_profile(class="btn btn-primary") }}
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Password Settings -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Change Password</h3>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="">
+                        {{ password_form.hidden_tag() }}
+                        <div class="mb-3">
+                            {{ password_form.current_password.label(class="form-label") }}
+                            {{ password_form.current_password(class="form-control") }}
+                            {% if password_form.current_password.errors %}
+                                {% for error in password_form.current_password.errors %}
+                                    <span class="text-danger">{{ error }}</span>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                        <div class="mb-3">
+                            {{ password_form.new_password.label(class="form-label") }}
+                            {{ password_form.new_password(class="form-control") }}
+                            {% if password_form.new_password.errors %}
+                                {% for error in password_form.new_password.errors %}
+                                    <span class="text-danger">{{ error }}</span>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                        <div class="mb-3">
+                            {{ password_form.confirm_password.label(class="form-label") }}
+                            {{ password_form.confirm_password(class="form-control") }}
+                            {% if password_form.confirm_password.errors %}
+                                {% for error in password_form.confirm_password.errors %}
+                                    <span class="text-danger">{{ error }}</span>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                        {{ password_form.submit_password(class="btn btn-primary") }}
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        {% if current_user.is_parent %}
+        <!-- Family Settings -->
+        <div class="col-12 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Family Settings</h3>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div>
+                            <h4 class="mb-0">Family Code</h4>
+                            <p class="text-muted mb-0">Share this code with your children to let them log in</p>
+                        </div>
+                        <div class="family-code">
+                            <span class="code">{{ current_user.family.family_code }}</span>
+                            <button class="btn btn-outline-primary btn-sm ms-2" onclick="copyFamilyCode()">
+                                <i class="fas fa-copy"></i> Copy
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+function copyFamilyCode() {
+    const code = '{{ current_user.family.family_code }}';
+    navigator.clipboard.writeText(code).then(() => {
+        // Show feedback
+        const button = document.querySelector('.family-code button');
+        const originalText = button.innerHTML;
+        button.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        button.classList.add('btn-success');
+        button.classList.remove('btn-outline-primary');
+        
+        // Reset after 2 seconds
+        setTimeout(() => {
+            button.innerHTML = originalText;
+            button.classList.remove('btn-success');
+            button.classList.add('btn-outline-primary');
+        }, 2000);
+    });
+}
+</script>
+{% endblock %} 

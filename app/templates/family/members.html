@@ -1,0 +1,254 @@
+{% extends "base.html" %}
+
+{% block title %}Family Members{% endblock %}
+
+{% block authenticated_content %}
+<div class="content-container">
+    <div class="page-header d-flex justify-content-between align-items-center">
+        <div>
+            <h1>{{ family.name }} - Members</h1>
+            <p class="text-muted">Manage your family members</p>
+        </div>
+        <div class="btn-group">
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addParentModal">
+                <i class="fas fa-user-plus"></i> Add Parent
+            </button>
+            <button class="btn btn-success ms-2" data-bs-toggle="modal" data-bs-target="#addChildModal">
+                <i class="fas fa-child"></i> Add Child
+            </button>
+        </div>
+    </div>
+
+    <!-- Family Code Card -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h3 class="mb-0">Family Code</h3>
+                    <p class="text-muted mb-0">Share this code with your children to let them log in</p>
+                </div>
+                <div class="family-code">
+                    <span class="code">{{ family.family_code }}</span>
+                    <button class="btn btn-outline-primary btn-sm ms-2" onclick="copyFamilyCode()">
+                        <i class="fas fa-copy"></i> Copy
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Parents Table -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3>Parents</h3>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Joined</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for parent in parents %}
+                        <tr>
+                            <td>{{ parent.username }}</td>
+                            <td>{{ parent.email }}</td>
+                            <td>{{ parent.created_at.strftime('%Y-%m-%d') }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Children Table -->
+    <div class="card">
+        <div class="card-header">
+            <h3>Children</h3>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>PIN</th>
+                            <th>Coins</th>
+                            <th>Joined</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for child in children %}
+                        <tr>
+                            <td>{{ child.username }}</td>
+                            <td>{{ child.pin }}</td>
+                            <td>{{ child.coins }}</td>
+                            <td>{{ child.created_at.strftime('%Y-%m-%d') }}</td>
+                            <td>
+                                <div class="btn-group">
+                                    <button class="btn btn-primary btn-sm" 
+                                            data-bs-toggle="modal" 
+                                            data-bs-target="#editChildModal{{ child.id }}">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <form action="{{ url_for('family.remove_member', member_id=child.id) }}" method="POST" class="d-inline">
+                                        <button type="submit" class="btn btn-danger btn-sm"
+                                                onclick="return confirm('Are you sure you want to remove {{ child.username }}?')">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Edit Child Modal for each child -->
+                        <div class="modal fade" id="editChildModal{{ child.id }}" tabindex="-1">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Edit Child - {{ child.username }}</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                    </div>
+                                    <form action="{{ url_for('family.edit_child', child_id=child.id) }}" method="POST">
+                                        <div class="modal-body">
+                                            <div class="mb-3">
+                                                <label for="username{{ child.id }}" class="form-label">Username</label>
+                                                <input type="text" class="form-control" id="username{{ child.id }}" 
+                                                       name="username" value="{{ child.username }}" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="pin{{ child.id }}" class="form-label">PIN (4 digits)</label>
+                                                <input type="text" class="form-control" id="pin{{ child.id }}" 
+                                                       name="pin" value="{{ child.pin }}"
+                                                       pattern="[0-9]{4}" maxlength="4" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="coins{{ child.id }}" class="form-label">Coins</label>
+                                                <input type="number" class="form-control" id="coins{{ child.id }}" 
+                                                       name="coins" value="{{ child.coins }}" required>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Parent Modal -->
+<div class="modal fade" id="addParentModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Parent</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form action="{{ url_for('family.add_parent') }}" method="POST">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="username" name="username" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add Parent</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Add Child Modal -->
+<div class="modal fade" id="addChildModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Child</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form action="{{ url_for('family.add_child') }}" method="POST">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="child_username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="child_username" name="username" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="pin" class="form-label">PIN (4 digits)</label>
+                        <input type="text" class="form-control" id="pin" name="pin" 
+                               pattern="[0-9]{4}" maxlength="4" required>
+                        <div class="form-text">This PIN will be used for the child to log in</div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-success">Add Child</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+function copyFamilyCode() {
+    const code = '{{ family.family_code }}';
+    navigator.clipboard.writeText(code).then(() => {
+        // Show feedback
+        const button = document.querySelector('.family-code button');
+        const originalText = button.innerHTML;
+        button.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        button.classList.add('btn-success');
+        button.classList.remove('btn-outline-primary');
+        
+        // Reset after 2 seconds
+        setTimeout(() => {
+            button.innerHTML = originalText;
+            button.classList.remove('btn-success');
+            button.classList.add('btn-outline-primary');
+        }, 2000);
+    });
+}
+</script>
+
+<!-- Add this to your existing CSS -->
+<style>
+.family-code {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.family-code .code {
+    font-size: 1.5rem;
+    font-weight: 600;
+    font-family: monospace;
+    background: #f8f9fa;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    letter-spacing: 2px;
+}
+</style>
+{% endblock %} 

@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block authenticated_content %}
+<div class="container">
+    <div class="dashboard-container">
+        {% if current_user.family %}
+            <div class="dashboard-header">
+                <h1>{{ current_user.family.name }}</h1>
+                <p class="text-muted">Family Dashboard</p>
+            </div>
+
+            <div class="dashboard-cards">
+                <div class="card">
+                    <h3>Members</h3>
+                    <div class="stat">{{ family_count }}</div>
+                    <p>Total family members</p>
+                </div>
+                
+                <div class="card">
+                    <h3>Active Chores</h3>
+                    <div class="stat">{{ active_chores }}</div>
+                    <p>Chores in progress</p>
+                </div>
+                
+                <div class="card">
+                    <h3>Family Points</h3>
+                    <div class="stat">{{ family_points }}</div>
+                    <p>Points earned together</p>
+                </div>
+            </div>
+
+            <div class="family-members mt-4">
+                <h2>Family Members & Chores</h2>
+                <div class="members-list">
+                    {% for member in family_members if not member.is_parent %}
+                    <div class="member-card-with-chores">
+                        <div class="member-header">
+                            <div class="member-avatar">{{ member.username[:2].upper() }}</div>
+                            <div class="member-info">
+                                <h4>{{ member.username }}</h4>
+                                <p>{{ member.coins }} coins</p>
+                            </div>
+                        </div>
+                        
+                        <div class="member-chores">
+                            {% set pending_chores = member.assigned_chores|selectattr('status', 'equalto', 'pending')|list %}
+                            {% if pending_chores %}
+                                <div class="chores-list">
+                                    {% for chore in pending_chores %}
+                                    <div class="chore-item">
+                                        <div class="chore-info">
+                                            <span class="chore-title">{{ chore.title }}</span>
+                                            <div class="chore-rewards">
+                                                <span class="coins-badge">
+                                                    <i class="fas fa-coins"></i> {{ chore.coins }}
+                                                </span>
+                                                <span class="points-badge">
+                                                    <i class="fas fa-star"></i> {{ chore.points }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        {% if chore.due_date %}
+                                        <div class="chore-due-date">
+                                            Due: {{ chore.due_date.strftime('%Y-%m-%d') }}
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                <p class="text-muted text-center my-2">No pending chores</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% else %}
+            <div class="no-family-message">
+                <h2>Welcome to StewardWell!</h2>
+                {% if current_user.is_parent %}
+                    <p>You haven't created a family yet. Start by creating one!</p>
+                    <a href="#" class="btn btn-primary">Create Family</a>
+                {% else %}
+                    <p>You haven't been added to a family yet. Ask your parent to add you!</p>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %} 
