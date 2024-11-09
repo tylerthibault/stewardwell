@@ -33,6 +33,8 @@ def create_app():
     from app.controllers.family import family_bp
     from app.controllers.settings import settings_bp
     from app.controllers.chores import chores_bp
+    from app.controllers.rewards import rewards_bp
+    from app.controllers.goals import goals_bp
     
     app.register_blueprint(main_bp)
     app.register_blueprint(auth_bp)
@@ -40,6 +42,8 @@ def create_app():
     app.register_blueprint(family_bp)
     app.register_blueprint(settings_bp)
     app.register_blueprint(chores_bp)
+    app.register_blueprint(rewards_bp)
+    app.register_blueprint(goals_bp)
     
     # Register CLI commands
     from app.commands import init_commands

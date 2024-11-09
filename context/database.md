@@ -1,110 +1,173 @@
 # Database Schema and Relationships
 
-## Entity Relationship Diagram
-```
-User
-├── has_one Family (through family_id)
-├── has_many Children (self-referential through parent_id)
-├── has_one Parent (self-referential through parent_id)
-├── has_many FamilyGoals (through Family)
-├── has_many AssignedChores (as assigned_to)
-└── has_many CreatedChores (as created_by)
+## Core Models
 
-Family
-├── has_many Users (members)
-├── has_many FamilyGoals
-└── has_many Chores
-
-Chore
-├── belongs_to Family
-├── belongs_to AssignedUser (User)
-└── belongs_to CreatedByUser (User)
-
-FamilyGoal
-└── belongs_to Family
+### User Model
+```python
+class User(db.Model, UserMixin):
+    id: Integer, Primary Key
+    username: String(64), Unique
+    email: String(120), Unique
+    password_hash: String(128)
+    pin: String(4)  # For children
+    created_at: DateTime
+    is_superuser: Boolean
+    is_parent: Boolean
+    family_id: ForeignKey('family.id')
+    parent_id: ForeignKey('user.id')  # Self-referential
+    coins: Integer
+    family_points: Integer
 ```
 
-## Table Relationships
+### Family Model
+```python
+class Family(db.Model):
+    id: Integer, Primary Key
+    name: String(64)
+    family_code: String(6), Unique
+    created_at: DateTime
+    members: Relationship('User')
+    goals: Relationship('FamilyGoal')
+    chores: Relationship('Chore')
+    rewards: Relationship('Reward')
+```
 
-### User -> Family
-- One-to-Many relationship
-- User.family_id -> Family.id
-- Bidirectional relationship through `family` backref
+### Chore Model
+```python
+class Chore(db.Model):
+    id: Integer, Primary Key
+    title: String(100)
+    description: Text
+    coins: Integer
+    points: Integer
+    frequency: String(20)
+    due_date: DateTime
+    status: String(20)
+    category_id: ForeignKey('chore_category.id')
+    family_id: ForeignKey('family.id')
+    assigned_to_id: ForeignKey('user.id')
+    created_by_id: ForeignKey('user.id')
+```
 
-### User -> User (Parent/Child)
-- Self-referential relationship
-- User.parent_id -> User.id
-- Parent has many children
-- Child belongs to one parent
+### ChoreCategory Model
+```python
+class ChoreCategory(db.Model):
+    id: Integer, Primary Key
+    name: String(50)
+    color: String(7)
+    icon: String(50)
+    family_id: ForeignKey('family.id')
+    created_by_id: ForeignKey('user.id')
+    chores: Relationship('Chore')
+```
 
-### Family -> FamilyGoal
-- One-to-Many relationship
-- FamilyGoal.family_id -> Family.id
-- Lazy loading enabled for goals
+### Reward Model
+```python
+class Reward(db.Model):
+    id: Integer, Primary Key
+    title: String(100)
+    description: Text
+    cost: Integer
+    is_available: Boolean
+    category_id: ForeignKey('reward_category.id')
+    family_id: ForeignKey('family.id')
+    created_by_id: ForeignKey('user.id')
+    redemptions: Relationship('RewardRedemption')
+```
 
-### Family -> Chore
-- One-to-Many relationship
-- Chore.family_id -> Family.id
-- Lazy loading enabled for chores
+### RewardCategory Model
+```python
+class RewardCategory(db.Model):
+    id: Integer, Primary Key
+    name: String(50)
+    color: String(7)
+    icon: String(50)
+    family_id: ForeignKey('family.id')
+    created_by_id: ForeignKey('user.id')
+    rewards: Relationship('Reward')
+```
 
-### User -> Chore
-- Two relationships:
-  1. Assigned chores (assigned_to)
-  2. Created chores (created_by)
-- Both are One-to-Many
+### RewardRedemption Model
+```python
+class RewardRedemption(db.Model):
+    id: Integer, Primary Key
+    reward_id: ForeignKey('reward.id')
+    user_id: ForeignKey('user.id')
+    redeemed_at: DateTime
+    status: String(20)
+    cost: Integer
+```
+
+### FamilyGoal Model
+```python
+class FamilyGoal(db.Model):
+    id: Integer, Primary Key
+    title: String(100)
+    description: Text
+    points_required: Integer
+    is_completed: Boolean
+    family_id: ForeignKey('family.id')
+    created_at: DateTime
+    completed_at: DateTime
+```
+
+## Relationships Overview
+
+### One-to-Many
+- Family -> Users
+- Family -> Chores
+- Family -> Rewards
+- Family -> Goals
+- User -> CreatedChores
+- User -> AssignedChores
+- Category -> Chores/Rewards
+
+### Many-to-Many
+- Users <-> Rewards (through RewardRedemption)
+
+### Self-Referential
+- User -> User (Parent/Child)
+
+## Data Integrity
+
+### Cascading Deletes
+```python
+# Example configuration
+family_id = db.Column(db.Integer, 
+    db.ForeignKey('family.id', ondelete='CASCADE'))
+```
+
+### Unique Constraints
+```python
+UniqueConstraint('family_id', 'pin')  # Child PINs
+UniqueConstraint('email')  # User emails
+UniqueConstraint('family_code')  # Family codes
+```
+
+## Status Enums
+
+### Chore Status
+```python
+CHORE_STATUS = {
+    'pending': 'Not started',
+    'completed': 'Finished',
+    'overdue': 'Past due date'
+}
+```
+
+### Reward Status
+```python
+REWARD_STATUS = {
+    'pending': 'Awaiting approval',
+    'approved': 'Redeemed',
+    'denied': 'Rejected'
+}
+```
 
 ## Indexes
-- User.username (unique)
-- User.email (unique)
-- User.pin (unique within family)
-- Family.name
-- Family.family_code (unique)
-
-## Constraints
-- User.username: required, unique
-- User.email: required, unique
-- User.password_hash: required
-- User.pin: optional
-- Family.name: required
-- Family.family_code: required, unique
-- FamilyGoal.title: required
-- FamilyGoal.family_id: required
-- Chore.title: required
-- Chore.family_id: required
-- Chore.created_by_id: required
-
-## Status Fields
-1. **Chore Status**
-   ```python
-   status_types = {
-       'pending': 'Awaiting completion',
-       'completed': 'Successfully finished',
-       'overdue': 'Past due date'
-   }
-   ```
-
-2. **Join Request Status**
-   ```python
-   status_types = {
-       'pending': 'Awaiting response',
-       'accepted': 'Request approved',
-       'rejected': 'Request denied'
-   }
-   ```
-
-## Future Tables
-1. **ChoreCompletion**
-   - Belongs to Chore
-   - Belongs to User
-   - Has timestamp
-   - Has verification status
-
-2. **Rewards**
-   - Belongs to Family
-   - Has cost
-   - Has inventory
-
-3. **Transactions**
-   - Belongs to User
-   - Polymorphic (Chore/Reward)
-   - Has amount
+```python
+Index('idx_user_email', User.email)
+Index('idx_family_code', Family.family_code)
+Index('idx_chore_status', Chore.status)
+Index('idx_reward_availability', Reward.is_available)
+```

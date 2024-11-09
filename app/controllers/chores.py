@@ -237,4 +237,91 @@ def delete_category(category_id):
         db.session.rollback()
         flash('Error deleting category.', 'danger')
     
-    return redirect(url_for('chores.list_categories')) 
+    return redirect(url_for('chores.list_categories'))
+
+@chores_bp.route('/<int:chore_id>/edit', methods=['POST'])
+@login_required
+@parent_required
+def edit_chore(chore_id):
+    chore = Chore.query.get_or_404(chore_id)
+    
+    # Verify the chore belongs to the user's family
+    if chore.family_id != current_user.family_id:
+        flash('Invalid chore.', 'danger')
+        return redirect(url_for('chores.list_chores'))
+    
+    title = request.form.get('title')
+    description = request.form.get('description')
+    coins = request.form.get('coins', type=int)
+    points = request.form.get('points', type=int)
+    frequency = request.form.get('frequency')
+    assigned_to_id = request.form.get('assigned_to_id', type=int)
+    category_id = request.form.get('category_id')
+    has_due_date = request.form.get('has_due_date')
+    due_date_str = request.form.get('due_date')
+    
+    if not all([title, coins, points, frequency, assigned_to_id]):
+        flash('Please provide all required fields.', 'danger')
+        return redirect(url_for('chores.list_chores'))
+    
+    try:
+        chore.title = title
+        chore.description = description
+        chore.coins = coins
+        chore.points = points
+        chore.frequency = frequency
+        chore.assigned_to_id = assigned_to_id
+        chore.category_id = category_id if category_id else None
+        
+        # Update due date
+        if has_due_date and due_date_str:
+            chore.due_date = datetime.strptime(due_date_str, '%Y-%m-%d')
+        else:
+            chore.due_date = None
+        
+        db.session.commit()
+        flash('Chore updated successfully!', 'success')
+        
+    except Exception as e:
+        db.session.rollback()
+        flash('Error updating chore.', 'danger')
+    
+    return redirect(url_for('chores.list_chores'))
+
+@chores_bp.route('/clone/<int:chore_id>', methods=['POST'])
+@login_required
+def clone_chore(chore_id):
+    if not current_user.is_parent:
+        flash('Only parents can clone chores.', 'error')
+        return redirect(url_for('chores.list_chores'))
+    
+    chore = Chore.query.filter_by(id=chore_id, family_id=current_user.family_id).first_or_404()
+    assigned_to_id = request.form.get('assigned_to_id')
+    
+    if not assigned_to_id:
+        flash('Please select a child to assign the chore to.', 'error')
+        return redirect(url_for('chores.list_chores'))
+    
+    # Create new chore with same details but different assigned_to_id
+    new_chore = Chore(
+        title=chore.title,
+        description=chore.description,
+        category_id=chore.category_id,
+        coins=chore.coins,
+        points=chore.points,
+        frequency=chore.frequency,
+        family_id=chore.family_id,
+        created_by_id=current_user.id,
+        assigned_to_id=assigned_to_id,
+        due_date=chore.due_date
+    )
+    
+    try:
+        db.session.add(new_chore)
+        db.session.commit()
+        flash('Chore cloned successfully!', 'success')
+    except Exception as e:
+        db.session.rollback()
+        flash('Error cloning chore. Please try again.', 'error')
+        
+    return redirect(url_for('chores.list_chores'))

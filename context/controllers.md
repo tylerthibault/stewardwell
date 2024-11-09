@@ -1,28 +1,27 @@
 # Controllers Documentation
 
-## Structure
-Each controller is organized as a Flask Blueprint with specific responsibilities:
+## Overview
+Each controller is organized as a Flask Blueprint with specific responsibilities and access controls.
 
 ## Main Controller (main.py)
 ```python
 Blueprint: main_bp
-Prefix: /
 Routes:
 - / (index)
 - /dashboard
-- /reset-db (development only)
+- /reset-db (dev only)
+- /seed-db (dev only)
 ```
 
-### Key Features
-- Landing page rendering
-- Dashboard data aggregation
-- Database management tools
-- Protected routes with @login_required
+### Dashboard Features
+- Family statistics aggregation
+- Member activity tracking
+- Chore status overview
+- Points/coins display
 
 ## Auth Controller (auth.py)
 ```python
 Blueprint: auth_bp
-Prefix: None
 Routes:
 - /login
 - /parent-login
@@ -31,214 +30,174 @@ Routes:
 - /logout
 ```
 
-### Key Features
-- User registration
-- Parent authentication
-- Child PIN authentication
-- Session management
-- Form validation
-
-## Admin Controller (admin.py)
-```python
-Blueprint: admin_bp
-Prefix: /admin
-Routes:
-- /users
-- /users/<int:user_id>/toggle-superuser
-```
-
-### Key Features
-- User management interface
-- Superuser controls
-- Protected with @superuser_required
-- User role management
+### Authentication Features
+- Dual login system (parent/child)
+- PIN-based child authentication
+- Email/password parent auth
+- Family code validation
 
 ## Family Controller (family.py)
 ```python
 Blueprint: family_bp
-Prefix: /family
 Routes:
-- /members (GET)
-- /add-parent (POST)
-- /add-child (POST)
-- /edit-child/<int:child_id> (POST)
-- /remove-member/<int:member_id> (POST)
+- /members
+- /add-parent
+- /add-child
+- /edit-child/<id>
+- /remove-member/<id>
 ```
 
-### Key Features
-- Family member management
-- Child account creation and editing
-- Parent account creation
-- Member removal
+### Family Management
+- Member CRUD operations
 - PIN management
-- Coins management
-- Protected with @parent_required
-
-### Child Management
-1. **Adding Children**
-   - Username validation
-   - PIN generation (4 digits)
-   - Family association
-   - Initial coin balance
-   - Parent relationship
-
-2. **Editing Children**
-   - Update username
-   - Change PIN
-   - Modify coin balance
-   - PIN collision prevention within family
-
-3. **Removing Members**
-   - Safety checks
-   - Parent protection
-   - Cascade deletion
-   - Family integrity maintenance
-
-### Parent Management
-1. **Adding Parents**
-   - Email validation
-   - Password hashing
-   - Family association
-   - Role assignment
-
-2. **Parent Privileges**
-   - Member management
-   - Child account control
-   - Family settings access
-   - PIN management
-
-### Data Validation
-1. **PIN Validation**
-   - 4-digit requirement
-   - Numeric only
-   - Family-scoped uniqueness
-   - Collision prevention
-
-2. **User Validation**
-   - Username uniqueness
-   - Email format
-   - Password requirements
-   - Role verification
-
-### Security Measures
-1. **Access Control**
-   - Parent-only routes
-   - Family membership verification
-   - Child protection
-   - Data isolation
-
-2. **Error Handling**
-   - Transaction management
-   - Rollback on failure
-   - User feedback
-   - Logging
-
-## Custom Decorators
-```python
-@login_required
-- Ensures user is authenticated
-- Redirects to login page if not
-
-@superuser_required
-- Ensures user is superuser
-- Redirects to index if not
-- Requires authentication
-
-@parent_required
-- Ensures user is a parent
-- Redirects to index if not
-- Requires authentication
-```
-
-## Error Handling
-- Flash messages for user feedback
-- Database transaction management
-- Exception handling
-- Logging for debugging
-
-## Future Controllers
-1. Chores Controller
-   - Chore creation
-   - Assignment
-   - Completion tracking
-   - Reward distribution
-
-2. Rewards Controller
-   - Reward creation
-   - Point management
-   - Redemption system
-   - Inventory tracking
-
-3. Goals Controller
-   - Family goal setting
-   - Progress tracking
-   - Achievement system
-   - Celebration events 
-
-## Settings Controller (settings.py)
-```python
-Blueprint: settings_bp
-Prefix: /settings
-Routes:
-- / (profile)
-- /join-family
-- /pending-requests
-- /handle-request/<int:request_id>/<string:action>
-```
-
-### Key Features
-- Profile management
-- Password changes
-- Family joining system
-- Join request handling
-- Parent approval system
-
-### Access Control
-- Profile: @login_required
-- Join Family: @login_required
-- Pending Requests: @login_required + @parent_required
-- Handle Request: @login_required + @parent_required
-
-### Request Flow
-1. User submits join request with family code
-2. Parent receives notification in pending requests
-3. Parent can accept or reject request
-4. On acceptance, user is added to family
+- Coins/points tracking
+- Family code generation
 
 ## Chores Controller (chores.py)
 ```python
 Blueprint: chores_bp
-Prefix: /chores
 Routes:
-- / (list_chores)
-- /create (create_chore)
-- /<int:chore_id>/complete (complete_chore)
+- / (list)
+- /create
+- /<id>/complete
+- /categories
+- /categories/create
+- /categories/<id>/edit
+- /categories/<id>/delete
 ```
 
-### Key Features
-- Chore creation and assignment
+### Chore Features
+- Category management
+- Assignment system
 - Completion tracking
 - Reward distribution
-- Due date management
-- Parent/Child specific views
 
-### Access Control
-- List: @login_required
-- Create: @login_required + @parent_required
-- Complete: @login_required (with ownership check)
+## Rewards Controller (rewards.py)
+```python
+Blueprint: rewards_bp
+Routes:
+- / (list)
+- /create
+- /<id>/redeem
+- /<id>/toggle
+- /categories
+- /categories/create
+- /redemption/<id>/<action>
+```
 
-### Data Flow
-1. **Chore Creation**
-   ```
-   Parent Action -> Validation -> Create Chore -> Assign to Child
+### Reward Features
+- Category organization
+- Availability toggle
+- Redemption system
+- Approval workflow
+
+## Goals Controller (goals.py)
+```python
+Blueprint: goals_bp
+Routes:
+- / (list)
+- /create
+- /<id>/complete
+- /<id>/delete
+```
+
+### Goal Features
+- Family-wide objectives
+- Points tracking
+- Completion celebration
+- Progress monitoring
+
+## Common Decorators
+```python
+@login_required
+- Ensures authentication
+- Redirects to login
+
+@parent_required
+- Verifies parent status
+- Protects parent routes
+
+@superuser_required
+- Checks admin privileges
+- Controls system access
+```
+
+## Error Handling
+```python
+try:
+    # Database operations
+    db.session.commit()
+    flash('Success message', 'success')
+except Exception as e:
+    db.session.rollback()
+    flash('Error message', 'danger')
+```
+
+## Response Patterns
+1. **Success Response**
+   ```python
+   return redirect(url_for('blueprint.route'))
    ```
 
-2. **Chore Completion**
-   ```
-   Child Action -> Verify Assignment -> Mark Complete -> Award Rewards
+2. **Error Response**
+   ```python
+   flash('Error message', 'danger')
+   return redirect(url_for('blueprint.route'))
    ```
 
-3. **Reward Distribution**
+3. **API Response**
+   ```python
+   return jsonify({
+       'status': 'success',
+       'data': result
+   })
    ```
-   Complete Chore -> Award Coins to Child -> Award Points to Family
+
+## Access Control
+1. **Route Protection**
+   ```python
+   @login_required
+   @parent_required
+   def protected_route():
+       pass
    ```
+
+2. **Data Validation**
+   ```python
+   if not all([required_fields]):
+       flash('Please provide all required fields.', 'danger')
+       return redirect(url_for('blueprint.route'))
+   ```
+
+3. **Ownership Verification**
+   ```python
+   if item.family_id != current_user.family_id:
+       flash('Unauthorized access.', 'danger')
+       return redirect(url_for('blueprint.route'))
+   ```
+
+## Transaction Management
+```python
+try:
+    db.session.add(item)
+    db.session.commit()
+except Exception:
+    db.session.rollback()
+    raise
+```
+
+## Future Enhancements
+1. **Real-time Updates**
+   - WebSocket integration
+   - Live notifications
+   - Activity feed
+
+2. **Advanced Features**
+   - Bulk operations
+   - Import/export
+   - Reporting system
+
+3. **API Development**
+   - REST endpoints
+   - Mobile app support
+   - Third-party integration

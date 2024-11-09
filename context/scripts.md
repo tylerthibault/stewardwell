@@ -239,4 +239,138 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     lazyImages.forEach(img => imageObserver.observe(img));
 });
+```
+
+## Form Handlers
+
+### Category Creation in Chore Form
+```javascript
+document.querySelector('#addChoreModal form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    if (categorySelect.value === 'new') {
+        // Create new category via AJAX
+        const response = await fetch('/chores/categories/create', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                name: document.getElementById('new_category_name').value,
+                color: document.getElementById('new_category_color').value,
+                icon: document.getElementById('new_category_icon').value
+            })
+        });
+        
+        if (response.ok) {
+            const result = await response.json();
+            document.getElementById('category_id').value = result.category_id;
+        }
+    }
+    
+    this.submit();
+});
+```
+
+### Due Date Toggle
+```javascript
+document.getElementById('has_due_date').addEventListener('change', function() {
+    const dueDateContainer = document.getElementById('due_date_container');
+    const dueDateInput = document.getElementById('due_date');
+    
+    dueDateContainer.style.display = this.checked ? 'block' : 'none';
+    dueDateInput.required = this.checked;
+    
+    if (!this.checked) {
+        dueDateInput.value = '';
+    }
+});
+```
+
+### Family Code Copy
+```javascript
+function copyFamilyCode() {
+    const code = familyCodeElement.textContent;
+    navigator.clipboard.writeText(code).then(() => {
+        // Visual feedback
+        button.classList.add('btn-success');
+        setTimeout(() => {
+            button.classList.remove('btn-success');
+        }, 2000);
+    });
+}
+```
+
+## Input Handlers
+
+### Auto-Uppercase Input
+```javascript
+document.getElementById('family_code').addEventListener('input', function(e) {
+    this.value = this.value.toUpperCase();
+});
+```
+
+### Category Select Handler
+```javascript
+function handleCategorySelect(selectElement) {
+    const newCategoryContainer = document.getElementById('new_category_container');
+    const categoryIdInput = document.getElementById('category_id');
+    
+    if (selectElement.value === 'new') {
+        newCategoryContainer.style.display = 'block';
+        categoryIdInput.value = '';
+    } else {
+        newCategoryContainer.style.display = 'none';
+        categoryIdInput.value = selectElement.value;
+    }
+}
+```
+
+## Bootstrap Initializations
+
+### Tooltips
+```javascript
+var tooltipTriggerList = [].slice.call(
+    document.querySelectorAll('[data-bs-toggle="tooltip"]')
+);
+var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+    return new bootstrap.Tooltip(tooltipTriggerEl)
+});
+```
+
+## Future Enhancements
+
+### Real-time Updates
+```javascript
+// WebSocket connection for live updates
+const socket = new WebSocket('ws://your-server/ws');
+socket.onmessage = function(event) {
+    const data = JSON.parse(event.data);
+    updateUI(data);
+};
+```
+
+### Drag-and-Drop
+```javascript
+// Sortable chore lists
+new Sortable(choresList, {
+    animation: 150,
+    ghostClass: 'sortable-ghost',
+    onEnd: function(evt) {
+        updateChoreOrder(evt.oldIndex, evt.newIndex);
+    }
+});
+```
+
+### Form Validation
+```javascript
+function validateChoreForm() {
+    const title = document.getElementById('title').value;
+    const points = document.getElementById('points').value;
+    const coins = document.getElementById('coins').value;
+    
+    if (!title || !points || !coins) {
+        showError('Please fill in all required fields');
+        return false;
+    }
+    return true;
+}
 ``` 

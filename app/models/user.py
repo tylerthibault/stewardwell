@@ -104,3 +104,51 @@ class Chore(db.Model):
     
     status = db.Column(db.String(20), default='pending')  # pending, completed, overdue
     completed_at = db.Column(db.DateTime)
+
+class RewardCategory(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), nullable=False)
+    color = db.Column(db.String(7), default="#6c757d")  # Hex color code
+    icon = db.Column(db.String(50))  # FontAwesome icon name
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    
+    # Family relationship
+    family_id = db.Column(db.Integer, db.ForeignKey('family.id'), nullable=False)
+    created_by_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    
+    # Relationships
+    rewards = db.relationship('Reward', backref='category', lazy='dynamic')
+    created_by = db.relationship('User', foreign_keys=[created_by_id])
+
+class Reward(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.Text)
+    cost = db.Column(db.Integer, nullable=False)  # Cost in coins
+    is_available = db.Column(db.Boolean, default=True)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    
+    # Add category relationship
+    category_id = db.Column(db.Integer, db.ForeignKey('reward_category.id'))
+    
+    # Family relationship
+    family_id = db.Column(db.Integer, db.ForeignKey('family.id'), nullable=False)
+    created_by_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    
+    # Relationships
+    created_by = db.relationship('User', foreign_keys=[created_by_id])
+    family = db.relationship('Family', backref='rewards')
+    
+    # Redemption tracking
+    redemptions = db.relationship('RewardRedemption', backref='reward', lazy='dynamic')
+
+class RewardRedemption(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    reward_id = db.Column(db.Integer, db.ForeignKey('reward.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    redeemed_at = db.Column(db.DateTime, default=datetime.utcnow)
+    status = db.Column(db.String(20), default='pending')  # pending, approved, denied
+    cost = db.Column(db.Integer, nullable=False)  # Store cost at time of redemption
+    
+    # Relationships
+    user = db.relationship('User', backref='reward_redemptions')

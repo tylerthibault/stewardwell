@@ -1,178 +1,260 @@
 # Styles Documentation
 
-## Design System
-
-### Color Palette
+## Core Variables
 ```css
 :root {
-    --primary-color: #4169E1;    /* Royal Blue */
-    --secondary-color: #4CAF50;  /* Green */
-    --background-color: #f8f9fa; /* Light Gray */
-    --text-color: #333333;       /* Dark Gray */
-    --border-color: #e0e0e0;     /* Light Gray */
-    --sidebar-bg: #2C3E7B;       /* Dark Blue */
+    --primary-color: #4169E1;
+    --secondary-color: #4CAF50;
+    --background-color: #f8f9fa;
+    --text-color: #333;
+    --border-color: #e0e0e0;
     --shadow: 0 2px 4px rgba(0,0,0,0.05);
+    --sidebar-bg: #2C3E7B;
 }
 ```
 
-### Typography
+## Layout Components
+
+### Sidebar
 ```css
-body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    line-height: 1.6;
-    font-size: 16px;
-}
-
-h1 { font-size: 2.5rem; }
-h2 { font-size: 2rem; }
-h3 { font-size: 1.75rem; }
-h4 { font-size: 1.5rem; }
-```
-
-### Layout Components
-
-1. **Container**
-```css
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 1rem;
-}
-```
-
-2. **Grid System**
-```css
-.grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1.5rem;
-}
-```
-
-3. **Flexbox Layouts**
-```css
-.flex-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-```
-
-### UI Components
-
-1. **Buttons**
-```css
-.btn {
-    padding: 0.75rem 1.5rem;
-    border-radius: 6px;
-    font-size: 0.95rem;
-    transition: all 0.2s ease;
-}
-
-.btn-primary {
-    background-color: var(--primary-color);
+.sidebar {
+    width: 250px;
+    background-color: var(--sidebar-bg);
     color: white;
+    padding: 1.5rem 0;
+    position: fixed;
+    height: 100vh;
 }
 
-.btn-secondary {
-    background-color: var(--secondary-color);
-    color: white;
+.main-content {
+    margin-left: 250px;
+    padding: 2rem;
 }
 ```
 
-2. **Cards**
+### Content Container
+```css
+.content-container {
+    padding: 1.5rem;
+}
+
+.page-header {
+    margin-bottom: 2rem;
+}
+```
+
+## Card Components
+
+### Base Card
 ```css
 .card {
     background: white;
     border-radius: 12px;
     box-shadow: var(--shadow);
-    padding: 1.5rem;
+    border: none;
+    margin-bottom: 1.5rem;
+}
+
+.card-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+    padding: 1rem;
 }
 ```
 
-3. **Forms**
+### Statistics Cards
 ```css
-.form-control {
-    width: 100%;
-    padding: 0.75rem;
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-    font-size: 0.95rem;
+.dashboard-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
 }
 
-.form-label {
+.stat {
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+```
+
+## Reward System Styles
+
+### Reward Cards
+```css
+.reward-card {
+    height: 100%;
+    transition: transform 0.2s ease;
+}
+
+.reward-card:hover {
+    transform: translateY(-2px);
+}
+
+.reward-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+}
+
+.reward-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+```
+
+### Category Accordion
+```css
+.accordion-button:not(.collapsed) {
+    background-color: #f8f9fa;
+    box-shadow: none;
+}
+
+.accordion-item {
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+}
+
+.accordion-button {
+    padding: 1rem;
     font-weight: 500;
-    margin-bottom: 0.5rem;
+}
+
+.accordion-body {
+    padding: 1.5rem;
+    background-color: white;
 }
 ```
 
-### Navigation
-
-1. **Sidebar**
+### Reward Badges
 ```css
-.sidebar {
-    width: 250px;
-    background-color: var(--sidebar-bg);
-    height: 100vh;
+.coins-badge {
+    background-color: #ffd700;
+    color: #000;
+    padding: 0.4em 0.6em;
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.points-badge {
+    background-color: #4CAF50;
+    color: white;
+    padding: 0.4em 0.6em;
+    border-radius: 4px;
+}
+```
+
+## Toast Notifications
+
+### Toast Container
+```css
+.toast-container {
     position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 1050;
 }
 
-.menu-item {
-    padding: 0.75rem 1.5rem;
-    color: rgba(255, 255, 255, 0.8);
-    transition: all 0.3s ease;
-}
-```
-
-2. **Navbar**
-```css
-.navbar {
-    background: white;
-    box-shadow: var(--shadow);
-    padding: 0.75rem 0;
+.toast {
+    min-width: 250px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    margin-bottom: 1rem;
 }
 ```
 
-### Utilities
-
-1. **Spacing**
+### Toast Variants
 ```css
-.mt-1 { margin-top: 0.25rem; }
-.mt-2 { margin-top: 0.5rem; }
-.mt-3 { margin-top: 1rem; }
-.mt-4 { margin-top: 1.5rem; }
-.mt-5 { margin-top: 2rem; }
-```
-
-2. **Text Utilities**
-```css
-.text-primary { color: var(--primary-color); }
-.text-muted { color: #666; }
-.text-center { text-align: center; }
-```
-
-### Responsive Design
-
-1. **Breakpoints**
-```css
-/* Mobile */
-@media (max-width: 767px) {
-    .container { padding: 0 0.5rem; }
-    .grid { grid-template-columns: 1fr; }
+.toast.bg-success {
+    background-color: #28a745 !important;
 }
 
-/* Tablet */
-@media (min-width: 768px) and (max-width: 1199px) {
-    .grid { grid-template-columns: repeat(2, 1fr); }
+.toast.bg-danger {
+    background-color: #dc3545 !important;
+}
+
+.toast.bg-warning {
+    background-color: #ffc107 !important;
+    color: #000 !important;
+}
+
+.toast.bg-info {
+    background-color: #17a2b8 !important;
 }
 ```
 
-2. **Mobile Navigation**
+### Toast Animations
 ```css
-@media (max-width: 767px) {
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.toast.showing {
+    animation: slideIn 0.3s ease forwards;
+}
+
+.toast.hide {
+    animation: slideIn 0.3s ease reverse forwards;
+}
+```
+
+## Form Components
+
+### Input Groups
+```css
+.input-group {
+    margin-bottom: 1rem;
+}
+
+.input-group-text {
+    background-color: #f8f9fa;
+    border-color: var(--border-color);
+}
+
+.form-control-color {
+    width: 100%;
+    height: 38px;
+}
+```
+
+### Modal Styles
+```css
+.modal-content {
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.modal-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.modal-footer {
+    background-color: #f8f9fa;
+    border-top: 1px solid #dee2e6;
+}
+```
+
+## Responsive Design
+
+### Mobile Navigation
+```css
+@media (max-width: 768px) {
     .sidebar {
         transform: translateX(-100%);
         transition: transform 0.3s ease;
+    }
+    
+    .main-content {
+        margin-left: 0;
     }
     
     .sidebar.active {
@@ -181,147 +263,43 @@ h4 { font-size: 1.5rem; }
 }
 ```
 
-### Animations
-
-1. **Transitions**
+### Grid Adjustments
 ```css
-.transition-all {
-    transition: all 0.3s ease;
+@media (max-width: 992px) {
+    .dashboard-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
-.hover-lift:hover {
-    transform: translateY(-2px);
+@media (max-width: 576px) {
+    .dashboard-cards {
+        grid-template-columns: 1fr;
+    }
 }
 ```
 
-2. **Loading States**
-```css
-.loading {
-    opacity: 0.7;
-    pointer-events: none;
-}
+## Utility Classes
 
-.spinner {
-    animation: spin 1s linear infinite;
-}
+### Spacing
+```css
+.mt-4 { margin-top: 1.5rem; }
+.mb-4 { margin-bottom: 1.5rem; }
+.ms-2 { margin-left: 0.5rem; }
+.me-2 { margin-right: 0.5rem; }
 ```
 
-## Chore-Specific Styles
-
-### Chore Cards
+### Flexbox
 ```css
-.chore-card {
-    background: white;
-    border-radius: 8px;
-    padding: 1.5rem;
-    margin-bottom: 1rem;
-    box-shadow: var(--shadow);
-}
-
-.chore-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
-}
-
-.chore-title {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: var(--text-color);
-}
-
-.chore-status {
-    padding: 0.25rem 0.5rem;
-    border-radius: 4px;
-    font-size: 0.85rem;
-}
-
-.status-pending {
-    background-color: var(--primary-color);
-    color: white;
-}
-
-.status-completed {
-    background-color: var(--secondary-color);
-    color: white;
-}
-
-.status-overdue {
-    background-color: #dc3545;
-    color: white;
-}
+.d-flex { display: flex; }
+.justify-content-between { justify-content: space-between; }
+.align-items-center { align-items: center; }
+.flex-column { flex-direction: column; }
 ```
 
-### Chore Tables
+### Text
 ```css
-.chore-table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
-    background: white;
-    border-radius: 8px;
-    overflow: hidden;
-}
-
-.chore-table th {
-    background-color: #f8f9fa;
-    padding: 1rem;
-    font-weight: 600;
-    text-align: left;
-}
-
-.chore-table td {
-    padding: 1rem;
-    border-top: 1px solid #dee2e6;
-}
-
-.chore-table tr:hover {
-    background-color: #f8f9fa;
-}
+.text-muted { color: #6c757d; }
+.text-center { text-align: center; }
+.font-weight-bold { font-weight: 600; }
 ```
-
-### Reward Indicators
-```css
-.reward-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.25rem 0.5rem;
-    border-radius: 4px;
-    font-size: 0.85rem;
-}
-
-.coins-badge {
-    background-color: #ffd700;
-    color: #000;
-}
-
-.points-badge {
-    background-color: #4CAF50;
-    color: white;
-}
-```
-
-### Form Elements
-```css
-.chore-form {
-    max-width: 600px;
-    margin: 0 auto;
-}
-
-.reward-input-group {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-    margin-bottom: 1rem;
-}
-
-.due-date-toggle {
-    margin-bottom: 1rem;
-}
-
-.due-date-field {
-    transition: all 0.3s ease;
-}
 ``` 

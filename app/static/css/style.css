@@ -741,3 +741,72 @@ body {
         gap: 0.5rem;
     }
 }
+
+/* Add these toast-specific styles */
+.toast-container {
+    z-index: 1050;
+}
+
+.toast {
+    margin-bottom: 1rem;
+    min-width: 250px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+}
+
+.toast.bg-success {
+    background-color: #28a745 !important;
+}
+
+.toast.bg-danger {
+    background-color: #dc3545 !important;
+}
+
+.toast.bg-warning {
+    background-color: #ffc107 !important;
+    color: #000 !important;
+}
+
+.toast.bg-info {
+    background-color: #17a2b8 !important;
+}
+
+.toast .toast-body {
+    padding: 0.75rem 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.toast .fas {
+    font-size: 1.1rem;
+}
+
+.toast .btn-close {
+    opacity: 0.8;
+    transition: opacity 0.2s ease;
+}
+
+.toast .btn-close:hover {
+    opacity: 1;
+}
+
+/* Animation for toasts */
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.toast.showing {
+    animation: slideIn 0.3s ease forwards;
+}
+
+.toast.hide {
+    animation: slideIn 0.3s ease reverse forwards;
+}
