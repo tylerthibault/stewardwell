@@ -84,6 +84,23 @@ class User(db.Model, UserMixin):
     created_goals = db.relationship('Goal', back_populates='created_by', lazy=True)
     created_goal_categories = db.relationship('GoalCategory', back_populates='created_by', lazy=True)
 
+<<<<<<< HEAD:flask_app/models/user.py
+=======
+class Family(db.Model):
+    __tablename__ = 'family'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    family_code = db.Column(db.String(8), unique=True, nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    
+    # Relationships
+    users = db.relationship('User', backref='family', lazy=True)
+    chores = db.relationship('app.models.chore.Chore', backref='family', lazy=True)
+    goal_categories = db.relationship('GoalCategory', back_populates='family', lazy=True)
+    goals = db.relationship('Goal', back_populates='family', lazy=True)
+    
+>>>>>>> parent of 83ed391 (fixed minor bugs like kids not being able to complete chores):app/models/user.py
     def __repr__(self):
         return f'<User {self.username}>'
 

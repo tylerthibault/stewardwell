@@ -1,148 +1,144 @@
-<nav class="sidebar">
+<div class="sidebar">
     <div class="sidebar-header">
-        <!-- User Profile Section -->
-        <div class="user-profile text-center mb-4">
-            {% if current_user.avatar.startswith('fa-') %}
-                <i class="fas {{ current_user.avatar }} fa-3x mb-2"></i>
-            {% else %}
-                <img src="{{ url_for('static', filename='img/avatars/' + current_user.avatar) }}" 
-                     alt="{{ current_user.username }}'s avatar"
-                     class="avatar-img mb-2">
-            {% endif %}
-            <div class="user-info">
-                <h6 class="mb-1">{{ current_user.username }}</h6>
-                <small class="text-muted">
-                    {% if current_user.is_parent %}
-                        Parent
-                    {% else %}
-                        Child
-                        <div class="coins-display mt-1">
-                            <i class="fas fa-coins fa-xs"></i>
-                            <span class="coins-text">{{ current_user.coins }}</span>
-                        </div>
-                    {% endif %}
-                </small>
-            </div>
-        </div>
-        
-        <!-- Family Info Section -->
-        {% if current_user.family %}
-        <div class="family-info text-center mb-3">
-            <h5>{{ current_user.family.name }}</h5>
+        <h3>StewardWell</h3>
+        <p class="welcome-message">
+            Welcome, {{ current_user.username }}!
             {% if not current_user.is_parent %}
-            <div class="family-points">
-                <i class="fas fa-star fa-xs"></i>
-                <span class="points-text">{{ current_user.family_points }}</span>
-            </div>
+            <span class="coins-display">
+                <i class="fas fa-coins"></i> {{ current_user.coins }}
+            </span>
             {% endif %}
-        </div>
-        {% endif %}
+        </p>
     </div>
 
-    <!-- Navigation Menu -->
     <ul class="nav flex-column">
-        <!-- Dashboard - For All Users -->
         <li class="nav-item">
-            <a class="nav-link {% if request.endpoint == 'main.dashboard' %}active{% endif %}" 
-               href="{{ url_for('main.dashboard') }}">
-                <i class="fas fa-home"></i>
-                <span>Dashboard</span>
+            <a class="nav-link" href="{{ url_for('main.index') }}">
+                <i class="fas fa-home"></i> Home
             </a>
         </li>
 
-        <!-- Economy Module Items -->
-        {% if current_user.family and module_settings.get('economy', True) %}
-            <!-- Chores Section -->
-            <li class="nav-item" data-module="economy">
-                <a class="nav-link {% if request.endpoint.startswith('chores.') %}active{% endif %}" 
-                   href="{{ url_for('chores.list_chores') }}">
-                    <i class="fas fa-tasks"></i>
-                    <span>Chores</span>
-                </a>
-            </li>
+        <!-- Family Section -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#familySubmenu" 
+               data-bs-toggle="collapse" 
+               aria-expanded="false">
+                <i class="fas fa-users"></i> Family
+                <i class="fas fa-chevron-down float-end"></i>
+            </a>
+            <div class="collapse" id="familySubmenu">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('main.dashboard') }}">
+                            <i class="fas fa-chart-line"></i> Family Dashboard
+                        </a>
+                    </li>
+                    {% if current_user.is_parent %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('family.members') }}">
+                            <i class="fas fa-user-friends"></i> Members
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </li>
 
-            <!-- Rewards Section -->
-            <li class="nav-item" data-module="economy">
-                <a class="nav-link {% if request.endpoint.startswith('rewards.') %}active{% endif %}" 
-                   href="{{ url_for('rewards.list_rewards') }}">
-                    <i class="fas fa-gift"></i>
-                    <span>Rewards</span>
-                </a>
-            </li>
+        <!-- Economy Module -->
+        {% set module_settings = current_user.family.module_settings|list if current_user.family else [] %}
+        {% set economy_module = module_settings|selectattr('module_name', 'equalto', 'economy')|list %}
+        {% set admin_module = module_settings|selectattr('module_name', 'equalto', 'admin')|list %}
 
-            <!-- Goals Section -->
-            <li class="nav-item" data-module="economy">
-                <a class="nav-link {% if request.endpoint.startswith('goals.') %}active{% endif %}" 
-                   href="{{ url_for('goals.list_goals') }}">
-                    <i class="fas fa-bullseye"></i>
-                    <span>Goals</span>
-                </a>
-            </li>
+        {% set economy_enabled = not economy_module or economy_module[0].is_enabled if economy_module else true %}
+        {% set admin_enabled = current_user.is_superuser and (not admin_module or admin_module[0].is_enabled if admin_module else true) %}
+
+        {% if economy_enabled %}
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#economySubmenu" 
+               data-bs-toggle="collapse" 
+               aria-expanded="false">
+                <i class="fas fa-coins"></i> Economy
+                <i class="fas fa-chevron-down float-end"></i>
+            </a>
+            <div class="collapse" id="economySubmenu">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('chores.list_chores') }}">
+                            <i class="fas fa-tasks"></i> Chores
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('rewards.list_rewards') }}">
+                            <i class="fas fa-gift"></i> Rewards
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('goals.list_goals') }}">
+                            <i class="fas fa-flag"></i> Goals
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('rewards.purchase_history') }}">
+                            <i class="fas fa-history"></i> Purchase History
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </li>
         {% endif %}
 
-        <!-- Parent-Only Sections -->
-        {% if current_user.is_parent %}
-            <li class="nav-item">
-                <a class="nav-link {% if request.endpoint.startswith('family.') %}active{% endif %}" 
-                   href="{{ url_for('family.members') }}">
-                    <i class="fas fa-users"></i>
-                    <span>Family Members</span>
-                </a>
-            </li>
+        <!-- Admin Module -->
+        {% if admin_enabled %}
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#adminSubmenu" 
+               data-bs-toggle="collapse" 
+               aria-expanded="false">
+                <i class="fas fa-shield-alt"></i> Admin
+                <i class="fas fa-chevron-down float-end"></i>
+            </a>
+            <div class="collapse" id="adminSubmenu">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('admin.manage_users') }}">
+                            <i class="fas fa-users-cog"></i> Users
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('main.reset_db') }}">
+                            <i class="fas fa-database"></i> Reset Database
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('main.seed_db') }}">
+                            <i class="fas fa-seedling"></i> Seed Database
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </li>
         {% endif %}
 
-        <!-- Superuser-Only Section -->
-        {% if current_user.is_superuser and module_settings.get('admin', True) %}
-            <li class="nav-divider" data-module="admin"></li>
-            <li class="menu-label" data-module="admin">Admin</li>
-            <li class="nav-item" data-module="admin">
-                <a class="nav-link {% if request.endpoint.startswith('admin.') %}active{% endif %}" 
-                   href="{{ url_for('admin.index') }}">
-                    <i class="fas fa-shield-alt"></i>
-                    <span>Admin Panel</span>
-                </a>
-            </li>
-            <li class="nav-item" data-module="admin">
-                <a class="nav-link {% if request.endpoint == 'admin.users' %}active{% endif %}" 
-                   href="{{ url_for('admin.users') }}">
-                    <i class="fas fa-users-cog"></i>
-                    <span>Manage Users</span>
-                </a>
-            </li>
-            <li class="nav-item" data-module="admin">
-                <a class="nav-link {% if request.endpoint == 'admin.families' %}active{% endif %}" 
-                   href="{{ url_for('admin.families') }}">
-                    <i class="fas fa-sitemap"></i>
-                    <span>Manage Families</span>
-                </a>
-            </li>
-        {% endif %}
-
-        <!-- Settings and Logout - For All Users -->
-        <li class="nav-divider"></li>
+        <!-- Settings Section (for both parents and children) -->
         <li class="nav-item">
             {% if current_user.is_parent %}
-                <a class="nav-link {% if request.endpoint == 'settings.profile' %}active{% endif %}" 
-                   href="{{ url_for('settings.profile') }}">
-                    <i class="fas fa-user-cog"></i>
-                    <span>Settings</span>
-                </a>
+            <a class="nav-link" href="{{ url_for('settings.profile') }}">
+                <i class="fas fa-cog"></i> Settings
+            </a>
             {% else %}
-                <a class="nav-link {% if request.endpoint == 'settings.child_profile' %}active{% endif %}" 
-                   href="{{ url_for('settings.child_profile') }}">
-                    <i class="fas fa-user-cog"></i>
-                    <span>My Profile</span>
-                </a>
+            <a class="nav-link" href="{{ url_for('settings.child_profile') }}">
+                <i class="fas fa-cog"></i> My Profile
+            </a>
             {% endif %}
         </li>
-        <li class="nav-item">
+
+        <!-- Logout -->
+        <li class="nav-item mt-auto">
             <a class="nav-link" href="{{ url_for('auth.logout') }}">
-                <i class="fas fa-sign-out-alt"></i>
-                <span>Logout</span>
+                <i class="fas fa-sign-out-alt"></i> Logout
             </a>
         </li>
     </ul>
-</nav>
+</div>
 
 <style>
 .sidebar {
@@ -201,24 +197,12 @@
 
 .coins-display {
     background: rgba(255, 215, 0, 0.2);
-    padding: 4px 8px;
+    padding: 2px 8px;
     border-radius: 12px;
     font-size: 0.85rem;
-    display: inline-block;
-    color: #ffd700;
 }
 
 .coins-display i {
-    margin-right: 4px;
-}
-
-.family-points {
-    font-size: 0.85rem;
-    color: rgba(255, 255, 255, 0.8);
-    margin-top: 0.5rem;
-}
-
-.family-points i {
     color: #ffd700;
     margin-right: 4px;
 }
@@ -233,68 +217,5 @@
 
 .sidebar .collapse {
     background: rgba(0, 0, 0, 0.1);
-}
-
-.user-profile .avatar-img {
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    background-color: rgba(255, 255, 255, 0.1);
-    padding: 2px;
-}
-
-.user-profile i.fas {
-    color: rgba(255, 255, 255, 0.9);
-    background: rgba(255, 255, 255, 0.1);
-    width: 64px;
-    height: 64px;
-    line-height: 64px;
-    border-radius: 50%;
-    margin-bottom: 0.5rem;
-}
-
-/* Add styles for menu divider */
-.nav-divider {
-    height: 1px;
-    background-color: rgba(255, 255, 255, 0.1);
-    margin: 1rem 0;
-}
-
-/* Add styles for menu label */
-.menu-label {
-    color: rgba(255, 255, 255, 0.5);
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    padding: 0.5rem 1.5rem;
-    margin-top: 0.5rem;
-}
-
-/* Update nav-link styles */
-.nav-link {
-    display: flex;
-    align-items: center;
-    padding: 0.75rem 1.5rem;
-    color: rgba(255, 255, 255, 0.8) !important;
-    transition: all 0.3s ease;
-}
-
-.nav-link:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    color: white !important;
-}
-
-.nav-link.active {
-    background-color: rgba(255, 255, 255, 0.15);
-    color: white !important;
-    border-left: 3px solid white;
-}
-
-.nav-link i {
-    width: 20px;
-    margin-right: 10px;
-    text-align: center;
 }
 </style> 

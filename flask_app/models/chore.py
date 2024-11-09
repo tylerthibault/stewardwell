@@ -32,11 +32,11 @@ class Chore(db.Model):
                                back_populates='created_chores')
 
     def __repr__(self):
-        return f'<Chore {self.title}>'
+        return f'<Chore {self.title}>' 
 
     def complete_chore(self):
-        """Mark a chore as completed and award points to the assigned user"""
         try:
+<<<<<<< HEAD:flask_app/models/chore.py
             # Import User model here to avoid circular import
             from flask_app.models.user import User
             
@@ -70,24 +70,34 @@ class Chore(db.Model):
                 assigned_user.family_points += self.points
 
             # Commit changes
+=======
+            self.status = 'completed'
+            self.completed_at = datetime.utcnow()
+>>>>>>> parent of 83ed391 (fixed minor bugs like kids not being able to complete chores):app/models/chore.py
             db.session.commit()
             
-            logger.info("Chore completed successfully",
+            logger.info("Chore marked as completed",
                        extra={
                            "chore_id": self.id,
+<<<<<<< HEAD:flask_app/models/chore.py
                            "user_id": self.assigned_to_id,
                            "points_awarded": self.points,
                            "new_coin_balance": assigned_user.coins,
                            "new_points_balance": assigned_user.family_points
+=======
+                           "title": self.title,
+                           "completed_by": self.assigned_to_id,
+                           "points_earned": self.points
+>>>>>>> parent of 83ed391 (fixed minor bugs like kids not being able to complete chores):app/models/chore.py
                        })
             return True
-
         except Exception as e:
             db.session.rollback()
             logger.error("Error completing chore",
                         exc_info=True,
                         extra={
                             "chore_id": self.id,
+<<<<<<< HEAD:flask_app/models/chore.py
                             "user_id": self.assigned_to_id if self.assigned_to_id else None,
                             "attempted_points": self.points
                         })
@@ -121,5 +131,8 @@ class Chore(db.Model):
                         extra={
                             "chore_id": self.id,
                             "user_id": self.assigned_to_id if self.assigned_to_id else None
+=======
+                            "assigned_to": self.assigned_to_id
+>>>>>>> parent of 83ed391 (fixed minor bugs like kids not being able to complete chores):app/models/chore.py
                         })
             return False

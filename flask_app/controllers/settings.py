@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, flash, redirect, url_for, request, jsonify, current_app
+from flask import Blueprint, render_template, flash, redirect, url_for, request, jsonify
 from flask_login import login_required, current_user
 from flask_app import db, bcrypt
 from flask_app.forms.settings import UpdateProfileForm, ChangePasswordForm
@@ -6,8 +6,12 @@ from flask_app.models.user import User, Family, FamilyJoinRequest, ModuleSetting
 from flask_app.models.chore import Chore
 from datetime import datetime
 from functools import wraps
+<<<<<<< HEAD:flask_app/controllers/settings.py
 from flask_app.utils.logger import get_logger
 import os
+=======
+from app.utils.logger import get_logger
+>>>>>>> parent of 83ed391 (fixed minor bugs like kids not being able to complete chores):app/controllers/settings.py
 
 settings_bp = Blueprint('settings', __name__, url_prefix='/settings')
 
@@ -29,23 +33,6 @@ def profile():
     password_form = ChangePasswordForm()
     
     try:
-        # Define available modules
-        default_modules = {
-            'economy': {
-                'name': 'Economy Module',
-                'description': 'Chores, Rewards, and Family Goals system',
-                'icon': 'fa-coins'
-            }
-        }
-        
-        # Add admin module if user is superuser
-        if current_user.is_superuser:
-            default_modules['admin'] = {
-                'name': 'Admin Module',
-                'description': 'System administration and management',
-                'icon': 'fa-shield-alt'
-            }
-
         # Get current module settings
         module_settings = {}
         if current_user.family:
@@ -54,15 +41,6 @@ def profile():
                 setting.module_name: setting.is_enabled 
                 for setting in settings
             }
-        
-        # Merge defaults with current settings
-        modules = {
-            name: {
-                **info,
-                'is_enabled': module_settings.get(name, True)
-            }
-            for name, info in default_modules.items()
-        }
         
         if profile_form.submit_profile.data and profile_form.validate():
             current_user.username = profile_form.username.data
@@ -124,7 +102,7 @@ def profile():
     return render_template('settings/profile.html', 
                          profile_form=profile_form,
                          password_form=password_form,
-                         modules=modules)
+                         module_settings=module_settings)
 
 @settings_bp.route('/join-family', methods=['GET', 'POST'])
 @login_required
@@ -252,91 +230,99 @@ def cancel_request(request_id):
     
     return redirect(url_for('settings.pending_requests'))
 
-def get_available_avatars():
-    """Get list of available avatars from static/img/avatars directory"""
-    try:
-        # Get the absolute path to the avatars directory
-        avatars_dir = os.path.join(current_app.static_folder, 'img', 'avatars')
-        
-        # Check if directory exists
-        if not os.path.exists(avatars_dir):
-            logger.warning("Avatars directory not found", extra={"path": avatars_dir})
-            return []
-        
-        # Get all files from the directory
-        avatar_files = [f for f in os.listdir(avatars_dir) 
-                       if os.path.isfile(os.path.join(avatars_dir, f)) and 
-                       f.lower().endswith(('.png', '.jpg', '.jpeg', '.gif'))]
-        
-        # Create avatar objects
-        avatars = []
-        for file in avatar_files:
-            name = os.path.splitext(file)[0]  # Remove file extension
-            avatars.append({
-                'id': name,  # Use name without extension as ID
-                'name': name.replace('-', ' ').replace('_', ' ').title(),
-                'file': file,
-                'path': f'img/avatars/{file}'  # Keep extension in path
-            })
-        
-        logger.info(f"Found {len(avatars)} avatars", 
-                   extra={"avatars": [a['id'] for a in avatars]})
-        return avatars
-        
-    except Exception as e:
-        logger.error("Error loading avatars", exc_info=True)
-        return []
+@settings_bp.route('/modules', methods=['GET', 'POST'])
+@login_required
+@parent_required
+def manage_modules():
+    # Define available modules
+    default_modules = {
+        'economy': {
+            'name': 'Economy Module',
+            'description': 'Chores, Rewards, and Family Goals system',
+            'icon': 'fa-coins'
+        }
+    }
+    
+    # Add admin module if user is superuser
+    if current_user.is_superuser:
+        default_modules['admin'] = {
+            'name': 'Admin Module',
+            'description': 'System administration and management',
+            'icon': 'fa-shield-alt'
+        }
+
+    if request.method == 'POST':
+        try:
+            module_name = request.form.get('module_name')
+            is_enabled = request.form.get('is_enabled') == 'true'
+            
+            # Check if setting exists
+            setting = ModuleSettings.query.filter_by(
+                family_id=current_user.family_id,
+                module_name=module_name
+            ).first()
+            
+            if setting:
+                setting.is_enabled = is_enabled
+            else:
+                setting = ModuleSettings(
+                    module_name=module_name,
+                    is_enabled=is_enabled,
+                    family_id=current_user.family_id
+                )
+                db.session.add(setting)
+            
+            db.session.commit()
+            return jsonify({'success': True})
+            
+        except Exception as e:
+            db.session.rollback()
+            return jsonify({'error': str(e)}), 500
+
+    # Get current settings
+    current_settings = {
+        setting.module_name: setting.is_enabled 
+        for setting in ModuleSettings.query.filter_by(family_id=current_user.family_id).all()
+    }
+    
+    # Merge with defaults
+    modules = {
+        name: {
+            **info,
+            'is_enabled': current_settings.get(name, True)
+        }
+        for name, info in default_modules.items()
+    }
+    
+    return render_template('settings/modules.html', modules=modules)
 
 @settings_bp.route('/child-profile')
 @login_required
 def child_profile():
-    # Add debug prints
-    print("DEBUG: Accessing child profile")
-    print(f"DEBUG: User is parent: {current_user.is_parent}")
-    print(f"DEBUG: Current user: {current_user.username}")
-    
     if current_user.is_parent:
-        logger.info("Parent attempted to access child profile", 
-                   extra={"user_id": current_user.id})
         return redirect(url_for('settings.profile'))
     
-    try:
-        # Debug the avatars directory
-        avatars_dir = os.path.join(current_app.static_folder, 'img', 'avatars')
-        print(f"DEBUG: Avatars directory path: {avatars_dir}")
-        print(f"DEBUG: Directory exists: {os.path.exists(avatars_dir)}")
-        
-        # Get available avatars
-        avatars = get_available_avatars()
-        print(f"DEBUG: Found avatars: {avatars}")
-        
-        # Get completed chores count
-        completed_chores_count = Chore.query.filter_by(
-            assigned_to_id=current_user.id,
-            status='completed'
-        ).count()
-        
-        logger.info("Rendering child profile page", 
-                   extra={
-                       "user_id": current_user.id,
-                       "avatar_count": len(avatars),
-                       "completed_chores": completed_chores_count
-                   })
-        
-        # Add debug template context
-        context = {
-            'avatars': avatars,
-            'completed_chores_count': completed_chores_count,
-            'debug': True
-        }
-        
-        return render_template('settings/child_profile.html', **context)
-                             
-    except Exception as e:
-        logger.error("Error in child profile page", exc_info=True)
-        print(f"DEBUG Exception: {str(e)}")
-        flash('An error occurred while loading your profile.', 'danger')
-        return redirect(url_for('main.index'))
+    # Available avatars
+    avatars = [
+        {'id': 'ninja', 'icon': 'fa-user-ninja'},
+        {'id': 'astronaut', 'icon': 'fa-user-astronaut'},
+        {'id': 'superhero', 'icon': 'fa-user-superhero'},
+        {'id': 'robot', 'icon': 'fa-robot'},
+        {'id': 'alien', 'icon': 'fa-user-alien'},
+        {'id': 'graduate', 'icon': 'fa-user-graduate'},
+        {'id': 'secret', 'icon': 'fa-user-secret'},
+        {'id': 'tie', 'icon': 'fa-user-tie'}
+    ]
+    
+    # Get completed chores count
+    completed_chores_count = Chore.query.filter_by(
+        assigned_to_id=current_user.id,
+        status='completed'
+    ).count()
+    
+    return render_template('settings/child_profile.html',
+                         avatars=avatars,
+                         completed_chores_count=completed_chores_count)
 
 @settings_bp.route('/update-avatar', methods=['POST'])
 @login_required
@@ -345,41 +331,14 @@ def update_avatar():
         return redirect(url_for('settings.profile'))
     
     avatar = request.form.get('avatar')
-    if not avatar:
-        flash('No avatar selected.', 'danger')
-        return redirect(url_for('settings.child_profile'))
-    
-    # Get available avatars and their file extensions
-    avatars = get_available_avatars()
-    avatar_files = {a['id']: a['file'] for a in avatars}
-    
-    if avatar not in avatar_files:
-        logger.warning("Invalid avatar selection attempt", 
-                      extra={
-                          "user_id": current_user.id,
-                          "attempted_avatar": avatar
-                      })
-        flash('Invalid avatar selection.', 'danger')
-        return redirect(url_for('settings.child_profile'))
-    
-    try:
-        current_user.avatar = avatar_files[avatar]  # Store full filename with extension
-        db.session.commit()
-        logger.info("Avatar updated successfully",
-                   extra={
-                       "user_id": current_user.id,
-                       "new_avatar": avatar_files[avatar]
-                   })
-        flash('Avatar updated successfully!', 'success')
-    except Exception as e:
-        db.session.rollback()
-        logger.error("Error updating avatar",
-                    exc_info=True,
-                    extra={
-                        "user_id": current_user.id,
-                        "attempted_avatar": avatar
-                    })
-        flash('Error updating avatar.', 'danger')
+    if avatar:
+        try:
+            current_user.avatar = avatar
+            db.session.commit()
+            flash('Avatar updated successfully!', 'success')
+        except Exception as e:
+            db.session.rollback()
+            flash('Error updating avatar.', 'danger')
     
     return redirect(url_for('settings.child_profile'))
 
@@ -418,47 +377,3 @@ def update_pin():
         flash('Error updating PIN.', 'danger')
     
     return redirect(url_for('settings.child_profile'))
-
-@settings_bp.route('/manage-modules', methods=['POST'])
-@login_required
-@parent_required
-def manage_modules():
-    try:
-        module_name = request.form.get('module_name')
-        is_enabled = request.form.get('is_enabled') == 'true'
-        
-        # Check if setting exists
-        setting = ModuleSettings.query.filter_by(
-            family_id=current_user.family_id,
-            module_name=module_name
-        ).first()
-        
-        if setting:
-            setting.is_enabled = is_enabled
-        else:
-            setting = ModuleSettings(
-                module_name=module_name,
-                is_enabled=is_enabled,
-                family_id=current_user.family_id
-            )
-            db.session.add(setting)
-        
-        db.session.commit()
-        logger.info("Module setting updated",
-                   extra={
-                       "user_id": current_user.id,
-                       "module_name": module_name,
-                       "is_enabled": is_enabled
-                   })
-        return jsonify({'success': True})
-        
-    except Exception as e:
-        db.session.rollback()
-        logger.error("Error updating module settings",
-                    exc_info=True,
-                    extra={
-                        "user_id": current_user.id,
-                        "module_name": module_name,
-                        "attempted_state": is_enabled
-                    })
-        return jsonify({'error': str(e)}), 500

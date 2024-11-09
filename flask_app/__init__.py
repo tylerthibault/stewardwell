@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager, current_user
+from flask_login import LoginManager
 from flask_bcrypt import Bcrypt
 from config import Config
 from flask_app.utils.logger import setup_logger
@@ -64,6 +64,7 @@ def create_app(config_class=Config):
     from flask_app.commands import init_commands
     init_commands(app)
     
+<<<<<<< HEAD:flask_app/__init__.py
     # Add context processor for module settings
     @app.context_processor
     def inject_module_settings():
@@ -80,4 +81,6 @@ def create_app(config_class=Config):
         }
         return {'module_settings': module_settings}
     
+=======
+>>>>>>> parent of 83ed391 (fixed minor bugs like kids not being able to complete chores):app/__init__.py
     return app 
