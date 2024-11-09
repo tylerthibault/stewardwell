@@ -1,0 +1,9 @@
+Important Notes:
+- Always maintain all three demo families in the seed file:
+  1. Tyler's Family (TYLER1)
+  2. Joe's Family (JOEJR1)
+  3. Curtis's Family (CURT1S)
+- These families are used for testing and demonstration purposes
+- Each family should have a parent and two children
+- Each family should have their own set of chores, categories, and goals
+- Maintain consistent family codes: TYLER1, JOEJR1, CURT1S 

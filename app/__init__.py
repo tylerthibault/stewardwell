@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager
+from flask_login import LoginManager, current_user
 from flask_bcrypt import Bcrypt
 from config import Config
 from app.utils.logger import setup_logger
@@ -63,5 +63,21 @@ def create_app(config_class=Config):
     # Register CLI commands
     from app.commands import init_commands
     init_commands(app)
+    
+    # Add context processor for module settings
+    @app.context_processor
+    def inject_module_settings():
+        if not hasattr(current_user, 'is_authenticated') or not current_user.is_authenticated:
+            return {'module_settings': {}}
+            
+        # Import ModuleSettings here to avoid circular import
+        from app.models.user import ModuleSettings
+        
+        settings = ModuleSettings.query.filter_by(family_id=current_user.family_id).all()
+        module_settings = {
+            setting.module_name: setting.is_enabled 
+            for setting in settings
+        }
+        return {'module_settings': module_settings}
     
     return app 

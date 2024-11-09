@@ -91,41 +91,51 @@ def create_chore():
     
     return render_template('chores/create.html', form=form)
 
-@chores_bp.route('/<int:chore_id>/complete', methods=['POST'])
+@chores_bp.route('/complete/<int:chore_id>', methods=['POST'])
 @login_required
 def complete_chore(chore_id):
-    chore = Chore.query.get_or_404(chore_id)
-    
-    # Verify the chore belongs to the user's family
-    if chore.family_id != current_user.family_id:
-        flash('Invalid chore.', 'danger')
-        return redirect(url_for('chores.list_chores'))
-    
-    # Verify the chore is assigned to the current user (if not a parent)
-    if not current_user.is_parent and chore.assigned_to_id != current_user.id:
-        flash('This chore is not assigned to you.', 'danger')
-        return redirect(url_for('chores.list_chores'))
-    
     try:
-        chore.status = 'completed'
-        chore.completed_at = datetime.utcnow()
+        chore = Chore.query.get_or_404(chore_id)
         
-        # Award coins to the assigned user
-        if chore.assigned_to:
-            chore.assigned_to.coins += chore.coins
+        # Check if user is assigned to this chore
+        if chore.assigned_to_id != current_user.id:
+            logger.warning("User attempted to complete unassigned chore",
+                         extra={
+                             "user_id": current_user.id,
+                             "chore_id": chore_id,
+                             "assigned_to": chore.assigned_to_id
+                         })
+            flash('You are not assigned to this chore.', 'danger')
+            return redirect(url_for('chores.list_chores'))
+        
+        # Check if chore is already completed or verified
+        if chore.status != 'pending':
+            logger.warning("Attempt to complete non-pending chore",
+                         extra={
+                             "user_id": current_user.id,
+                             "chore_id": chore_id,
+                             "current_status": chore.status
+                         })
+            flash('This chore cannot be completed.', 'warning')
+            return redirect(url_for('chores.list_chores'))
+        
+        # Try to complete the chore
+        if chore.complete_chore():
+            flash('Chore completed successfully!', 'success')
+        else:
+            flash('Error completing chore.', 'danger')
             
-        # Award points to the family
-        for member in chore.assigned_to.family.members:
-            member.family_points += chore.points
-        
-        db.session.commit()
-        flash(f'Chore completed! Earned {chore.coins} coins and {chore.points} family points!', 'success')
+        return redirect(url_for('chores.list_chores'))
         
     except Exception as e:
-        db.session.rollback()
-        flash('Error completing chore.', 'danger')
-    
-    return redirect(url_for('chores.list_chores'))
+        logger.error("Error in complete_chore route",
+                    exc_info=True,
+                    extra={
+                        "user_id": current_user.id,
+                        "chore_id": chore_id
+                    })
+        flash('An error occurred while completing the chore.', 'danger')
+        return redirect(url_for('chores.list_chores'))
 
 @chores_bp.route('/categories')
 @login_required

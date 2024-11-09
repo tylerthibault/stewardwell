@@ -72,7 +72,7 @@ class Family(db.Model):
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     
     # Relationships
-    users = db.relationship('User', backref='family', lazy=True)
+    members = db.relationship('User', backref='family', lazy=True)
     chores = db.relationship('app.models.chore.Chore', backref='family', lazy=True)
     goal_categories = db.relationship('GoalCategory', back_populates='family', lazy=True)
     goals = db.relationship('Goal', back_populates='family', lazy=True)

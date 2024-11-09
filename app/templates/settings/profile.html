@@ -1,220 +1,150 @@
 {% extends "base.html" %}
 
-{% block title %}Settings{% endblock %}
-
 {% block authenticated_content %}
-<div class="content-container">
-    <div class="page-header">
-        <h1>Settings</h1>
-        <p class="text-muted">Manage your account settings and preferences</p>
+<div class="container py-4">
+    <h2>Settings</h2>
+
+    <!-- Profile Settings -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="mb-0">Profile Settings</h5>
+        </div>
+        <div class="card-body">
+            <form method="POST" action="">
+                {{ profile_form.hidden_tag() }}
+                <div class="mb-3">
+                    {{ profile_form.username.label(class="form-label") }}
+                    {{ profile_form.username(class="form-control") }}
+                </div>
+                <div class="mb-3">
+                    {{ profile_form.email.label(class="form-label") }}
+                    {{ profile_form.email(class="form-control") }}
+                </div>
+                {{ profile_form.submit_profile(class="btn btn-primary") }}
+            </form>
+        </div>
     </div>
 
-    <div class="row">
-        <!-- Profile Settings -->
-        <div class="col-md-6 mb-4">
-            <div class="card">
-                <div class="card-header">
-                    <h3>Profile Settings</h3>
-                </div>
-                <div class="card-body">
-                    <form method="POST" action="">
-                        {{ profile_form.hidden_tag() }}
-                        <div class="mb-3">
-                            {{ profile_form.username.label(class="form-label") }}
-                            {{ profile_form.username(class="form-control") }}
-                            {% if profile_form.username.errors %}
-                                {% for error in profile_form.username.errors %}
-                                    <span class="text-danger">{{ error }}</span>
-                                {% endfor %}
-                            {% endif %}
-                        </div>
-                        <div class="mb-3">
-                            {{ profile_form.email.label(class="form-label") }}
-                            {{ profile_form.email(class="form-control") }}
-                            {% if profile_form.email.errors %}
-                                {% for error in profile_form.email.errors %}
-                                    <span class="text-danger">{{ error }}</span>
-                                {% endfor %}
-                            {% endif %}
-                        </div>
-                        {{ profile_form.submit_profile(class="btn btn-primary") }}
-                    </form>
-                </div>
-            </div>
+    <!-- Password Settings -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="mb-0">Change Password</h5>
         </div>
-
-        <!-- Password Settings -->
-        <div class="col-md-6 mb-4">
-            <div class="card">
-                <div class="card-header">
-                    <h3>Change Password</h3>
+        <div class="card-body">
+            <form method="POST" action="">
+                {{ password_form.hidden_tag() }}
+                <div class="mb-3">
+                    {{ password_form.current_password.label(class="form-label") }}
+                    {{ password_form.current_password(class="form-control") }}
                 </div>
-                <div class="card-body">
-                    <form method="POST" action="">
-                        {{ password_form.hidden_tag() }}
-                        <div class="mb-3">
-                            {{ password_form.current_password.label(class="form-label") }}
-                            {{ password_form.current_password(class="form-control") }}
-                            {% if password_form.current_password.errors %}
-                                {% for error in password_form.current_password.errors %}
-                                    <span class="text-danger">{{ error }}</span>
-                                {% endfor %}
-                            {% endif %}
-                        </div>
-                        <div class="mb-3">
-                            {{ password_form.new_password.label(class="form-label") }}
-                            {{ password_form.new_password(class="form-control") }}
-                            {% if password_form.new_password.errors %}
-                                {% for error in password_form.new_password.errors %}
-                                    <span class="text-danger">{{ error }}</span>
-                                {% endfor %}
-                            {% endif %}
-                        </div>
-                        <div class="mb-3">
-                            {{ password_form.confirm_password.label(class="form-label") }}
-                            {{ password_form.confirm_password(class="form-control") }}
-                            {% if password_form.confirm_password.errors %}
-                                {% for error in password_form.confirm_password.errors %}
-                                    <span class="text-danger">{{ error }}</span>
-                                {% endfor %}
-                            {% endif %}
-                        </div>
-                        {{ password_form.submit_password(class="btn btn-primary") }}
-                    </form>
+                <div class="mb-3">
+                    {{ password_form.new_password.label(class="form-label") }}
+                    {{ password_form.new_password(class="form-control") }}
                 </div>
-            </div>
+                <div class="mb-3">
+                    {{ password_form.confirm_password.label(class="form-label") }}
+                    {{ password_form.confirm_password(class="form-control") }}
+                </div>
+                {{ password_form.submit_password(class="btn btn-primary") }}
+            </form>
         </div>
-
-        {% if current_user.is_parent %}
-        <!-- Module Settings -->
-        <div class="col-12 mb-4">
-            <div class="card">
-                <div class="card-header">
-                    <h3>Module Settings</h3>
-                </div>
-                <div class="card-body">
-                    <div class="list-group">
-                        <!-- Economy Module Toggle -->
-                        <div class="list-group-item d-flex justify-content-between align-items-center">
-                            <div>
-                                <h5 class="mb-1">Economy Module</h5>
-                                <p class="mb-0 text-muted">Chores, Rewards, and Family Goals system</p>
-                            </div>
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" 
-                                       id="economy_toggle"
-                                       {% if module_settings.get('economy', True) %}checked{% endif %}
-                                       onchange="toggleModule('economy', this.checked)">
-                            </div>
-                        </div>
-
-                        {% if current_user.is_superuser %}
-                        <!-- Admin Module Toggle -->
-                        <div class="list-group-item d-flex justify-content-between align-items-center">
-                            <div>
-                                <h5 class="mb-1">Admin Module</h5>
-                                <p class="mb-0 text-muted">System administration and management</p>
-                            </div>
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" 
-                                       id="admin_toggle"
-                                       {% if module_settings.get('admin', True) %}checked{% endif %}
-                                       onchange="toggleModule('admin', this.checked)">
-                            </div>
-                        </div>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
-        </div>
-        {% endif %}
-
-        {% if current_user.is_parent %}
-        <!-- Family Settings -->
-        <div class="col-12 mb-4">
-            <div class="card">
-                <div class="card-header">
-                    <h3>Family Settings</h3>
-                </div>
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <div>
-                            <h4 class="mb-0">Family Code</h4>
-                            <p class="text-muted mb-0">Share this code with your children to let them log in</p>
-                        </div>
-                        <div class="family-code">
-                            <span class="code">{{ current_user.family.family_code }}</span>
-                            <button class="btn btn-outline-primary btn-sm ms-2" onclick="copyFamilyCode()">
-                                <i class="fas fa-copy"></i> Copy
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {% endif %}
     </div>
-</div>
 
-<script>
-async function toggleModule(moduleName, isEnabled) {
-    try {
-        const response = await fetch("{{ url_for('settings.manage_modules') }}", {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: `module_name=${moduleName}&is_enabled=${isEnabled}`
+    <!-- Module Settings (Only for Parents) -->
+    {% if current_user.is_parent %}
+    <div class="card">
+        <div class="card-header">
+            <h5 class="mb-0">Module Settings</h5>
+        </div>
+        <div class="card-body">
+            {% for module_id, module in modules.items() %}
+            <div class="d-flex align-items-center justify-content-between mb-3 pb-3 border-bottom">
+                <div>
+                    <h6 class="mb-1">
+                        <i class="fas {{ module.icon }} me-2"></i>
+                        {{ module.name }}
+                    </h6>
+                    <p class="text-muted small mb-0">{{ module.description }}</p>
+                </div>
+                <div class="form-check form-switch">
+                    <input class="form-check-input module-toggle" 
+                           type="checkbox" 
+                           id="module_{{ module_id }}"
+                           data-module="{{ module_id }}"
+                           {% if module.is_enabled %}checked{% endif %}>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const toggles = document.querySelectorAll('.module-toggle');
+        
+        toggles.forEach(toggle => {
+            toggle.addEventListener('change', function() {
+                const moduleId = this.dataset.module;
+                const isEnabled = this.checked;
+                
+                fetch("{{ url_for('settings.manage_modules') }}", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `module_name=${moduleId}&is_enabled=${isEnabled}`
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Update the sidebar menu items
+                        const moduleItems = document.querySelectorAll(`[data-module="${moduleId}"]`);
+                        moduleItems.forEach(item => {
+                            item.style.display = isEnabled ? '' : 'none';
+                        });
+                        
+                        // Show success message
+                        const message = isEnabled ? 'Module enabled' : 'Module disabled';
+                        flash(message, 'success');
+                    } else {
+                        // Revert the toggle if failed
+                        this.checked = !isEnabled;
+                        flash('Failed to update module settings', 'danger');
+                    }
+                })
+                .catch(error => {
+                    // Revert the toggle if failed
+                    this.checked = !isEnabled;
+                    flash('Error updating module settings', 'danger');
+                    console.error('Error:', error);
+                });
+            });
         });
-        
-        if (!response.ok) {
-            throw new Error('Failed to update module settings');
+
+        // Helper function to show flash messages
+        function flash(message, type) {
+            const flashContainer = document.createElement('div');
+            flashContainer.className = `alert alert-${type} alert-dismissible fade show`;
+            flashContainer.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            `;
+            
+            // Find the first card in the container
+            const firstCard = document.querySelector('.card');
+            if (firstCard) {
+                firstCard.parentNode.insertBefore(flashContainer, firstCard);
+            }
+            
+            // Auto-dismiss after 3 seconds
+            setTimeout(() => {
+                if (flashContainer && flashContainer.parentNode) {
+                    flashContainer.remove();
+                }
+            }, 3000);
         }
-        
-        // Reload page to update sidebar
-        location.reload();
-        
-    } catch (error) {
-        alert('Error updating module settings');
-        // Revert toggle if failed
-        document.getElementById(`${moduleName}_toggle`).checked = !isEnabled;
-    }
-}
-
-function copyFamilyCode() {
-    const code = '{{ current_user.family.family_code }}';
-    navigator.clipboard.writeText(code).then(() => {
-        // Show feedback
-        const button = document.querySelector('.family-code button');
-        const originalText = button.innerHTML;
-        button.innerHTML = '<i class="fas fa-check"></i> Copied!';
-        button.classList.add('btn-success');
-        button.classList.remove('btn-outline-primary');
-        
-        // Reset after 2 seconds
-        setTimeout(() => {
-            button.innerHTML = originalText;
-            button.classList.remove('btn-success');
-            button.classList.add('btn-outline-primary');
-        }, 2000);
     });
-}
-</script>
-
-<style>
-.form-check-input {
-    width: 3em;
-    height: 1.5em;
-    margin-left: 1em;
-}
-
-.form-switch .form-check-input {
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='rgba%28255, 255, 255, 0.85%29'/%3e%3c/svg%3e");
-}
-
-.form-switch .form-check-input:checked {
-    background-color: #198754;
-    border-color: #198754;
-}
-</style>
+    </script>
+    {% endif %}
+</div>
 {% endblock %} 
