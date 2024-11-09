@@ -1,17 +1,36 @@
-from flask import Blueprint, render_template, flash, redirect, url_for, request
+from flask import Blueprint, render_template, flash, redirect, url_for, request, jsonify
 from flask_login import login_required, current_user
 from app import db, bcrypt
 from app.forms.settings import UpdateProfileForm, ChangePasswordForm
-from app.models.user import User, Family, FamilyJoinRequest
+from app.models.user import User, Family, FamilyJoinRequest, ModuleSettings
 from datetime import datetime
+from functools import wraps
 
 settings_bp = Blueprint('settings', __name__, url_prefix='/settings')
+
+def parent_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not current_user.is_authenticated or not current_user.is_parent:
+            flash('You need to be a parent to access this page.', 'danger')
+            return redirect(url_for('main.index'))
+        return f(*args, **kwargs)
+    return decorated_function
 
 @settings_bp.route('/', methods=['GET', 'POST'])
 @login_required
 def profile():
     profile_form = UpdateProfileForm()
     password_form = ChangePasswordForm()
+    
+    # Get current module settings
+    module_settings = {}
+    if current_user.family:
+        settings = ModuleSettings.query.filter_by(family_id=current_user.family_id).all()
+        module_settings = {
+            setting.module_name: setting.is_enabled 
+            for setting in settings
+        }
     
     if profile_form.submit_profile.data and profile_form.validate():
         current_user.username = profile_form.username.data
@@ -50,7 +69,8 @@ def profile():
     
     return render_template('settings/profile.html', 
                          profile_form=profile_form,
-                         password_form=password_form)
+                         password_form=password_form,
+                         module_settings=module_settings)
 
 @settings_bp.route('/join-family', methods=['GET', 'POST'])
 @login_required
@@ -177,3 +197,69 @@ def cancel_request(request_id):
         flash('Error cancelling request.', 'danger')
     
     return redirect(url_for('settings.pending_requests'))
+
+@settings_bp.route('/modules', methods=['GET', 'POST'])
+@login_required
+@parent_required
+def manage_modules():
+    # Define available modules
+    default_modules = {
+        'economy': {
+            'name': 'Economy Module',
+            'description': 'Chores, Rewards, and Family Goals system',
+            'icon': 'fa-coins'
+        }
+    }
+    
+    # Add admin module if user is superuser
+    if current_user.is_superuser:
+        default_modules['admin'] = {
+            'name': 'Admin Module',
+            'description': 'System administration and management',
+            'icon': 'fa-shield-alt'
+        }
+
+    if request.method == 'POST':
+        try:
+            module_name = request.form.get('module_name')
+            is_enabled = request.form.get('is_enabled') == 'true'
+            
+            # Check if setting exists
+            setting = ModuleSettings.query.filter_by(
+                family_id=current_user.family_id,
+                module_name=module_name
+            ).first()
+            
+            if setting:
+                setting.is_enabled = is_enabled
+            else:
+                setting = ModuleSettings(
+                    module_name=module_name,
+                    is_enabled=is_enabled,
+                    family_id=current_user.family_id
+                )
+                db.session.add(setting)
+            
+            db.session.commit()
+            return jsonify({'success': True})
+            
+        except Exception as e:
+            db.session.rollback()
+            return jsonify({'error': str(e)}), 500
+
+    # Get current settings
+    current_settings = {
+        setting.module_name: setting.is_enabled 
+        for setting in ModuleSettings.query.filter_by(family_id=current_user.family_id).all()
+    }
+    
+    # Merge with defaults
+    modules = {
+        name: {
+            **info,
+            'is_enabled': current_settings.get(name, True)
+        }
+        for name, info in default_modules.items()
+    }
+    
+    return render_template('settings/modules.html', modules=modules)

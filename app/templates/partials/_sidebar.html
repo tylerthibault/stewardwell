@@ -1,88 +1,182 @@
-<nav class="sidebar">
+<div class="sidebar">
     <div class="sidebar-header">
-        <h1>StewardWell</h1>
-        <p>Welcome, {{ current_user.username }}</p>
+        <h3>StewardWell</h3>
     </div>
-    
-    <div class="sidebar-menu">
-        <a href="{{ url_for('main.dashboard') }}" class="menu-item {% if request.endpoint == 'main.dashboard' %}active{% endif %}">
-            <i class="fas fa-home"></i>
-            <span>Dashboard</span>
-        </a>
-        
-        {% if current_user.is_superuser %}
-            <div class="menu-divider"></div>
-            <div class="menu-label">Admin Controls</div>
-            <a href="{{ url_for('admin.manage_users') }}" class="menu-item {% if request.endpoint == 'admin.manage_users' %}active{% endif %}">
-                <i class="fas fa-users-cog"></i>
-                <span>Manage Users</span>
+
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('main.index') }}">
+                <i class="fas fa-home"></i> Home
             </a>
-            <a href="#" class="menu-item">
-                <i class="fas fa-sitemap"></i>
-                <span>Manage Families</span>
+        </li>
+
+        <!-- Family Section -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#familySubmenu" 
+               data-bs-toggle="collapse" 
+               aria-expanded="false">
+                <i class="fas fa-users"></i> Family
+                <i class="fas fa-chevron-down float-end"></i>
             </a>
-            <a href="{{ url_for('main.reset_db') }}" class="menu-item">
-                <i class="fas fa-database"></i>
-                <span>Reset Database</span>
+            <div class="collapse" id="familySubmenu">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('main.dashboard') }}">
+                            <i class="fas fa-chart-line"></i> Family Dashboard
+                        </a>
+                    </li>
+                    {% if current_user.is_parent %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('family.members') }}">
+                            <i class="fas fa-user-friends"></i> Members
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </li>
+
+        <!-- Economy Module -->
+        {% set module_settings = current_user.family.module_settings|list if current_user.family else [] %}
+        {% set economy_module = module_settings|selectattr('module_name', 'equalto', 'economy')|list %}
+        {% set admin_module = module_settings|selectattr('module_name', 'equalto', 'admin')|list %}
+
+        {% set economy_enabled = not economy_module or economy_module[0].is_enabled if economy_module else true %}
+        {% set admin_enabled = current_user.is_superuser and (not admin_module or admin_module[0].is_enabled if admin_module else true) %}
+
+        {% if economy_enabled %}
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#economySubmenu" 
+               data-bs-toggle="collapse" 
+               aria-expanded="false">
+                <i class="fas fa-coins"></i> Economy
+                <i class="fas fa-chevron-down float-end"></i>
             </a>
-            <div class="menu-divider"></div>
+            <div class="collapse" id="economySubmenu">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('chores.list_chores') }}">
+                            <i class="fas fa-tasks"></i> Chores
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('rewards.list_rewards') }}">
+                            <i class="fas fa-gift"></i> Rewards
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('goals.list_goals') }}">
+                            <i class="fas fa-flag"></i> Goals
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </li>
         {% endif %}
-        
+
+        <!-- Admin Module -->
+        {% if admin_enabled %}
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#adminSubmenu" 
+               data-bs-toggle="collapse" 
+               aria-expanded="false">
+                <i class="fas fa-shield-alt"></i> Admin
+                <i class="fas fa-chevron-down float-end"></i>
+            </a>
+            <div class="collapse" id="adminSubmenu">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('admin.manage_users') }}">
+                            <i class="fas fa-users-cog"></i> Users
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('main.reset_db') }}">
+                            <i class="fas fa-database"></i> Reset Database
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('main.seed_db') }}">
+                            <i class="fas fa-seedling"></i> Seed Database
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+        {% endif %}
+
         {% if current_user.is_parent %}
-            <a href="{{ url_for('family.members') }}" class="menu-item {% if request.endpoint == 'family.members' %}active{% endif %}">
-                <i class="fas fa-users"></i>
-                <span>Family Members</span>
+        <!-- Settings Section -->
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('settings.profile') }}">
+                <i class="fas fa-cog"></i> Settings
             </a>
-            <a href="{{ url_for('chores.list_chores') }}" class="menu-item {% if request.endpoint == 'chores.list_chores' %}active{% endif %}">
-                <i class="fas fa-tasks"></i>
-                <span>Manage Chores</span>
-            </a>
-            <a href="{{ url_for('rewards.list_rewards') }}" class="menu-item {% if request.endpoint == 'rewards.list_rewards' %}active{% endif %}">
-                <i class="fas fa-gift"></i>
-                <span>Rewards</span>
-            </a>
-            <a href="{{ url_for('goals.list_goals') }}" class="menu-item {% if request.endpoint == 'goals.list_goals' %}active{% endif %}">
-                <i class="fas fa-trophy"></i>
-                <span>Family Goals</span>
-            </a>
-        {% else %}
-            <a href="{{ url_for('chores.list_chores') }}" class="menu-item {% if request.endpoint == 'chores.list_chores' %}active{% endif %}">
-                <i class="fas fa-tasks"></i>
-                <span>My Chores</span>
-            </a>
-            <a href="{{ url_for('rewards.list_rewards') }}" class="menu-item {% if request.endpoint == 'rewards.list_rewards' %}active{% endif %}">
-                <i class="fas fa-coins"></i>
-                <span>My Rewards</span>
-            </a>
-            <a href="{{ url_for('goals.list_goals') }}" class="menu-item {% if request.endpoint == 'goals.list_goals' %}active{% endif %}">
-                <i class="fas fa-trophy"></i>
-                <span>Family Goals</span>
-            </a>
+        </li>
         {% endif %}
-        
-        <div class="menu-divider"></div>
-        
-        {% if current_user.is_parent %}
-            <a href="{{ url_for('settings.pending_requests') }}" class="menu-item {% if request.endpoint == 'settings.pending_requests' %}active{% endif %}">
-                <i class="fas fa-user-plus"></i>
-                <span>Join Requests</span>
+
+        <!-- Logout -->
+        <li class="nav-item mt-auto">
+            <a class="nav-link" href="{{ url_for('auth.logout') }}">
+                <i class="fas fa-sign-out-alt"></i> Logout
             </a>
-        {% endif %}
-        
-        {% if not current_user.family %}
-            <a href="{{ url_for('settings.join_family') }}" class="menu-item {% if request.endpoint == 'settings.join_family' %}active{% endif %}">
-                <i class="fas fa-users"></i>
-                <span>Join Family</span>
-            </a>
-        {% endif %}
-        
-        <a href="{{ url_for('settings.profile') }}" class="menu-item {% if request.endpoint == 'settings.profile' %}active{% endif %}">
-            <i class="fas fa-cog"></i>
-            <span>Settings</span>
-        </a>
-        <a href="{{ url_for('auth.logout') }}" class="menu-item">
-            <i class="fas fa-sign-out-alt"></i>
-            <span>Logout</span>
-        </a>
-    </div>
-</nav> 
+        </li>
+    </ul>
+</div>
+
+<style>
+.sidebar {
+    min-width: 250px;
+    max-width: 250px;
+    min-height: 100vh;
+    background: #343a40;
+    color: #fff;
+    transition: all 0.3s;
+}
+
+.sidebar .nav-link {
+    color: rgba(255, 255, 255, 0.8);
+    padding: 10px 20px;
+    transition: all 0.3s;
+}
+
+.sidebar .nav-link:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar .nav-link i {
+    margin-right: 10px;
+    width: 20px;
+    text-align: center;
+}
+
+.sidebar .nav-link[aria-expanded="true"] .fa-chevron-down {
+    transform: rotate(180deg);
+}
+
+.sidebar .nav-link .fa-chevron-down {
+    transition: transform 0.3s;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.sidebar-header h3 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.sidebar .collapse .nav-link {
+    padding-left: 40px;
+}
+
+.sidebar .nav-item {
+    margin-bottom: 5px;
+}
+
+.sidebar .collapse {
+    background: rgba(0, 0, 0, 0.1);
+}
+</style> 

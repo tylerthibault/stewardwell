@@ -55,6 +55,7 @@ def create_reward():
     title = request.form.get('title')
     description = request.form.get('description')
     cost = request.form.get('cost', type=int)
+    category_id = request.form.get('category_id')
     
     if not all([title, cost]):
         flash('Please provide all required fields.', 'danger')
@@ -65,6 +66,7 @@ def create_reward():
             title=title,
             description=description,
             cost=cost,
+            category_id=category_id if category_id else None,
             family_id=current_user.family_id,
             created_by_id=current_user.id
         )

@@ -201,3 +201,31 @@ except Exception:
    - REST endpoints
    - Mobile app support
    - Third-party integration
+
+## Goals Controller (goals.py)
+- List family goals with categories
+- Create new goals and categories
+- Complete goals and deduct points
+- Delete goals
+- Category management (create, edit, delete)
+
+## Chores Controller (chores.py)
+- List and manage chores with categories
+- Create/edit/delete chores
+- Mark chores complete
+- Category management
+- Clone chores between children
+
+## Rewards Controller (rewards.py)
+- List and manage rewards with categories
+- Create/edit/delete rewards
+- Handle redemptions
+- Toggle reward availability
+- Category management
+
+## Common Features
+- Category Management:
+  - Create categories with name, color, icon
+  - Edit category details
+  - Delete categories (preserves items)
+  - JSON API for dynamic creation

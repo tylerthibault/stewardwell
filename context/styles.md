@@ -302,4 +302,127 @@
 .text-center { text-align: center; }
 .font-weight-bold { font-weight: 600; }
 ```
+
+## Application Styles
+
+### Sidebar Navigation
+The sidebar uses a dark theme with hover effects and collapsible sections.
+
+### HTML Structure
+```html
+<div class="sidebar">
+    <div class="sidebar-header">
+        <h3>Title</h3>
+    </div>
+    <ul class="nav flex-column">
+        <!-- Menu Items -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#submenu" 
+               data-bs-toggle="collapse" 
+               aria-expanded="false">
+                <i class="fas fa-icon"></i> Menu Title
+                <i class="fas fa-chevron-down float-end"></i>
+            </a>
+            <div class="collapse" id="submenu">
+                <ul class="nav flex-column">
+                    <!-- Submenu Items -->
+                </ul>
+            </div>
+        </li>
+    </ul>
+</div>
+```
+
+### CSS Styles
+```css
+/* Sidebar Container */
+.sidebar {
+    min-width: 250px;
+    max-width: 250px;
+    min-height: 100vh;
+    background: #343a40;
+    color: #fff;
+    transition: all 0.3s;
+}
+
+/* Navigation Links */
+.sidebar .nav-link {
+    color: rgba(255, 255, 255, 0.8);
+    padding: 10px 20px;
+    transition: all 0.3s;
+}
+
+.sidebar .nav-link:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Icons */
+.sidebar .nav-link i {
+    margin-right: 10px;
+    width: 20px;
+    text-align: center;
+}
+
+/* Dropdown Arrow Animation */
+.sidebar .nav-link[aria-expanded="true"] .fa-chevron-down {
+    transform: rotate(180deg);
+}
+
+.sidebar .nav-link .fa-chevron-down {
+    transition: transform 0.3s;
+}
+
+/* Header */
+.sidebar-header {
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.sidebar-header h3 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+/* Submenu */
+.sidebar .collapse .nav-link {
+    padding-left: 40px;
+}
+
+.sidebar .nav-item {
+    margin-bottom: 5px;
+}
+
+.sidebar .collapse {
+    background: rgba(0, 0, 0, 0.1);
+}
+```
+
+### Features
+- Dark theme with light text
+- Hover effects on menu items
+- Collapsible submenus
+- Icon support (FontAwesome)
+- Smooth transitions
+- Nested navigation structure
+
+### Menu Structure
+1. Home
+2. Family Section
+   - Family Dashboard
+   - Members (parent only)
+3. Economy Module
+   - Chores
+   - Rewards
+   - Goals
+4. Settings (parent only)
+5. Logout
+
+### Usage Notes
+- Uses Bootstrap 5 classes
+- Requires FontAwesome icons
+- Supports nested navigation
+- Parent-only sections controlled by user role
+- Responsive design
+- Smooth animations for dropdowns
 ``` 
