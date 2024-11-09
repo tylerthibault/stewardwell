@@ -3,7 +3,6 @@ from flask_login import UserMixin
 from datetime import datetime
 import random
 import string
-from flask_app.models.chore import Chore
 from flask_app.utils.logger import get_logger
 
 logger = get_logger()
@@ -12,7 +11,40 @@ def generate_family_code():
     """Generate a 6-character family code"""
     return ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
 
+class ModuleSettings(db.Model):
+    __tablename__ = 'module_settings'
+    __table_args__ = {'extend_existing': True}
+    
+    id = db.Column(db.Integer, primary_key=True)
+    module_name = db.Column(db.String(50), nullable=False)
+    is_enabled = db.Column(db.Boolean, default=True)
+    family_id = db.Column(db.Integer, db.ForeignKey('family.id'), nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    # Remove duplicate backref definition
+    family = db.relationship('Family')
+
+    __table_args__ = (
+        db.UniqueConstraint('module_name', 'family_id', name='unique_module_per_family'),
+    )
+
+class Family(db.Model):
+    __tablename__ = 'family'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    family_code = db.Column(db.String(6), unique=True, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    
+    # Relationships
+    members = db.relationship('User', backref='family', lazy=True)
+    chores = db.relationship('Chore', backref='family', lazy=True)
+    module_settings = db.relationship('ModuleSettings', backref='family_settings', lazy=True)
+    goals = db.relationship('Goal', back_populates='family', lazy=True)
+    goal_categories = db.relationship('GoalCategory', back_populates='family', lazy=True)
+
 class User(db.Model, UserMixin):
+    __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
@@ -35,50 +67,25 @@ class User(db.Model, UserMixin):
     coins = db.Column(db.Integer, default=0)
     family_points = db.Column(db.Integer, default=0)
 
-    # Add these relationships
-    created_goal_categories = db.relationship('GoalCategory', back_populates='created_by')
-    created_goals = db.relationship('Goal', back_populates='created_by')
-
-    # Add this field to your existing User model
+    # Avatar
     avatar = db.Column(db.String(50), default='fa-user-circle')
 
-    def update_coins(self, amount):
-        try:
-            self.coins += amount
-            db.session.commit()
-            logger.info("User coins updated",
-                       extra={
-                           "user_id": self.id,
-                           "amount_changed": amount,
-                           "new_balance": self.coins
-                       })
-            return True
-        except Exception as e:
-            db.session.rollback()
-            logger.error("Error updating user coins",
-                        exc_info=True,
-                        extra={
-                            "user_id": self.id,
-                            "attempted_amount": amount
-                        })
-            return False
+    # Chore relationships
+    assigned_chores = db.relationship('Chore', 
+                                    foreign_keys='Chore.assigned_to_id',
+                                    back_populates='assigned_to',
+                                    lazy=True)
+    created_chores = db.relationship('Chore',
+                                   foreign_keys='Chore.created_by_id',
+                                   back_populates='created_by',
+                                   lazy=True)
+    
+    # Goal relationships
+    created_goals = db.relationship('Goal', back_populates='created_by', lazy=True)
+    created_goal_categories = db.relationship('GoalCategory', back_populates='created_by', lazy=True)
 
-class Family(db.Model):
-    __tablename__ = 'family'
-    
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
-    family_code = db.Column(db.String(8), unique=True, nullable=False)
-    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    
-    # Relationships
-    members = db.relationship('User', backref='family', lazy=True)
-    chores = db.relationship('app.models.chore.Chore', backref='family', lazy=True)
-    goal_categories = db.relationship('GoalCategory', back_populates='family', lazy=True)
-    goals = db.relationship('Goal', back_populates='family', lazy=True)
-    
     def __repr__(self):
-        return f'<Family {self.name}>'
+        return f'<User {self.username}>'
 
 class FamilyGoal(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -204,19 +211,3 @@ class Goal(db.Model):
     family = db.relationship('Family', back_populates='goals')
     created_by = db.relationship('User', back_populates='created_goals')
     category = db.relationship('GoalCategory', back_populates='goals')
-
-# Add this new model
-class ModuleSettings(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    module_name = db.Column(db.String(50), nullable=False)
-    is_enabled = db.Column(db.Boolean, default=True)
-    family_id = db.Column(db.Integer, db.ForeignKey('family.id'), nullable=False)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
-
-    # Relationships
-    family = db.relationship('Family', backref='module_settings')
-
-    __table_args__ = (
-        db.UniqueConstraint('module_name', 'family_id', name='unique_module_per_family'),
-    )

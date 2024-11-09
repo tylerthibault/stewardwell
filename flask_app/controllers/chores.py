@@ -1,50 +1,37 @@
-from flask import Blueprint, render_template, flash, redirect, url_for, request, jsonify
+from flask import Blueprint, render_template, flash, redirect, url_for, request
 from flask_login import login_required, current_user
-from flask_app.models.user import User, Chore, ChoreCategory
 from flask_app import db
-from datetime import datetime, timedelta
-from functools import wraps
-import logging
-
-logger = logging.getLogger(__name__)
+from flask_app.models.user import User, ChoreCategory
+from flask_app.models.chore import Chore
+from flask_app.forms.chores import ChoreForm
+from flask_app.utils.decorators import parent_required
+from flask_app.utils.logger import get_logger
 
 chores_bp = Blueprint('chores', __name__, url_prefix='/chores')
-
-def parent_required(f):
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        if not current_user.is_authenticated or not current_user.is_parent:
-            flash('You need to be a parent to access this page.', 'danger')
-            return redirect(url_for('main.index'))
-        return f(*args, **kwargs)
-    return decorated_function
+logger = get_logger()
 
 @chores_bp.route('/')
 @login_required
 def list_chores():
-    if current_user.is_parent:
-        # Parents see all family chores
-        chores = Chore.query.filter_by(family_id=current_user.family_id).all()
-    else:
-        # Children only see their assigned chores
-        chores = Chore.query.filter_by(
-            family_id=current_user.family_id,
-            assigned_to_id=current_user.id
-        ).all()
-    
-    # Group chores by status
-    pending_chores = [c for c in chores if c.status == 'pending']
-    completed_chores = [c for c in chores if c.status == 'completed']
-    overdue_chores = [c for c in chores if c.status == 'overdue']
-    
-    # Get categories for the form
-    categories = ChoreCategory.query.filter_by(family_id=current_user.family_id).all()
-    
-    return render_template('chores/list.html',
-                         pending_chores=pending_chores,
-                         completed_chores=completed_chores,
-                         overdue_chores=overdue_chores,
-                         categories=categories)
+    try:
+        if current_user.is_parent:
+            # Parents see all family chores
+            chores = Chore.query.filter_by(family_id=current_user.family_id).all()
+        else:
+            # Children only see their assigned chores
+            chores = Chore.query.filter_by(
+                family_id=current_user.family_id,
+                assigned_to_id=current_user.id
+            ).all()
+            
+        return render_template('chores/list.html', chores=chores)
+        
+    except Exception as e:
+        logger.error("Error listing chores",
+                    exc_info=True,
+                    extra={"user_id": current_user.id})
+        flash('Error loading chores.', 'danger')
+        return redirect(url_for('main.dashboard'))
 
 @chores_bp.route('/create', methods=['GET', 'POST'])
 @login_required

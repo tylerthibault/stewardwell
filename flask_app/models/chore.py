@@ -24,8 +24,12 @@ class Chore(db.Model):
     category_id = db.Column(db.Integer, db.ForeignKey('chore_category.id'), nullable=True)
     
     # Relationships
-    assigned_to = db.relationship('User', foreign_keys=[assigned_to_id], backref=db.backref('assigned_chores', lazy=True))
-    created_by = db.relationship('User', foreign_keys=[created_by_id], backref=db.backref('created_chores', lazy=True))
+    assigned_to = db.relationship('User', 
+                                foreign_keys=[assigned_to_id],
+                                back_populates='assigned_chores')
+    created_by = db.relationship('User',
+                               foreign_keys=[created_by_id],
+                               back_populates='created_chores')
 
     def __repr__(self):
         return f'<Chore {self.title}>'
@@ -33,7 +37,10 @@ class Chore(db.Model):
     def complete_chore(self):
         """Mark a chore as completed and award points to the assigned user"""
         try:
-            if not self.assigned_to:
+            # Import User model here to avoid circular import
+            from flask_app.models.user import User
+            
+            if not self.assigned_to_id:
                 logger.error("Cannot complete chore: no user assigned",
                            extra={"chore_id": self.id})
                 return False
@@ -50,10 +57,17 @@ class Chore(db.Model):
             self.status = 'completed'
             self.completed_at = datetime.utcnow()
 
+            # Get assigned user
+            assigned_user = User.query.get(self.assigned_to_id)
+            if not assigned_user:
+                logger.error("Assigned user not found",
+                           extra={"chore_id": self.id, "user_id": self.assigned_to_id})
+                return False
+
             # Award points to user
             if self.points > 0:
-                self.assigned_to.coins += self.points
-                self.assigned_to.family_points += self.points
+                assigned_user.coins += self.points
+                assigned_user.family_points += self.points
 
             # Commit changes
             db.session.commit()
@@ -63,8 +77,8 @@ class Chore(db.Model):
                            "chore_id": self.id,
                            "user_id": self.assigned_to_id,
                            "points_awarded": self.points,
-                           "new_coin_balance": self.assigned_to.coins,
-                           "new_points_balance": self.assigned_to.family_points
+                           "new_coin_balance": assigned_user.coins,
+                           "new_points_balance": assigned_user.family_points
                        })
             return True
 
@@ -74,7 +88,7 @@ class Chore(db.Model):
                         exc_info=True,
                         extra={
                             "chore_id": self.id,
-                            "user_id": self.assigned_to_id if self.assigned_to else None,
+                            "user_id": self.assigned_to_id if self.assigned_to_id else None,
                             "attempted_points": self.points
                         })
             return False
@@ -106,6 +120,6 @@ class Chore(db.Model):
                         exc_info=True,
                         extra={
                             "chore_id": self.id,
-                            "user_id": self.assigned_to_id if self.assigned_to else None
+                            "user_id": self.assigned_to_id if self.assigned_to_id else None
                         })
             return False
