@@ -1,57 +1,59 @@
 {% extends "base.html" %}
 
-{% block title %}Manage Users{% endblock %}
+{% block title %}Admin - Users{% endblock %}
 
 {% block authenticated_content %}
-<div class="content-container">
-    <div class="page-header">
-        <h1>Manage Users</h1>
-        <p class="text-muted">Total Users: {{ users|length }}</p>
-    </div>
-
+<div class="container mt-4">
+    <h2>User Management</h2>
+    
     <div class="card">
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-hover">
+                <table class="table table-striped">
                     <thead>
                         <tr>
+                            <th>ID</th>
                             <th>Username</th>
                             <th>Email</th>
                             <th>Role</th>
                             <th>Family</th>
-                            <th>Created</th>
+                            <th>Created At</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for user in users %}
                         <tr>
-                            <td>
-                                {{ user.username }}
-                                {% if user.is_superuser %}
-                                    <span class="badge bg-warning">Admin</span>
-                                {% endif %}
-                            </td>
+                            <td>{{ user.id }}</td>
+                            <td>{{ user.username }}</td>
                             <td>{{ user.email }}</td>
                             <td>
-                                {% if user.is_parent %}
+                                {% if user.is_superuser %}
+                                    <span class="badge bg-danger">Admin</span>
+                                {% elif user.is_parent %}
                                     <span class="badge bg-primary">Parent</span>
                                 {% else %}
-                                    <span class="badge bg-success">Child</span>
+                                    <span class="badge bg-secondary">Child</span>
                                 {% endif %}
                             </td>
-                            <td>{{ user.family.name if user.family else 'No Family' }}</td>
-                            <td>{{ user.created_at.strftime('%Y-%m-%d') }}</td>
                             <td>
-                                <div class="btn-group">
-                                    {% if user != current_user %}
-                                        <form action="{{ url_for('admin.toggle_superuser', user_id=user.id) }}" method="POST" class="d-inline">
-                                            <button type="submit" class="btn btn-sm {% if user.is_superuser %}btn-warning{% else %}btn-outline-warning{% endif %}"
-                                                    title="Toggle admin status">
-                                                <i class="fas fa-crown"></i>
-                                            </button>
-                                        </form>
-                                    {% endif %}
+                                {% if user.family %}
+                                    {{ user.family.name }}
+                                {% else %}
+                                    <span class="text-muted">No Family</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ user.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn btn-sm btn-outline-primary" 
+                                            onclick="editUser({{ user.id }})">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-outline-danger" 
+                                            onclick="deleteUser({{ user.id }})">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
                                 </div>
                             </td>
                         </tr>
@@ -62,4 +64,18 @@
         </div>
     </div>
 </div>
+
+<script>
+function editUser(userId) {
+    // TODO: Implement user editing
+    alert('Edit user ' + userId);
+}
+
+function deleteUser(userId) {
+    if (confirm('Are you sure you want to delete this user?')) {
+        // TODO: Implement user deletion
+        alert('Delete user ' + userId);
+    }
+}
+</script>
 {% endblock %} 

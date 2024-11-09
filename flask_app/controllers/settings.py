@@ -6,12 +6,7 @@ from flask_app.models.user import User, Family, FamilyJoinRequest, ModuleSetting
 from flask_app.models.chore import Chore
 from datetime import datetime
 from functools import wraps
-<<<<<<< HEAD:flask_app/controllers/settings.py
 from flask_app.utils.logger import get_logger
-import os
-=======
-from app.utils.logger import get_logger
->>>>>>> parent of 83ed391 (fixed minor bugs like kids not being able to complete chores):app/controllers/settings.py
 
 settings_bp = Blueprint('settings', __name__, url_prefix='/settings')
 

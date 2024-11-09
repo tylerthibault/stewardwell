@@ -1,4 +1,4 @@
-from flask_app import db
+from flask_app.extensions import db
 from flask_login import UserMixin
 from datetime import datetime
 import random
@@ -31,17 +31,24 @@ class ModuleSettings(db.Model):
 
 class Family(db.Model):
     __tablename__ = 'family'
+    __table_args__ = {'extend_existing': True}
+    
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
-    family_code = db.Column(db.String(6), unique=True, nullable=False)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    family_code = db.Column(db.String(8), unique=True, nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     
-    # Update relationships to use back_populates
+    # Relationships
     members = db.relationship('User', backref='family', lazy=True)
-    chores = db.relationship('Chore', backref='family', lazy=True)
-    module_settings = db.relationship('ModuleSettings', back_populates='family', lazy=True)
-    goals = db.relationship('Goal', back_populates='family', lazy=True)
+    chore_categories = db.relationship(
+        'ChoreCategory', 
+        backref='family',
+        lazy=True,
+        cascade='all, delete-orphan'
+    )
     goal_categories = db.relationship('GoalCategory', back_populates='family', lazy=True)
+    goals = db.relationship('Goal', back_populates='family', lazy=True)
+    module_settings = db.relationship('ModuleSettings', back_populates='family', lazy=True)
 
 class User(db.Model, UserMixin):
     __tablename__ = 'user'
@@ -70,39 +77,17 @@ class User(db.Model, UserMixin):
     # Avatar
     avatar = db.Column(db.String(50), default='fa-user-circle')
 
-    # Chore relationships
-    assigned_chores = db.relationship('Chore', 
-                                    foreign_keys='Chore.assigned_to_id',
-                                    back_populates='assigned_to',
-                                    lazy=True)
-    created_chores = db.relationship('Chore',
-                                   foreign_keys='Chore.created_by_id',
-                                   back_populates='created_by',
-                                   lazy=True)
-    
     # Goal relationships
     created_goals = db.relationship('Goal', back_populates='created_by', lazy=True)
     created_goal_categories = db.relationship('GoalCategory', back_populates='created_by', lazy=True)
 
-<<<<<<< HEAD:flask_app/models/user.py
-=======
-class Family(db.Model):
-    __tablename__ = 'family'
-    
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
-    family_code = db.Column(db.String(8), unique=True, nullable=False)
-    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    
-    # Relationships
-    users = db.relationship('User', backref='family', lazy=True)
-    chores = db.relationship('app.models.chore.Chore', backref='family', lazy=True)
-    goal_categories = db.relationship('GoalCategory', back_populates='family', lazy=True)
-    goals = db.relationship('Goal', back_populates='family', lazy=True)
-    
->>>>>>> parent of 83ed391 (fixed minor bugs like kids not being able to complete chores):app/models/user.py
-    def __repr__(self):
-        return f'<User {self.username}>'
+    # Remove the assigned_chores relationship since it will be defined from the Chore side
+    created_chores = db.relationship(
+        'Chore',
+        foreign_keys='Chore.created_by_id',
+        backref='creator',
+        lazy='dynamic'
+    )
 
 class FamilyGoal(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -134,17 +119,20 @@ class ChoreCategory(db.Model):
     
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
-    color = db.Column(db.String(7), default="#6c757d")  # Hex color code
-    icon = db.Column(db.String(50))  # FontAwesome icon name
+    color = db.Column(db.String(7), default="#6c757d")
+    icon = db.Column(db.String(50))
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     
-    # Family relationship
+    # Foreign keys
     family_id = db.Column(db.Integer, db.ForeignKey('family.id'), nullable=False)
     created_by_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     
     # Relationships
     chores = db.relationship('Chore', backref='category', lazy='dynamic')
-    created_by = db.relationship('User', foreign_keys=[created_by_id])
+    created_by = db.relationship('User', foreign_keys=[created_by_id], backref='created_categories')
+
+    def __repr__(self):
+        return f'<ChoreCategory {self.name}>'
 
 class RewardCategory(db.Model):
     id = db.Column(db.Integer, primary_key=True)

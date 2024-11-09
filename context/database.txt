@@ -1,0 +1,68 @@
+Database Schema:
+
+users:
+- id (PK)
+- username
+- email
+- password_hash
+- pin
+- created_at
+- is_superuser
+- is_parent
+- family_id (FK -> families.id)
+- parent_id (FK -> users.id)
+- coins
+- family_points
+- avatar
+
+families:
+- id (PK)
+- name
+- family_code
+- created_at
+
+chore_categories:
+- id (PK)
+- name
+- color (hex color code)
+- icon (FontAwesome icon name)
+- created_at
+- family_id (FK -> families.id)
+- created_by_id (FK -> users.id)
+
+chores:
+- id (PK)
+- title
+- description
+- points
+- created_at
+- updated_at
+- due_date
+- completed
+- category_id (FK -> chore_categories.id)
+- assigned_to_id (FK -> users.id)
+- created_by_id (FK -> users.id)
+
+Relationships:
+- User belongs to one Family (many-to-one)
+- Family has many Users (one-to-many)
+- User can have many children Users (self-referential one-to-many)
+- User can have one parent User (self-referential many-to-one)
+- ChoreCategory belongs to one Family (many-to-one)
+- ChoreCategory is created by one User (many-to-one)
+- ChoreCategory has many Chores (one-to-many)
+- Chore belongs to one ChoreCategory (many-to-one)
+- Chore is created by one User (many-to-one)
+- Chore is assigned to one User (many-to-one)
+- User has many created Chores (one-to-many, via created_by_id)
+- User has many assigned Chores (one-to-many, via assigned_to_id)
+- User has many created ChoreCategories (one-to-many)
+
+Key Features:
+- Chores can be assigned to users
+- Chores track points for completion
+- Categories help organize chores
+- Categories have visual properties (color and icon)
+- Users can create both chores and categories
+- All chores and categories belong to a family
+- Completed chores award points to assigned user 

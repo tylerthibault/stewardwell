@@ -1,14 +1,65 @@
-<!-- Category Selection -->
-<div class="form-group mb-3">
-    <label for="category_id" class="form-label">Category</label>
-    <select class="form-control" id="category_id" name="category_id" onchange="handleCategoryChange(this)">
-        <option value="">No Category</option>
-        <option value="new">+ Add New Category</option>
-    </select>
-</div>
+{% extends "base.html" %}
 
-<!-- Hidden category input fields -->
-<div id="new_category_container" style="display: none;" class="mt-2">
-    <input type="text" class="form-control" id="new_category_name" name="name"
-           placeholder="Enter new category name" spellcheck="false">
-</div> 
+{% block title %}Create Chore{% endblock %}
+
+{% block authenticated_content %}
+<div class="container mt-4">
+    <h2>Create New Chore</h2>
+    
+    <div class="card">
+        <div class="card-body">
+            <form method="POST">
+                {{ form.csrf_token }}
+                
+                <div class="mb-3">
+                    {{ form.title.label(class="form-label") }}
+                    {{ form.title(class="form-control") }}
+                    {% if form.title.errors %}
+                        {% for error in form.title.errors %}
+                            <span class="text-danger">{{ error }}</span>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                
+                <div class="mb-3">
+                    {{ form.description.label(class="form-label") }}
+                    {{ form.description(class="form-control") }}
+                </div>
+                
+                <div class="mb-3">
+                    {{ form.points.label(class="form-label") }}
+                    {{ form.points(class="form-control") }}
+                    {% if form.points.errors %}
+                        {% for error in form.points.errors %}
+                            <span class="text-danger">{{ error }}</span>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                
+                <div class="mb-3">
+                    {{ form.category_id.label(class="form-label") }}
+                    {{ form.category_id(class="form-control") }}
+                </div>
+                
+                <div class="mb-3">
+                    {{ form.assigned_to.label(class="form-label") }}
+                    {{ form.assigned_to(class="form-control") }}
+                    {% if form.assigned_to.errors %}
+                        {% for error in form.assigned_to.errors %}
+                            <span class="text-danger">{{ error }}</span>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                
+                <div class="mb-3">
+                    {{ form.due_date.label(class="form-label") }}
+                    {{ form.due_date(class="form-control", type="date") }}
+                </div>
+                
+                {{ form.submit(class="btn btn-primary") }}
+                <a href="{{ url_for('chores.list_chores') }}" class="btn btn-secondary">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %} 

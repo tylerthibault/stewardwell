@@ -16,19 +16,20 @@ def index():
 @login_required
 def dashboard():
     family = current_user.family
-    if family:
-        family_count = len(family.members)
-        active_chores = 0  # TODO: Implement chores tracking
-        family_points = sum(member.family_points for member in family.members)
-        family_members = family.members
-        recent_activities = []  # TODO: Implement activity tracking
+    if not family:
+        flash('You need to be part of a family to access the dashboard.', 'warning')
+        return redirect(url_for('main.index'))
         
-        return render_template('main/dashboard.html',
-                             family_count=family_count,
-                             active_chores=active_chores,
-                             family_points=family_points,
-                             family_members=family_members,
-                             recent_activities=recent_activities)
+    family_count = len(family.members)
+    family_points = sum(member.family_points for member in family.members)
+    family_members = family.members
+    recent_activities = []  # TODO: Implement activity tracking
+    
+    return render_template('main/dashboard.html',
+                         family_count=family_count,
+                         family_points=family_points,
+                         family_members=family_members,
+                         recent_activities=recent_activities)
     
     return render_template('main/dashboard.html')
 

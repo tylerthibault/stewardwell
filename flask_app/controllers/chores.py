@@ -6,6 +6,7 @@ from flask_app.models.chore import Chore
 from flask_app.forms.chores import ChoreForm
 from flask_app.utils.decorators import parent_required
 from flask_app.utils.logger import get_logger
+from datetime import datetime
 
 chores_bp = Blueprint('chores', __name__, url_prefix='/chores')
 logger = get_logger()
@@ -27,9 +28,7 @@ def list_chores():
         return render_template('chores/list.html', chores=chores)
         
     except Exception as e:
-        logger.error("Error listing chores",
-                    exc_info=True,
-                    extra={"user_id": current_user.id})
+        logger.error("Error listing chores", exc_info=True)
         flash('Error loading chores.', 'danger')
         return redirect(url_for('main.dashboard'))
 
@@ -37,201 +36,49 @@ def list_chores():
 @login_required
 @parent_required
 def create_chore():
-    print("This is a test")
-    try:
-        form = ChoreForm()
-        
-        # Debug logging for form initialization
-        logger.debug("Creating chore form", 
-                   extra={
-                       "form_fields": list(form._fields.keys()),
-                       "user_id": current_user.id,
-                       "family_id": current_user.family_id
-                   })
-        
-        if form.validate_on_submit():
-            logger.debug("Form submitted and validated",
-                      extra={
-                          "form_data": {
-                              "title": form.title.data,
-                              "points": form.points.data,
-                              "assigned_to": form.assigned_to.data,
-                              "category": form.category.data
-                          }
-                      })
-            
-            # Convert form data
-            try:
-                assigned_to_id = int(form.assigned_to.data) if form.assigned_to.data else None
-                category_id = int(form.category.data) if form.category.data else None
-                
-                logger.debug("Form data converted successfully",
-                          extra={
-                              "assigned_to_id": assigned_to_id,
-                              "category_id": category_id
-                          })
-                
-            except ValueError as e:
-                logger.error("Error converting form data",
-                           exc_info=True,
-                           extra={
-                               "assigned_to_raw": form.assigned_to.data,
-                               "category_raw": form.category.data
-                           })
-                flash('Invalid form data.', 'danger')
-                return redirect(url_for('chores.create_chore'))
-            
-            # Verify assigned user exists and belongs to family
-            if assigned_to_id:
-                assigned_user = User.query.get(assigned_to_id)
-                if not assigned_user or assigned_user.family_id != current_user.family_id:
-                    logger.warning("Invalid assigned user",
-                                extra={
-                                    "assigned_to_id": assigned_to_id,
-                                    "family_id": current_user.family_id
-                                })
-                    flash('Invalid user assignment.', 'danger')
-                    return redirect(url_for('chores.create_chore'))
-            
-            # Create chore
-            try:
-                chore = Chore(
-                    title=form.title.data,
-                    description=form.description.data,
-                    points=form.points.data,
-                    due_date=form.due_date.data,
-                    family_id=current_user.family_id,
-                    created_by_id=current_user.id,
-                    assigned_to_id=assigned_to_id,
-                    category_id=category_id
-                )
-                
-                logger.debug("Chore object created",
-                          extra={
-                              "chore_data": {
-                                  "title": chore.title,
-                                  "points": chore.points,
-                                  "due_date": str(chore.due_date) if chore.due_date else None
-                              }
-                          })
-                
-                db.session.add(chore)
-                db.session.commit()
-                
-                logger.info("New chore created successfully",
-                           extra={
-                               "chore_id": chore.id,
-                               "title": chore.title,
-                               "assigned_to": chore.assigned_to_id,
-                               "created_by": current_user.id,
-                               "family_id": current_user.family_id,
-                               "points": chore.points,
-                               "category_id": chore.category_id
-                           })
-                
-                flash('Chore created successfully!', 'success')
-                return redirect(url_for('chores.list_chores'))
-                
-            except Exception as e:
-                db.session.rollback()
-                logger.error("Database error creating chore",
-                            exc_info=True,
-                            extra={
-                                "form_data": request.form,
-                                "user_id": current_user.id
-                            })
-                flash('Error creating chore.', 'danger')
-            
-        elif request.method == 'POST':
-            logger.warning("Form validation failed",
-                         extra={
-                             "form_errors": form.errors,
-                             "form_data": request.form,
-                             "user_id": current_user.id
-                         })
-            flash('Please check the form for errors.', 'danger')
-            
-    except Exception as e:
-        logger.error("Unexpected error in create_chore route",
-                    exc_info=True,
-                    extra={
-                        "form_data": request.form if request.method == 'POST' else None,
-                        "user_id": current_user.id,
-                        "method": request.method
-                    })
-        flash('An unexpected error occurred.', 'danger')
+    form = ChoreForm()
     
-    # Get family members and categories for the form
-    try:
-        family_members = User.query.filter_by(
-            family_id=current_user.family_id,
-            is_parent=False
-        ).all()
-        categories = ChoreCategory.query.filter_by(family_id=current_user.family_id).all()
-        
-        logger.debug("Form data retrieved",
-                   extra={
-                       "member_count": len(family_members),
-                       "category_count": len(categories)
-                   })
-        
-        return render_template('chores/create.html', 
-                             form=form,
-                             family_members=family_members,
-                             categories=categories)
-                             
-    except Exception as e:
-        logger.error("Error retrieving form data",
-                    exc_info=True,
-                    extra={"user_id": current_user.id})
-        flash('Error loading form data.', 'danger')
-        return redirect(url_for('chores.list_chores'))
+    if form.validate_on_submit():
+        try:
+            chore = Chore(
+                title=form.title.data,
+                description=form.description.data,
+                points=form.points.data,
+                due_date=form.due_date.data,
+                family_id=current_user.family_id,
+                created_by_id=current_user.id,
+                assigned_to_id=form.assigned_to.data,
+                category_id=form.category_id.data if form.category_id.data != 0 else None
+            )
+            
+            db.session.add(chore)
+            db.session.commit()
+            
+            flash('Chore created successfully!', 'success')
+            return redirect(url_for('chores.list_chores'))
+            
+        except Exception as e:
+            db.session.rollback()
+            logger.error("Error creating chore", exc_info=True)
+            flash('Error creating chore.', 'danger')
+    
+    return render_template('chores/create.html', form=form)
 
 @chores_bp.route('/complete/<int:chore_id>', methods=['POST'])
 @login_required
 def complete_chore(chore_id):
-    try:
-        chore = Chore.query.get_or_404(chore_id)
-        
-        # Check if user is assigned to this chore
-        if chore.assigned_to_id != current_user.id:
-            logger.warning("User attempted to complete unassigned chore",
-                         extra={
-                             "user_id": current_user.id,
-                             "chore_id": chore_id,
-                             "assigned_to": chore.assigned_to_id
-                         })
-            flash('You are not assigned to this chore.', 'danger')
-            return redirect(url_for('chores.list_chores'))
-        
-        # Check if chore is already completed or verified
-        if chore.status != 'pending':
-            logger.warning("Attempt to complete non-pending chore",
-                         extra={
-                             "user_id": current_user.id,
-                             "chore_id": chore_id,
-                             "current_status": chore.status
-                         })
-            flash('This chore cannot be completed.', 'warning')
-            return redirect(url_for('chores.list_chores'))
-        
-        # Try to complete the chore
-        if chore.complete_chore():
-            flash('Chore completed successfully!', 'success')
-        else:
-            flash('Error completing chore.', 'danger')
-            
+    chore = Chore.query.get_or_404(chore_id)
+    
+    if chore.assigned_to_id != current_user.id:
+        flash('You are not assigned to this chore.', 'danger')
         return redirect(url_for('chores.list_chores'))
+    
+    if chore.complete_chore():
+        flash('Chore completed successfully!', 'success')
+    else:
+        flash('Error completing chore.', 'danger')
         
-    except Exception as e:
-        logger.error("Error in complete_chore route",
-                    exc_info=True,
-                    extra={
-                        "user_id": current_user.id,
-                        "chore_id": chore_id
-                    })
-        flash('An error occurred while completing the chore.', 'danger')
-        return redirect(url_for('chores.list_chores'))
+    return redirect(url_for('chores.list_chores'))
 
 @chores_bp.route('/categories')
 @login_required
