@@ -1,0 +1,44 @@
+<!-- Child Login Step 1 - Email -->
+<form method="POST" action="{{ url_for('auth.login') }}" class="login-step hide" id="childLoginStep1">
+    <input type="hidden" name="role" value="child">
+    {{ form.csrf_token if form }}
+    
+    <div class="form-group">
+        <div class="input-group">
+            <span class="input-icon">
+                <i class="fas fa-envelope"></i>
+            </span>
+            <input type="email" 
+                   class="form-input" 
+                   name="email" 
+                   placeholder="Your email address"
+                   required>
+        </div>
+    </div>
+
+    <button type="button" class="auth-submit">
+        Next
+        <i class="fas fa-arrow-right"></i>
+    </button>
+</form>
+
+<!-- Child Login Step 2 - Parent Code -->
+<form method="POST" action="{{ url_for('auth.login') }}" class="login-step hide" id="childLoginStep2">
+    <input type="hidden" name="role" value="child">
+    {{ form.csrf_token if form }}
+
+    <div class="parent-code-container">
+        <label>Enter Parent's Access Code</label>
+        <div class="code-inputs">
+            {% for i in range(6) %}
+            <input type="text" maxlength="1" class="code-input" required>
+            {% endfor %}
+        </div>
+        <p class="code-hint">Ask your parent for the access code</p>
+    </div>
+
+    <button type="submit" class="auth-submit">
+        Login
+        <i class="fas fa-arrow-right"></i>
+    </button>
+</form>

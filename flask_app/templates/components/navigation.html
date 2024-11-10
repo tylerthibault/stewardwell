@@ -1,0 +1,76 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+    <div class="container">
+        <!-- Brand -->
+        <a class="navbar-brand" href="{{ url_for('landing.index') }}">
+            <span class="gradient-title logo">SW</span>
+            <span class="gradient-title">StewardWell</span>
+        </a>
+
+        <!-- Mobile Toggle -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" 
+                aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navigation Content -->
+        <div class="collapse navbar-collapse" id="navbarContent">
+            <!-- Main Menu -->
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link {{ 'active' if request.endpoint == 'landing.index' }}" 
+                       href="{{ url_for('landing.index') }}">Home</a>
+                </li>
+                {% if current_user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link {{ 'active' if request.endpoint.startswith('homeconomy.') }}" 
+                           href="{{ url_for('homeconomy.index') }}">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Reports</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Settings</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Pricing</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">About</a>
+                    </li>
+                {% endif %}
+            </ul>
+
+            <!-- Right Side Items -->
+            <div class="d-flex align-items-center gap-3">
+                <!-- Theme Toggle -->
+                <button class="btn btn-outline-secondary btn-sm" id="theme-toggle">
+                    <i class="fas fa-moon me-2"></i>
+                    <span class="d-none d-md-inline">Theme</span>
+                </button>
+
+                {% if current_user.is_authenticated %}
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="text-muted">{{ current_user.username }}</span>
+                        <a href="{{ url_for('auth.logout') }}" class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-sign-out-alt me-2"></i>
+                            <span class="d-none d-md-inline">Logout</span>
+                        </a>
+                    </div>
+                {% else %}
+                    <a href="{{ url_for('auth.login') }}" class="btn btn-primary btn-sm">
+                        <i class="fas fa-sign-in-alt me-2"></i>
+                        <span class="d-none d-md-inline">Login</span>
+                    </a>
+                    <a href="{{ url_for('auth.register') }}" class="btn btn-outline-primary btn-sm">
+                        <i class="fas fa-user-plus me-2"></i>
+                        <span class="d-none d-md-inline">Register</span>
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</nav>

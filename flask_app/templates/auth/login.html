@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/auth/login.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card">
+        <!-- Left Side - Decorative -->
+        {% include 'auth/components/decorative.html' %}
+
+        <!-- Right Side - Login Steps -->
+        <div class="auth-card-content">
+            <div class="auth-header">
+                <h1 class="gradient-title">Welcome Back</h1>
+                <p>Access your StewardWell account</p>
+            </div>
+
+            <!-- Role Selection Step -->
+            {% include 'auth/components/role_selection.html' %}
+
+            <!-- Parent Login Step -->
+            {% include 'auth/components/parent_login.html' %}
+
+            <!-- Child Login Steps -->
+            {% include 'auth/components/child_login.html' %}
+
+            <!-- Footer -->
+            {% include 'auth/components/login_footer.html' %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/auth/login.js') }}"></script>
+{% endblock %}

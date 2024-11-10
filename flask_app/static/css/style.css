@@ -1,0 +1,26 @@
+/* Add these variables to your existing CSS variables */
+:root {
+    /* Colors */
+    --color-primary: #4834d4;
+    --color-primary-rgb: 72, 52, 212;
+    --color-secondary: #686de0;
+    --color-secondary-rgb: 104, 109, 224;
+    --color-primary-dark: #392bc2;
+    
+    --color-surface: #ffffff;
+    --color-surface-dark: #2d2d2d;
+    --color-background: #f8f9fa;
+    --color-text: #2d3436;
+    --color-text-soft: #636e72;
+    --color-border: #dfe6e9;
+    --color-error: #ff7675;
+    
+    /* Shadows */
+    --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+    --shadow-md: 0 5px 15px rgba(0,0,0,0.1);
+    --shadow-lg: 0 15px 35px rgba(0,0,0,0.1);
+
+    /* Other existing variables remain the same */
+}
+
+/* Rest of your existing CSS */

@@ -1,0 +1,334 @@
+{% extends "base.html" %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card">
+        <!-- Left Side - Decorative -->
+        <div class="auth-card-decorative">
+            <div class="auth-brand">
+                <span class="gradient-title logo">SW</span>
+            </div>
+            <div class="auth-pattern"></div>
+        </div>
+
+        <!-- Right Side - Form -->
+        <div class="auth-card-content">
+            <div class="auth-header">
+                <h1 class="gradient-title">Create Account</h1>
+                <p>Join StewardWell to start your financial journey</p>
+            </div>
+
+            <form method="POST" action="{{ url_for('auth.register') }}" class="auth-form needs-validation" novalidate>
+                {{ form.csrf_token }}
+                
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-icon">
+                            <i class="fas fa-user"></i>
+                        </span>
+                        <input type="text" 
+                               class="form-input {% if form.username.errors %}is-invalid{% endif %}" 
+                               id="username" 
+                               name="username" 
+                               placeholder="Username"
+                               required
+                               pattern="^[a-zA-Z0-9_-]{3,20}$">
+                    </div>
+                    <div class="input-error">
+                        {% if form.username.errors %}
+                            {{ form.username.errors[0] }}
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-icon">
+                            <i class="fas fa-envelope"></i>
+                        </span>
+                        <input type="email" 
+                               class="form-input {% if form.email.errors %}is-invalid{% endif %}" 
+                               id="email" 
+                               name="email" 
+                               placeholder="Email address"
+                               required>
+                    </div>
+                    <div class="input-error">
+                        {% if form.email.errors %}
+                            {{ form.email.errors[0] }}
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-icon">
+                            <i class="fas fa-lock"></i>
+                        </span>
+                        <input type="password" 
+                               class="form-input {% if form.password.errors %}is-invalid{% endif %}" 
+                               id="password" 
+                               name="password" 
+                               placeholder="Password"
+                               required
+                               minlength="8">
+                    </div>
+                    <div class="input-error">
+                        {% if form.password.errors %}
+                            {{ form.password.errors[0] }}
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-icon">
+                            <i class="fas fa-lock"></i>
+                        </span>
+                        <input type="password" 
+                               class="form-input {% if form.confirm_password.errors %}is-invalid{% endif %}" 
+                               id="confirm_password" 
+                               name="confirm_password" 
+                               placeholder="Confirm Password"
+                               required>
+                    </div>
+                    <div class="input-error">
+                        {% if form.confirm_password.errors %}
+                            {{ form.confirm_password.errors[0] }}
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="form-group terms-group">
+                    <label class="checkbox-container">
+                        <input type="checkbox" required>
+                        <span class="checkmark"></span>
+                        <span class="terms-text">
+                            I agree to the <a href="#">Terms of Service</a> and 
+                            <a href="#">Privacy Policy</a>
+                        </span>
+                    </label>
+                </div>
+
+                <button type="submit" class="auth-submit">
+                    Create Account
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </form>
+
+            <div class="auth-footer">
+                <p>
+                    Already have an account? 
+                    <a href="{{ url_for('auth.login') }}">Log in</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.auth-container {
+    min-height: calc(100vh - 76px); /* Adjust based on your navbar height */
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, 
+        rgba(var(--primary-rgb), 0.05) 0%,
+        rgba(var(--secondary-rgb), 0.05) 100%);
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 1000px;
+    display: flex;
+    background: var(--color-surface);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+}
+
+.auth-card-decorative {
+    width: 40%;
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+    padding: 3rem;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.auth-pattern {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0.1;
+    background-image: 
+        linear-gradient(45deg, #fff 25%, transparent 25%),
+        linear-gradient(-45deg, #fff 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #fff 75%),
+        linear-gradient(-45deg, transparent 75%, #fff 75%);
+    background-size: 20px 20px;
+}
+
+.auth-brand {
+    position: relative;
+    z-index: 1;
+}
+
+.auth-brand .logo {
+    font-size: 4rem;
+    color: white;
+    background: none;
+    -webkit-text-fill-color: white;
+}
+
+.auth-card-content {
+    width: 60%;
+    padding: 3rem;
+}
+
+.auth-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.auth-header h1 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.auth-header p {
+    color: var(--color-text-soft);
+}
+
+.auth-form .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.input-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-icon {
+    position: absolute;
+    left: 1rem;
+    color: var(--color-text-soft);
+}
+
+.form-input {
+    width: 100%;
+    padding: 1rem 1rem 1rem 3rem;
+    border: 2px solid var(--color-border);
+    border-radius: 10px;
+    background: transparent;
+    transition: all 0.3s ease;
+}
+
+.form-input:focus {
+    border-color: var(--color-primary);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(var(--primary-rgb), 0.1);
+}
+
+.input-error {
+    font-size: 0.875rem;
+    color: var(--color-error);
+    margin-top: 0.5rem;
+    min-height: 1.25rem;
+}
+
+.terms-group {
+    margin: 2rem 0;
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+}
+
+.terms-text {
+    font-size: 0.875rem;
+    color: var(--color-text-soft);
+}
+
+.terms-text a {
+    color: var(--color-primary);
+    text-decoration: none;
+}
+
+.auth-submit {
+    width: 100%;
+    padding: 1rem;
+    border: none;
+    border-radius: 10px;
+    background: var(--color-primary);
+    color: white;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.auth-submit:hover {
+    background: var(--color-primary-dark);
+    transform: translateY(-2px);
+}
+
+.auth-footer {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.auth-footer a {
+    color: var(--color-primary);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+/* Dark mode adjustments */
+.dark-mode .auth-card {
+    background: var(--color-surface-dark);
+}
+
+.dark-mode .form-input {
+    color: var(--color-text);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .auth-card {
+        flex-direction: column;
+    }
+
+    .auth-card-decorative {
+        width: 100%;
+        padding: 2rem;
+        min-height: 150px;
+    }
+
+    .auth-card-content {
+        width: 100%;
+        padding: 2rem;
+    }
+
+    .auth-brand .logo {
+        font-size: 3rem;
+    }
+}
+</style>
+{% endblock %}
