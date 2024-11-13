@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto">
+    <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+        <!-- Profile Header -->
+        <div class="bg-blue-600 px-6 py-4">
+            <h1 class="text-2xl font-bold text-white">Profile Information</h1>
+        </div>
+
+        <!-- Profile Content -->
+        <div class="p-6 space-y-6">
+            <!-- User Information -->
+            <div class="space-y-4">
+                <div class="border-b pb-4">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-2">Account Details</h2>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <p class="text-sm text-gray-600">Username</p>
+                            <p class="text-lg font-medium text-gray-900">{{ current_user.username }}</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-600">Email</p>
+                            <p class="text-lg font-medium text-gray-900">{{ current_user.email }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border-b pb-4">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-2">Account Status</h2>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <p class="text-sm text-gray-600">Member Since</p>
+                            <p class="text-lg font-medium text-gray-900">{{ current_user.created_at.strftime('%B %d, %Y') }}</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-600">Account Type</p>
+                            <p class="text-lg font-medium text-gray-900">{% if current_user.is_admin %}Administrator{% else %}Standard User{% endif %}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h2 class="text-lg font-semibold text-gray-900 mb-2">Last Login</h2>
+                    <p class="text-lg font-medium text-gray-900">
+                        {{ current_user.last_login.strftime('%B %d, %Y at %H:%M') if current_user.last_login else 'First time login' }}
+                    </p>
+                </div>
+            </div>
+
+            <!-- Security Section -->
+            <div class="border-t pt-6">
+                <h2 class="text-lg font-semibold text-gray-900 mb-4">Security</h2>
+                <div class="space-y-4">
+                    <button class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-300">
+                        Change Password
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

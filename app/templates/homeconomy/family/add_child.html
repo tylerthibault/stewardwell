@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto">
+    <div class="bg-white rounded-lg shadow-lg p-6">
+        <h1 class="text-2xl font-bold text-gray-900 mb-6">Add Child to {{ family.name }}</h1>
+        
+        <div class="mb-8">
+            <div class="bg-blue-50 p-4 rounded-lg">
+                <h2 class="text-lg font-semibold text-gray-900">Adding a New Child</h2>
+                <p class="mt-2 text-gray-600">
+                    Create an account for your child to:
+                </p>
+                <ul class="mt-2 space-y-1 list-disc list-inside text-gray-600">
+                    <li>View and complete assigned chores</li>
+                    <li>Earn coins and contribute to family points</li>
+                    <li>Claim rewards from the reward store</li>
+                    <li>Track their progress and achievements</li>
+                </ul>
+            </div>
+        </div>
+        
+        <form method="POST" class="space-y-6">
+            {{ form.hidden_tag() }}
+            
+            <div>
+                {{ form.username.label(class="block text-sm font-medium text-gray-700") }}
+                {{ form.username(class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500") }}
+                <p class="text-xs text-gray-500 mt-1">Choose a username your child will use to log in</p>
+                {% for error in form.username.errors %}
+                    <p class="text-red-500 text-xs mt-1">{{ error }}</p>
+                {% endfor %}
+            </div>
+
+            <div>
+                {{ form.email.label(class="block text-sm font-medium text-gray-700") }}
+                {{ form.email(class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500") }}
+                <p class="text-xs text-gray-500 mt-1">Optional: Add an email for account recovery</p>
+                {% for error in form.email.errors %}
+                    <p class="text-red-500 text-xs mt-1">{{ error }}</p>
+                {% endfor %}
+            </div>
+
+            <div>
+                {{ form.password.label(class="block text-sm font-medium text-gray-700") }}
+                {{ form.password(class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500") }}
+                <p class="text-xs text-gray-500 mt-1">Create an initial password (can be changed later)</p>
+                {% for error in form.password.errors %}
+                    <p class="text-red-500 text-xs mt-1">{{ error }}</p>
+                {% endfor %}
+            </div>
+
+            <div class="bg-yellow-50 p-4 rounded-lg">
+                <h3 class="text-sm font-medium text-yellow-800">Important Notes:</h3>
+                <ul class="mt-2 space-y-1 list-disc list-inside text-sm text-yellow-700">
+                    <li>Make sure to save these credentials in a safe place</li>
+                    <li>Help your child log in for the first time</li>
+                    <li>Consider changing the password on first login</li>
+                </ul>
+            </div>
+
+            <div class="flex justify-end space-x-4">
+                <a href="{{ url_for('homeconomy.parent_dashboard') }}" 
+                   class="bg-gray-200 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-300 transition">
+                    Cancel
+                </a>
+                {{ form.submit(class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition") }}
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,196 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="space-y-8">
+    <!-- Family Header -->
+    <div class="bg-white rounded-lg shadow-lg p-6">
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-2xl font-bold text-gray-900">{{ current_user.family.name }}</h1>
+                <p class="text-gray-600">Family Dashboard</p>
+            </div>
+            <div class="flex space-x-4">
+                <a href="{{ url_for('homeconomy.add_child', family_id=current_user.family.id) }}" 
+                   class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">
+                    Add Child
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <h3 class="text-lg font-semibold text-gray-900">Family Points</h3>
+            <p class="text-3xl font-bold text-blue-600">{{ current_user.family.total_points }}</p>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <h3 class="text-lg font-semibold text-gray-900">Active Chores</h3>
+            <p class="text-3xl font-bold text-green-600">{{ current_user.family.chores.filter_by(is_active=True).count() }}</p>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <h3 class="text-lg font-semibold text-gray-900">Family Members</h3>
+            <p class="text-3xl font-bold text-purple-600">{{ current_user.family.members.count() }}</p>
+        </div>
+    </div>
+
+    <!-- Main Content Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <!-- Children Section -->
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-xl font-bold text-gray-900">Children</h2>
+            </div>
+            <div class="space-y-4">
+                {% for child in current_user.family.members.filter_by(user_type='child').all() %}
+                <div class="border rounded-lg p-4">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="text-lg font-semibold">{{ child.username }}</h3>
+                            <p class="text-sm text-gray-600">Coins: {{ child.coins }}</p>
+                        </div>
+                        <div class="flex space-x-2">
+                            <button class="text-blue-600 hover:text-blue-800">View Progress</button>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <p class="text-gray-600 text-center">No children added yet</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Pending Verifications -->
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-xl font-bold text-gray-900">Pending Verifications</h2>
+            </div>
+            <div class="space-y-4">
+                {% for completed in current_user.family.chores.join(CompletedChore).filter(CompletedChore.verified == False).all() %}
+                <div class="border rounded-lg p-4">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="text-lg font-semibold">{{ completed.chore.name }}</h3>
+                            <p class="text-sm text-gray-600">
+                                Completed by: {{ completed.child.username }} at 
+                                {{ completed.completed_at.strftime('%Y-%m-%d %H:%M') }}
+                            </p>
+                        </div>
+                        <a href="{{ url_for('homeconomy.verify_chore', chore_id=completed.id) }}" 
+                           class="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700">
+                            Verify
+                        </a>
+                    </div>
+                </div>
+                {% else %}
+                <p class="text-gray-600 text-center">No pending verifications</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Chores Management -->
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-xl font-bold text-gray-900">Chores</h2>
+                <a href="{{ url_for('homeconomy.create_chore') }}" 
+                   class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                    Add Chore
+                </a>
+            </div>
+            <div class="space-y-4">
+                {% for chore in current_user.family.chores.filter_by(is_active=True).all() %}
+                <div class="border rounded-lg p-4">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="text-lg font-semibold">{{ chore.name }}</h3>
+                            <p class="text-sm text-gray-600">
+                                Rewards: {{ chore.coins_reward }} coins, {{ chore.points_reward }} points
+                            </p>
+                            {% if chore.assigned_to %}
+                            <p class="text-sm text-blue-600">
+                                Assigned to: {{ User.query.get(chore.assigned_to).username }}
+                            </p>
+                            {% endif %}
+                        </div>
+                        <div class="flex space-x-2">
+                            <button class="text-blue-600 hover:text-blue-800">Edit</button>
+                            <button class="text-red-600 hover:text-red-800">Delete</button>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <p class="text-gray-600 text-center">No active chores</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Rewards Management -->
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-xl font-bold text-gray-900">Rewards</h2>
+                <a href="{{ url_for('homeconomy.create_reward') }}" 
+                   class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                    Add Reward
+                </a>
+            </div>
+            <div class="space-y-4">
+                {% for reward in current_user.family.rewards.filter_by(is_active=True).all() %}
+                <div class="border rounded-lg p-4">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="text-lg font-semibold">{{ reward.name }}</h3>
+                            <p class="text-sm text-gray-600">Cost: {{ reward.coin_cost }} coins</p>
+                            {% if reward.quantity >= 0 %}
+                            <p class="text-sm text-blue-600">Remaining: {{ reward.quantity }}</p>
+                            {% endif %}
+                        </div>
+                        <div class="flex space-x-2">
+                            <button class="text-blue-600 hover:text-blue-800">Edit</button>
+                            <button class="text-red-600 hover:text-red-800">Delete</button>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <p class="text-gray-600 text-center">No active rewards</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Goals Management -->
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-xl font-bold text-gray-900">Family Goals</h2>
+                <a href="{{ url_for('homeconomy.create_goal') }}" 
+                   class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                    Add Goal
+                </a>
+            </div>
+            <div class="space-y-4">
+                {% for goal in current_user.family.goals.filter_by(is_active=True).all() %}
+                <div class="border rounded-lg p-4">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="text-lg font-semibold">{{ goal.name }}</h3>
+                            <p class="text-sm text-gray-600">Required Points: {{ goal.points_required }}</p>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5 mt-2">
+                                {% set progress = (current_user.family.total_points / goal.points_required * 100)|round|int %}
+                                <div class="bg-blue-600 h-2.5 rounded-full" style="width: {{ progress }}%"></div>
+                            </div>
+                            <p class="text-xs text-gray-600 mt-1">Progress: {{ progress }}%</p>
+                        </div>
+                        <div class="flex space-x-2">
+                            <button class="text-blue-600 hover:text-blue-800">Edit</button>
+                            <button class="text-red-600 hover:text-red-800">Delete</button>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <p class="text-gray-600 text-center">No active goals</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

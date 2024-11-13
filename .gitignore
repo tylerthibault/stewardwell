@@ -1,5 +1,5 @@
-/logs
-/migrations
 /venv
-
+.env
+/instance
+/migrations
 

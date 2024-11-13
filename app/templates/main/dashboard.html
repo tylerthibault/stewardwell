@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="space-y-8">
+    <!-- Welcome Section -->
+    <div class="bg-white rounded-lg shadow-lg p-6">
+        <h1 class="text-2xl font-bold text-gray-900">Welcome back, {{ current_user.username }}!</h1>
+        <p class="text-gray-600 mt-2">Last login: {{ current_user.last_login.strftime('%B %d, %Y at %H:%M') if current_user.last_login else 'First time login' }}</p>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <div class="flex items-center justify-between">
+                <h3 class="text-lg font-semibold text-gray-900">Account Status</h3>
+                <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded">Active</span>
+            </div>
+            <p class="text-gray-600 mt-2">Member since: {{ current_user.created_at.strftime('%B %d, %Y') }}</p>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <h3 class="text-lg font-semibold text-gray-900">Account Type</h3>
+            <p class="text-gray-600 mt-2">{% if current_user.is_admin %}Administrator{% else %}Standard User{% endif %}</p>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <h3 class="text-lg font-semibold text-gray-900">Email Verification</h3>
+            <p class="text-gray-600 mt-2">{{ current_user.email }}</p>
+        </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Recent Activity -->
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <h2 class="text-xl font-bold text-gray-900 mb-4">Recent Activity</h2>
+            <div class="space-y-4">
+                <div class="border-l-4 border-blue-500 pl-4">
+                    <p class="text-sm text-gray-600">Last login from your account</p>
+                    <p class="text-sm font-medium text-gray-900">{{ current_user.last_login.strftime('%B %d, %Y at %H:%M') if current_user.last_login else 'No recent activity' }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <h2 class="text-xl font-bold text-gray-900 mb-4">Quick Actions</h2>
+            <div class="grid grid-cols-2 gap-4">
+                <a href="{{ url_for('main.profile') }}" 
+                   class="inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700">
+                    Edit Profile
+                </a>
+                {% if current_user.is_admin %}
+                <a href="{{ url_for('main.admin') }}" 
+                   class="inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700">
+                    Admin Panel
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,169 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="space-y-8">
+    <!-- Child Header -->
+    <div class="bg-white rounded-lg shadow-lg p-6">
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-2xl font-bold text-gray-900">Welcome, {{ current_user.username }}!</h1>
+                <p class="text-gray-600">{{ current_user.family.name }} - Family Member</p>
+            </div>
+            <div class="text-right">
+                <p class="text-sm text-gray-600">Your Coins</p>
+                <p class="text-3xl font-bold text-yellow-600">{{ current_user.coins }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Family Stats -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <h3 class="text-lg font-semibold text-gray-900">Family Points</h3>
+            <p class="text-3xl font-bold text-blue-600">{{ current_user.family.total_points }}</p>
+            <p class="text-sm text-gray-600 mt-2">Contributing to family goals</p>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <h3 class="text-lg font-semibold text-gray-900">Completed Chores</h3>
+            <p class="text-3xl font-bold text-green-600">{{ current_user.completed_chores.count() }}</p>
+            <p class="text-sm text-gray-600 mt-2">Keep up the good work!</p>
+        </div>
+    </div>
+
+    <!-- Available Chores -->
+    <div class="bg-white rounded-lg shadow-lg p-6">
+        <h2 class="text-xl font-bold text-gray-900 mb-4">Available Chores</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {% for chore in chores %}
+            <div class="border rounded-lg p-4 {% if chore.assigned_to and chore.assigned_to != current_user.id %}opacity-50{% endif %}">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h3 class="text-lg font-semibold">{{ chore.name }}</h3>
+                        {% if chore.description %}
+                        <p class="text-sm text-gray-600">{{ chore.description }}</p>
+                        {% endif %}
+                        <div class="mt-2 space-y-1">
+                            <p class="text-sm text-yellow-600">Coins: {{ chore.coins_reward }}</p>
+                            <p class="text-sm text-blue-600">Points: {{ chore.points_reward }}</p>
+                        </div>
+                    </div>
+                    {% if not chore.assigned_to or chore.assigned_to == current_user.id %}
+                    <button onclick="completeChore({{ chore.id }})"
+                            class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
+                        Complete
+                    </button>
+                    {% endif %}
+                </div>
+            </div>
+            {% else %}
+            <p class="text-gray-600 text-center col-span-2">No chores available right now</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Available Rewards -->
+    <div class="bg-white rounded-lg shadow-lg p-6">
+        <h2 class="text-xl font-bold text-gray-900 mb-4">Reward Store</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {% for reward in rewards %}
+            <div class="border rounded-lg p-4 {% if reward.coin_cost > current_user.coins %}opacity-50{% endif %}">
+                <div class="flex flex-col h-full justify-between">
+                    <div>
+                        <h3 class="text-lg font-semibold">{{ reward.name }}</h3>
+                        {% if reward.description %}
+                        <p class="text-sm text-gray-600">{{ reward.description }}</p>
+                        {% endif %}
+                        <p class="text-yellow-600 font-semibold mt-2">{{ reward.coin_cost }} coins</p>
+                        {% if reward.quantity >= 0 %}
+                        <p class="text-sm text-gray-600">{{ reward.quantity }} remaining</p>
+                        {% endif %}
+                    </div>
+                    <button onclick="claimReward({{ reward.id }})"
+                            class="mt-4 w-full bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition
+                                   {% if reward.coin_cost > current_user.coins %}opacity-50 cursor-not-allowed{% endif %}"
+                            {% if reward.coin_cost > current_user.coins %}disabled{% endif %}>
+                        Claim Reward
+                    </button>
+                </div>
+            </div>
+            {% else %}
+            <p class="text-gray-600 text-center col-span-3">No rewards available right now</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Family Goals -->
+    <div class="bg-white rounded-lg shadow-lg p-6">
+        <h2 class="text-xl font-bold text-gray-900 mb-4">Family Goals</h2>
+        <div class="space-y-6">
+            {% for goal in goals %}
+            <div class="border rounded-lg p-4">
+                <h3 class="text-lg font-semibold">{{ goal.name }}</h3>
+                {% if goal.description %}
+                <p class="text-sm text-gray-600 mb-2">{{ goal.description }}</p>
+                {% endif %}
+                <div class="mt-4">
+                    <div class="flex justify-between text-sm text-gray-600 mb-1">
+                        <span>Progress</span>
+                        {% set progress = (current_user.family.total_points / goal.points_required * 100)|round|int %}
+                        <span>{{ current_user.family.total_points }} / {{ goal.points_required }} points ({{ progress }}%)</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2.5">
+                        <div class="bg-blue-600 h-2.5 rounded-full" style="width: {{ progress }}%"></div>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <p class="text-gray-600 text-center">No active family goals</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<script>
+function completeChore(choreId) {
+    fetch(`/homeconomy/chores/${choreId}/complete`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            alert(data.error);
+        } else {
+            alert(data.message);
+            location.reload();
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred while completing the chore');
+    });
+}
+
+function claimReward(rewardId) {
+    fetch(`/homeconomy/rewards/${rewardId}/claim`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            alert(data.error);
+        } else {
+            alert(data.message);
+            location.reload();
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred while claiming the reward');
+    });
+}
+</script>
+{% endblock %}
