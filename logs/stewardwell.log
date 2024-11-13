@@ -1,0 +1,307 @@
+2024-11-12 17:57:24,122 - stewardwell - INFO - None - None - None - None - Application started successfully
+2024-11-12 17:58:31,829 - stewardwell - INFO - None - None - None - None - Application started successfully
+2024-11-12 17:59:05,409 - stewardwell - INFO - None - None - None - None - Application started successfully
+2024-11-12 17:59:36,843 - stewardwell - INFO - None - None - None - None - Application started successfully
+2024-11-12 18:00:25,530 - stewardwell - INFO - None - None - None - None - Application started successfully
+2024-11-12 18:00:29,112 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Request: GET http://localhost:5000/homeconomy/parent/dashboard
+2024-11-12 18:00:29,114 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Starting parent_dashboard_view
+2024-11-12 18:00:29,163 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Completed parent_dashboard_view successfully
+2024-11-12 18:00:29,164 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 18:00:33,158 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/rewards/create - 127.0.0.1 - GET - Request: GET http://localhost:5000/homeconomy/rewards/create
+2024-11-12 18:00:33,159 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/rewards/create - 127.0.0.1 - GET - Starting create_reward
+2024-11-12 18:00:33,171 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/rewards/create - 127.0.0.1 - GET - Completed create_reward successfully
+2024-11-12 18:00:33,172 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/rewards/create - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 18:00:34,713 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/chores/create - 127.0.0.1 - GET - Request: GET http://localhost:5000/homeconomy/chores/create
+2024-11-12 18:00:34,713 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/chores/create - 127.0.0.1 - GET - Starting create_chore
+2024-11-12 18:00:34,725 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/chores/create - 127.0.0.1 - GET - Completed create_chore successfully
+2024-11-12 18:00:34,725 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/chores/create - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 18:00:35,925 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/goals/create - 127.0.0.1 - GET - Request: GET http://localhost:5000/homeconomy/goals/create
+2024-11-12 18:00:35,925 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/goals/create - 127.0.0.1 - GET - Starting create_goal
+2024-11-12 18:00:35,934 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/goals/create - 127.0.0.1 - GET - Completed create_goal successfully
+2024-11-12 18:00:35,935 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/goals/create - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 18:00:36,631 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Request: GET http://localhost:5000/homeconomy/parent/dashboard
+2024-11-12 18:00:36,632 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Starting parent_dashboard_view
+2024-11-12 18:00:36,638 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Completed parent_dashboard_view successfully
+2024-11-12 18:00:36,638 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 18:00:57,929 - stewardwell - INFO - None - None - None - None - Application started successfully
+2024-11-12 18:01:12,857 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/goals/create - 127.0.0.1 - GET - Request: GET http://localhost:5000/homeconomy/goals/create
+2024-11-12 18:01:12,858 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/goals/create - 127.0.0.1 - GET - Starting create_goal
+2024-11-12 18:01:12,874 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/goals/create - 127.0.0.1 - GET - Completed create_goal successfully
+2024-11-12 18:01:12,875 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/goals/create - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 18:01:20,792 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/goals/create - 127.0.0.1 - POST - Request: POST http://localhost:5000/homeconomy/goals/create
+2024-11-12 18:01:20,793 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/goals/create - 127.0.0.1 - POST - Starting create_goal
+2024-11-12 18:01:20,806 - stewardwell.homeconomy - INFO - 1 - http://localhost:5000/homeconomy/goals/create - 127.0.0.1 - POST - {"timestamp": "2024-11-13T02:01:20.806242", "module": "homeconomy", "user_id": 1, "action": "goal_created", "details": {"goal_name": "Go to eat out", "goal_id": 1, "points_required": 100}, "ip_address": "127.0.0.1", "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0"}
+2024-11-12 18:01:20,807 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/goals/create - 127.0.0.1 - POST - Completed create_goal successfully
+2024-11-12 18:01:20,807 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/goals/create - 127.0.0.1 - POST - Response: 302 FOUND
+2024-11-12 18:01:20,819 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Request: GET http://localhost:5000/homeconomy/parent/dashboard
+2024-11-12 18:01:20,819 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Starting parent_dashboard_view
+2024-11-12 18:01:20,856 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Completed parent_dashboard_view successfully
+2024-11-12 18:01:20,859 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 18:01:24,255 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/rewards/create - 127.0.0.1 - GET - Request: GET http://localhost:5000/homeconomy/rewards/create
+2024-11-12 18:01:24,255 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/rewards/create - 127.0.0.1 - GET - Starting create_reward
+2024-11-12 18:01:24,264 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/rewards/create - 127.0.0.1 - GET - Completed create_reward successfully
+2024-11-12 18:01:24,265 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/rewards/create - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 18:01:40,612 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/rewards/create - 127.0.0.1 - POST - Request: POST http://localhost:5000/homeconomy/rewards/create
+2024-11-12 18:01:40,612 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/rewards/create - 127.0.0.1 - POST - Starting create_reward
+2024-11-12 18:01:40,622 - stewardwell.homeconomy - INFO - 1 - http://localhost:5000/homeconomy/rewards/create - 127.0.0.1 - POST - {"timestamp": "2024-11-13T02:01:40.622236", "module": "homeconomy", "user_id": 1, "action": "reward_created", "details": {"reward_name": "watch tv", "reward_id": 1, "coin_cost": 10, "quantity": -1}, "ip_address": "127.0.0.1", "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0"}
+2024-11-12 18:01:40,622 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/rewards/create - 127.0.0.1 - POST - Completed create_reward successfully
+2024-11-12 18:01:40,623 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/rewards/create - 127.0.0.1 - POST - Response: 302 FOUND
+2024-11-12 18:01:40,631 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Request: GET http://localhost:5000/homeconomy/parent/dashboard
+2024-11-12 18:01:40,632 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Starting parent_dashboard_view
+2024-11-12 18:01:40,637 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Completed parent_dashboard_view successfully
+2024-11-12 18:01:40,638 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 18:01:47,505 - stewardwell - INFO - None - None - None - None - Application started successfully
+2024-11-12 18:03:46,802 - stewardwell - INFO - None - None - None - None - Application started successfully
+2024-11-12 18:03:54,069 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Request: GET http://localhost:5000/homeconomy/parent/dashboard
+2024-11-12 18:03:54,070 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Starting parent_dashboard_view
+2024-11-12 18:03:54,111 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Completed parent_dashboard_view successfully
+2024-11-12 18:03:54,111 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 18:04:03,961 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/admin/dashboard - 127.0.0.1 - GET - Request: GET http://localhost:5000/homeconomy/admin/dashboard
+2024-11-12 18:04:03,961 - stewardwell - ERROR - 1 - http://localhost:5000/homeconomy/admin/dashboard - 127.0.0.1 - GET - Unhandled exception: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+Traceback (most recent call last):
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1484, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1458, in dispatch_request
+    self.raise_routing_exception(req)
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1440, in raise_routing_exception
+    raise request.routing_exception  # type: ignore
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\ctx.py", line 353, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\werkzeug\routing\map.py", line 655, in match
+    raise NotFound() from None
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-11-12 18:04:08,324 - stewardwell - INFO - 1 - http://localhost:5000/admin/dashboard - 127.0.0.1 - GET - Request: GET http://localhost:5000/admin/dashboard
+2024-11-12 18:04:08,324 - stewardwell - ERROR - 1 - http://localhost:5000/admin/dashboard - 127.0.0.1 - GET - Unhandled exception: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+Traceback (most recent call last):
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1484, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1458, in dispatch_request
+    self.raise_routing_exception(req)
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1440, in raise_routing_exception
+    raise request.routing_exception  # type: ignore
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\ctx.py", line 353, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\werkzeug\routing\map.py", line 655, in match
+    raise NotFound() from None
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-11-12 18:05:59,113 - stewardwell - INFO - None - None - None - None - Application started successfully
+2024-11-12 18:06:05,830 - stewardwell - INFO - None - None - None - None - Application started successfully
+2024-11-12 18:14:11,701 - stewardwell - INFO - None - None - None - None - Application started successfully
+2024-11-12 18:14:12,600 - stewardwell - INFO - None - None - None - None - Application started successfully
+2024-11-12 18:14:16,095 - stewardwell - ERROR - Anonymous - http://localhost:5000/admin/dashboard - 127.0.0.1 - GET - Unhandled exception: (sqlite3.OperationalError) no such column: user.is_active
+[SQL: SELECT user.id AS user_id, user.username AS user_username, user.email AS user_email, user.password_hash AS user_password_hash, user.is_admin AS user_is_admin, user.is_active AS user_is_active, user.created_at AS user_created_at, user.last_login AS user_last_login, user.user_type AS user_user_type, user.family_id AS user_family_id, user.coins AS user_coins, family_1.id AS family_1_id, family_1.name AS family_1_name, family_1.created_at AS family_1_created_at, family_1.owner_id AS family_1_owner_id, family_1.total_points AS family_1_total_points 
+FROM user LEFT OUTER JOIN family AS family_1 ON family_1.id = user.family_id 
+WHERE user.id = ?]
+[parameters: (1,)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+Traceback (most recent call last):
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1965, in _exec_single_context
+    self.dialect.do_execute(
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\engine\default.py", line 921, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.OperationalError: no such column: user.is_active
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1482, in full_dispatch_request
+    rv = self.preprocess_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1974, in preprocess_request
+    rv = self.ensure_sync(before_func)()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\app\__init__.py", line 36, in before_request
+    if current_user.is_authenticated:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\werkzeug\local.py", line 311, in __get__
+    obj = instance._get_current_object()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\werkzeug\local.py", line 515, in _get_current_object
+    return get_name(local())
+                    ^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_login\utils.py", line 25, in <lambda>
+    current_user = LocalProxy(lambda: _get_user())
+                                      ^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_login\utils.py", line 372, in _get_user
+    current_app.login_manager._load_user()
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_login\login_manager.py", line 364, in _load_user
+    user = self._user_callback(user_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\app\models\user.py", line 8, in load_user
+    return User.query.get(int(id))
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 2, in get
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\util\deprecations.py", line 386, in warned
+    return fn(*args, **kwargs)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 1131, in get
+    return self._get_impl(ident, loading.load_on_pk_identity)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 1140, in _get_impl
+    return self.session._get_impl(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 3700, in _get_impl
+    return db_load_fn(
+           ^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\loading.py", line 666, in load_on_pk_identity
+    session.execute(
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2262, in execute
+    return self._execute_internal(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2144, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\context.py", line 293, in orm_execute_statement
+    result = conn.execute(
+             ^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1412, in execute
+    return meth(
+           ^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 516, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1635, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1844, in _execute_context
+    return self._exec_single_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1984, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2339, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1965, in _exec_single_context
+    self.dialect.do_execute(
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\engine\default.py", line 921, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such column: user.is_active
+[SQL: SELECT user.id AS user_id, user.username AS user_username, user.email AS user_email, user.password_hash AS user_password_hash, user.is_admin AS user_is_admin, user.is_active AS user_is_active, user.created_at AS user_created_at, user.last_login AS user_last_login, user.user_type AS user_user_type, user.family_id AS user_family_id, user.coins AS user_coins, family_1.id AS family_1_id, family_1.name AS family_1_name, family_1.created_at AS family_1_created_at, family_1.owner_id AS family_1_owner_id, family_1.total_points AS family_1_total_points 
+FROM user LEFT OUTER JOIN family AS family_1 ON family_1.id = user.family_id 
+WHERE user.id = ?]
+[parameters: (1,)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2024-11-12 18:15:40,962 - stewardwell - ERROR - Anonymous - http://localhost:5000/admin/dashboard - 127.0.0.1 - GET - Unhandled exception: (sqlite3.OperationalError) no such column: user.is_active
+[SQL: SELECT user.id AS user_id, user.username AS user_username, user.email AS user_email, user.password_hash AS user_password_hash, user.is_admin AS user_is_admin, user.is_active AS user_is_active, user.created_at AS user_created_at, user.last_login AS user_last_login, user.user_type AS user_user_type, user.family_id AS user_family_id, user.coins AS user_coins, family_1.id AS family_1_id, family_1.name AS family_1_name, family_1.created_at AS family_1_created_at, family_1.owner_id AS family_1_owner_id, family_1.total_points AS family_1_total_points 
+FROM user LEFT OUTER JOIN family AS family_1 ON family_1.id = user.family_id 
+WHERE user.id = ?]
+[parameters: (1,)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+Traceback (most recent call last):
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1965, in _exec_single_context
+    self.dialect.do_execute(
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\engine\default.py", line 921, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.OperationalError: no such column: user.is_active
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1482, in full_dispatch_request
+    rv = self.preprocess_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1974, in preprocess_request
+    rv = self.ensure_sync(before_func)()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\app\__init__.py", line 36, in before_request
+    if current_user.is_authenticated:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\werkzeug\local.py", line 311, in __get__
+    obj = instance._get_current_object()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\werkzeug\local.py", line 515, in _get_current_object
+    return get_name(local())
+                    ^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_login\utils.py", line 25, in <lambda>
+    current_user = LocalProxy(lambda: _get_user())
+                                      ^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_login\utils.py", line 372, in _get_user
+    current_app.login_manager._load_user()
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_login\login_manager.py", line 364, in _load_user
+    user = self._user_callback(user_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\app\models\user.py", line 8, in load_user
+    return User.query.get(int(id))
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 2, in get
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\util\deprecations.py", line 386, in warned
+    return fn(*args, **kwargs)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 1131, in get
+    return self._get_impl(ident, loading.load_on_pk_identity)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 1140, in _get_impl
+    return self.session._get_impl(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 3700, in _get_impl
+    return db_load_fn(
+           ^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\loading.py", line 666, in load_on_pk_identity
+    session.execute(
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2262, in execute
+    return self._execute_internal(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2144, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\context.py", line 293, in orm_execute_statement
+    result = conn.execute(
+             ^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1412, in execute
+    return meth(
+           ^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 516, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1635, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1844, in _execute_context
+    return self._exec_single_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1984, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2339, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1965, in _exec_single_context
+    self.dialect.do_execute(
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\engine\default.py", line 921, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such column: user.is_active
+[SQL: SELECT user.id AS user_id, user.username AS user_username, user.email AS user_email, user.password_hash AS user_password_hash, user.is_admin AS user_is_admin, user.is_active AS user_is_active, user.created_at AS user_created_at, user.last_login AS user_last_login, user.user_type AS user_user_type, user.family_id AS user_family_id, user.coins AS user_coins, family_1.id AS family_1_id, family_1.name AS family_1_name, family_1.created_at AS family_1_created_at, family_1.owner_id AS family_1_owner_id, family_1.total_points AS family_1_total_points 
+FROM user LEFT OUTER JOIN family AS family_1 ON family_1.id = user.family_id 
+WHERE user.id = ?]
+[parameters: (1,)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2024-11-12 18:16:59,944 - stewardwell - INFO - None - None - None - None - Application started successfully
+2024-11-12 18:17:00,915 - stewardwell - INFO - None - None - None - None - Application started successfully
+2024-11-12 18:17:04,741 - stewardwell - INFO - None - http://localhost:5000/ - 127.0.0.1 - GET - Request: GET http://localhost:5000/
+2024-11-12 18:17:04,754 - stewardwell - INFO - None - http://localhost:5000/ - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 18:17:06,855 - stewardwell - INFO - None - http://localhost:5000/register - 127.0.0.1 - GET - Request: GET http://localhost:5000/register
+2024-11-12 18:17:06,866 - stewardwell - INFO - None - http://localhost:5000/register - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 18:17:19,187 - stewardwell - INFO - None - http://localhost:5000/register - 127.0.0.1 - POST - Request: POST http://localhost:5000/register
+2024-11-12 18:17:19,795 - stewardwell - INFO - None - http://localhost:5000/register - 127.0.0.1 - POST - Response: 302 FOUND
+2024-11-12 18:17:19,808 - stewardwell - INFO - 1 - http://localhost:5000/login - 127.0.0.1 - GET - Request: GET http://localhost:5000/login
+2024-11-12 18:17:19,809 - stewardwell - INFO - 1 - http://localhost:5000/login - 127.0.0.1 - GET - Response: 302 FOUND
+2024-11-12 18:17:20,126 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Request: GET http://localhost:5000/homeconomy/parent/dashboard
+2024-11-12 18:17:20,126 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Starting parent_dashboard_view
+2024-11-12 18:17:20,142 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Completed parent_dashboard_view successfully
+2024-11-12 18:17:20,143 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 18:17:33,487 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Request: GET http://localhost:5000/homeconomy/parent/dashboard
+2024-11-12 18:17:33,487 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Starting parent_dashboard_view
+2024-11-12 18:17:33,488 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Completed parent_dashboard_view successfully
+2024-11-12 18:17:33,489 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 18:17:35,019 - stewardwell - INFO - 1 - http://localhost:5000/admin/dashboard - 127.0.0.1 - GET - Request: GET http://localhost:5000/admin/dashboard
+2024-11-12 18:17:35,019 - stewardwell.admin - INFO - 1 - http://localhost:5000/admin/dashboard - 127.0.0.1 - GET - {"timestamp": "2024-11-13T02:17:35.019929", "module": "admin", "user_id": 1, "action": "admin_dashboard_view", "details": {"access_time": "2024-11-12T18:17:35.019929"}, "ip_address": "127.0.0.1", "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0"}
+2024-11-12 18:17:35,069 - stewardwell - INFO - 1 - http://localhost:5000/admin/dashboard - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 18:17:47,953 - stewardwell - INFO - 1 - http://localhost:5000/admin/logs - 127.0.0.1 - GET - Request: GET http://localhost:5000/admin/logs
+2024-11-12 18:17:47,953 - stewardwell.admin - INFO - 1 - http://localhost:5000/admin/logs - 127.0.0.1 - GET - {"timestamp": "2024-11-13T02:17:47.953637", "module": "admin", "user_id": 1, "action": "admin_log_view", "details": {"log_type": "general", "page": 1}, "ip_address": "127.0.0.1", "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0"}
+2024-11-12 18:17:47,971 - stewardwell - INFO - 1 - http://localhost:5000/admin/logs - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 18:17:54,649 - stewardwell - INFO - 1 - http://localhost:5000/admin/dashboard - 127.0.0.1 - GET - Request: GET http://localhost:5000/admin/dashboard
+2024-11-12 18:17:54,649 - stewardwell.admin - INFO - 1 - http://localhost:5000/admin/dashboard - 127.0.0.1 - GET - {"timestamp": "2024-11-13T02:17:54.649647", "module": "admin", "user_id": 1, "action": "admin_dashboard_view", "details": {"access_time": "2024-11-12T18:17:54.649647"}, "ip_address": "127.0.0.1", "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0"}
+2024-11-12 18:17:54,665 - stewardwell - INFO - 1 - http://localhost:5000/admin/dashboard - 127.0.0.1 - GET - Response: 200 OK

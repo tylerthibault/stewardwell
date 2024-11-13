@@ -13,6 +13,7 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(120), unique=True, nullable=True)  # Made nullable for child accounts
     password_hash = db.Column(db.String(128))
     is_admin = db.Column(db.Boolean, default=False)
+    is_active = db.Column(db.Boolean, default=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     last_login = db.Column(db.DateTime)
     
@@ -54,6 +55,27 @@ class User(UserMixin, db.Model):
     def __repr__(self):
         return f'<User {self.username}>'
 
+    @property
+    def is_parent(self):
+        return self.user_type == 'parent'
+
+    @property
+    def is_child(self):
+        return self.user_type == 'child'
+
+    def can_access_admin(self):
+        return self.is_admin and self.is_active
+
+    def get_completed_chores_count(self):
+        return self.completed_chores.filter_by(verified=True).count()
+
+    def get_total_points_contributed(self):
+        total = 0
+        verified_chores = self.completed_chores.filter_by(verified=True).all()
+        for chore in verified_chores:
+            total += chore.chore.points_reward
+        return total
+
 class Family(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), nullable=False)
@@ -75,6 +97,15 @@ class Family(db.Model):
     def add_points(self, points):
         self.total_points += points
         db.session.commit()
+
+    def get_active_children(self):
+        return self.members.filter_by(user_type='child', is_active=True).all()
+
+    def get_total_chores_completed(self):
+        total = 0
+        for member in self.get_active_children():
+            total += member.get_completed_chores_count()
+        return total
 
     def __repr__(self):
         return f'<Family {self.name}>'

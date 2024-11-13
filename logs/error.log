@@ -1,0 +1,216 @@
+2024-11-12 18:04:03,961 - stewardwell - ERROR - 1 - http://localhost:5000/homeconomy/admin/dashboard - 127.0.0.1 - GET - Unhandled exception: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+Traceback (most recent call last):
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1484, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1458, in dispatch_request
+    self.raise_routing_exception(req)
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1440, in raise_routing_exception
+    raise request.routing_exception  # type: ignore
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\ctx.py", line 353, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\werkzeug\routing\map.py", line 655, in match
+    raise NotFound() from None
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-11-12 18:04:08,324 - stewardwell - ERROR - 1 - http://localhost:5000/admin/dashboard - 127.0.0.1 - GET - Unhandled exception: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+Traceback (most recent call last):
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1484, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1458, in dispatch_request
+    self.raise_routing_exception(req)
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1440, in raise_routing_exception
+    raise request.routing_exception  # type: ignore
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\ctx.py", line 353, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\werkzeug\routing\map.py", line 655, in match
+    raise NotFound() from None
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-11-12 18:14:16,095 - stewardwell - ERROR - Anonymous - http://localhost:5000/admin/dashboard - 127.0.0.1 - GET - Unhandled exception: (sqlite3.OperationalError) no such column: user.is_active
+[SQL: SELECT user.id AS user_id, user.username AS user_username, user.email AS user_email, user.password_hash AS user_password_hash, user.is_admin AS user_is_admin, user.is_active AS user_is_active, user.created_at AS user_created_at, user.last_login AS user_last_login, user.user_type AS user_user_type, user.family_id AS user_family_id, user.coins AS user_coins, family_1.id AS family_1_id, family_1.name AS family_1_name, family_1.created_at AS family_1_created_at, family_1.owner_id AS family_1_owner_id, family_1.total_points AS family_1_total_points 
+FROM user LEFT OUTER JOIN family AS family_1 ON family_1.id = user.family_id 
+WHERE user.id = ?]
+[parameters: (1,)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+Traceback (most recent call last):
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1965, in _exec_single_context
+    self.dialect.do_execute(
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\engine\default.py", line 921, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.OperationalError: no such column: user.is_active
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1482, in full_dispatch_request
+    rv = self.preprocess_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1974, in preprocess_request
+    rv = self.ensure_sync(before_func)()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\app\__init__.py", line 36, in before_request
+    if current_user.is_authenticated:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\werkzeug\local.py", line 311, in __get__
+    obj = instance._get_current_object()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\werkzeug\local.py", line 515, in _get_current_object
+    return get_name(local())
+                    ^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_login\utils.py", line 25, in <lambda>
+    current_user = LocalProxy(lambda: _get_user())
+                                      ^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_login\utils.py", line 372, in _get_user
+    current_app.login_manager._load_user()
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_login\login_manager.py", line 364, in _load_user
+    user = self._user_callback(user_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\app\models\user.py", line 8, in load_user
+    return User.query.get(int(id))
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 2, in get
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\util\deprecations.py", line 386, in warned
+    return fn(*args, **kwargs)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 1131, in get
+    return self._get_impl(ident, loading.load_on_pk_identity)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 1140, in _get_impl
+    return self.session._get_impl(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 3700, in _get_impl
+    return db_load_fn(
+           ^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\loading.py", line 666, in load_on_pk_identity
+    session.execute(
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2262, in execute
+    return self._execute_internal(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2144, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\context.py", line 293, in orm_execute_statement
+    result = conn.execute(
+             ^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1412, in execute
+    return meth(
+           ^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 516, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1635, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1844, in _execute_context
+    return self._exec_single_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1984, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2339, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1965, in _exec_single_context
+    self.dialect.do_execute(
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\engine\default.py", line 921, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such column: user.is_active
+[SQL: SELECT user.id AS user_id, user.username AS user_username, user.email AS user_email, user.password_hash AS user_password_hash, user.is_admin AS user_is_admin, user.is_active AS user_is_active, user.created_at AS user_created_at, user.last_login AS user_last_login, user.user_type AS user_user_type, user.family_id AS user_family_id, user.coins AS user_coins, family_1.id AS family_1_id, family_1.name AS family_1_name, family_1.created_at AS family_1_created_at, family_1.owner_id AS family_1_owner_id, family_1.total_points AS family_1_total_points 
+FROM user LEFT OUTER JOIN family AS family_1 ON family_1.id = user.family_id 
+WHERE user.id = ?]
+[parameters: (1,)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2024-11-12 18:15:40,962 - stewardwell - ERROR - Anonymous - http://localhost:5000/admin/dashboard - 127.0.0.1 - GET - Unhandled exception: (sqlite3.OperationalError) no such column: user.is_active
+[SQL: SELECT user.id AS user_id, user.username AS user_username, user.email AS user_email, user.password_hash AS user_password_hash, user.is_admin AS user_is_admin, user.is_active AS user_is_active, user.created_at AS user_created_at, user.last_login AS user_last_login, user.user_type AS user_user_type, user.family_id AS user_family_id, user.coins AS user_coins, family_1.id AS family_1_id, family_1.name AS family_1_name, family_1.created_at AS family_1_created_at, family_1.owner_id AS family_1_owner_id, family_1.total_points AS family_1_total_points 
+FROM user LEFT OUTER JOIN family AS family_1 ON family_1.id = user.family_id 
+WHERE user.id = ?]
+[parameters: (1,)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+Traceback (most recent call last):
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1965, in _exec_single_context
+    self.dialect.do_execute(
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\engine\default.py", line 921, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.OperationalError: no such column: user.is_active
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1482, in full_dispatch_request
+    rv = self.preprocess_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1974, in preprocess_request
+    rv = self.ensure_sync(before_func)()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\app\__init__.py", line 36, in before_request
+    if current_user.is_authenticated:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\werkzeug\local.py", line 311, in __get__
+    obj = instance._get_current_object()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\werkzeug\local.py", line 515, in _get_current_object
+    return get_name(local())
+                    ^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_login\utils.py", line 25, in <lambda>
+    current_user = LocalProxy(lambda: _get_user())
+                                      ^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_login\utils.py", line 372, in _get_user
+    current_app.login_manager._load_user()
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_login\login_manager.py", line 364, in _load_user
+    user = self._user_callback(user_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\app\models\user.py", line 8, in load_user
+    return User.query.get(int(id))
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 2, in get
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\util\deprecations.py", line 386, in warned
+    return fn(*args, **kwargs)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 1131, in get
+    return self._get_impl(ident, loading.load_on_pk_identity)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 1140, in _get_impl
+    return self.session._get_impl(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 3700, in _get_impl
+    return db_load_fn(
+           ^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\loading.py", line 666, in load_on_pk_identity
+    session.execute(
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2262, in execute
+    return self._execute_internal(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2144, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\context.py", line 293, in orm_execute_statement
+    result = conn.execute(
+             ^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1412, in execute
+    return meth(
+           ^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 516, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1635, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1844, in _execute_context
+    return self._exec_single_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1984, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2339, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1965, in _exec_single_context
+    self.dialect.do_execute(
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\engine\default.py", line 921, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such column: user.is_active
+[SQL: SELECT user.id AS user_id, user.username AS user_username, user.email AS user_email, user.password_hash AS user_password_hash, user.is_admin AS user_is_admin, user.is_active AS user_is_active, user.created_at AS user_created_at, user.last_login AS user_last_login, user.user_type AS user_user_type, user.family_id AS user_family_id, user.coins AS user_coins, family_1.id AS family_1_id, family_1.name AS family_1_name, family_1.created_at AS family_1_created_at, family_1.owner_id AS family_1_owner_id, family_1.total_points AS family_1_total_points 
+FROM user LEFT OUTER JOIN family AS family_1 ON family_1.id = user.family_id 
+WHERE user.id = ?]
+[parameters: (1,)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)

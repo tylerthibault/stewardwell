@@ -12,7 +12,11 @@ from app.modules.homeconomy.models import (
     Goal
 )
 from app.models.user import User, Family
+from app.utils.logger import log_action, ActivityLogger
 from datetime import datetime
+
+# Initialize activity logger for homeconomy module
+activity_logger = ActivityLogger('homeconomy')
 
 def is_parent():
     return current_user.user_type == 'parent'
@@ -22,6 +26,7 @@ def is_child():
 
 @bp.route('/')
 @login_required
+@log_action('homeconomy_index')
 def index():
     if is_parent():
         return redirect(url_for('homeconomy.parent_dashboard'))
@@ -30,8 +35,14 @@ def index():
 # Parent Routes
 @bp.route('/parent/dashboard')
 @login_required
+@log_action('parent_dashboard_view')
 def parent_dashboard():
     if not is_parent():
+        activity_logger.log_error(
+            current_user.id,
+            'unauthorized_access',
+            'Non-parent user attempted to access parent dashboard'
+        )
         flash('Access denied. Parents only.', 'error')
         return redirect(url_for('homeconomy.index'))
     
@@ -40,12 +51,23 @@ def parent_dashboard():
 
 @bp.route('/family/create', methods=['GET', 'POST'])
 @login_required
+@log_action('family_creation')
 def create_family():
     if not is_parent():
+        activity_logger.log_error(
+            current_user.id,
+            'unauthorized_access',
+            'Non-parent user attempted to create family'
+        )
         flash('Access denied. Parents only.', 'error')
         return redirect(url_for('homeconomy.index'))
     
     if current_user.family:
+        activity_logger.log_error(
+            current_user.id,
+            'duplicate_family',
+            'User attempted to create multiple families'
+        )
         flash('You already have a family.', 'error')
         return redirect(url_for('homeconomy.parent_dashboard'))
     
@@ -58,6 +80,12 @@ def create_family():
         current_user.family = family
         db.session.add(family)
         db.session.commit()
+        
+        activity_logger.log_activity(
+            current_user.id,
+            'family_created',
+            {'family_name': family.name, 'family_id': family.id}
+        )
         flash(f'Family {family.name} created successfully!', 'success')
         return redirect(url_for('homeconomy.parent_dashboard'))
     
@@ -65,19 +93,35 @@ def create_family():
 
 @bp.route('/family/<int:family_id>/add_child', methods=['GET', 'POST'])
 @login_required
+@log_action('add_child')
 def add_child(family_id):
     if not is_parent():
+        activity_logger.log_error(
+            current_user.id,
+            'unauthorized_access',
+            'Non-parent user attempted to add child'
+        )
         flash('Access denied. Parents only.', 'error')
         return redirect(url_for('homeconomy.index'))
     
     family = Family.query.get_or_404(family_id)
     if family.owner_id != current_user.id:
+        activity_logger.log_error(
+            current_user.id,
+            'unauthorized_access',
+            f'User attempted to add child to another family: {family_id}'
+        )
         flash('Access denied. Not your family.', 'error')
         return redirect(url_for('homeconomy.index'))
     
     form = AddChildForm()
     if form.validate_on_submit():
         if User.query.filter_by(username=form.username.data).first():
+            activity_logger.log_error(
+                current_user.id,
+                'duplicate_username',
+                f'Attempted to create child with existing username: {form.username.data}'
+            )
             flash('Username already exists. Please choose a different one.', 'error')
             return render_template('homeconomy/family/add_child.html', form=form, family=family)
         
@@ -93,24 +137,48 @@ def add_child(family_id):
         
         try:
             db.session.commit()
+            activity_logger.log_activity(
+                current_user.id,
+                'child_added',
+                {
+                    'child_username': child.username,
+                    'child_id': child.id,
+                    'family_id': family.id
+                }
+            )
             flash(f'Child {child.username} added successfully!', 'success')
             return redirect(url_for('homeconomy.parent_dashboard'))
         except Exception as e:
             db.session.rollback()
+            activity_logger.log_error(
+                current_user.id,
+                'database_error',
+                f'Error adding child: {str(e)}'
+            )
             flash('An error occurred while adding the child. Please try again.', 'error')
             return render_template('homeconomy/family/add_child.html', form=form, family=family)
     
     return render_template('homeconomy/family/add_child.html', form=form, family=family)
 
-# Chore Management Routes
 @bp.route('/chores/create', methods=['GET', 'POST'])
 @login_required
+@log_action('create_chore')
 def create_chore():
     if not is_parent():
+        activity_logger.log_error(
+            current_user.id,
+            'unauthorized_access',
+            'Non-parent user attempted to create chore'
+        )
         flash('Access denied. Parents only.', 'error')
         return redirect(url_for('homeconomy.index'))
     
     if not current_user.family:
+        activity_logger.log_error(
+            current_user.id,
+            'no_family',
+            'User attempted to create chore without a family'
+        )
         flash('You need to create a family first.', 'error')
         return redirect(url_for('homeconomy.create_family'))
     
@@ -127,6 +195,18 @@ def create_chore():
         )
         db.session.add(chore)
         db.session.commit()
+        
+        activity_logger.log_activity(
+            current_user.id,
+            'chore_created',
+            {
+                'chore_name': chore.name,
+                'chore_id': chore.id,
+                'coins_reward': chore.coins_reward,
+                'points_reward': chore.points_reward,
+                'assigned_to': chore.assigned_to
+            }
+        )
         flash(f'Chore {chore.name} created successfully!', 'success')
         return redirect(url_for('homeconomy.parent_dashboard'))
     
@@ -134,13 +214,24 @@ def create_chore():
 
 @bp.route('/chores/<int:chore_id>/verify', methods=['GET', 'POST'])
 @login_required
+@log_action('verify_chore')
 def verify_chore(chore_id):
     if not is_parent():
+        activity_logger.log_error(
+            current_user.id,
+            'unauthorized_access',
+            'Non-parent user attempted to verify chore'
+        )
         flash('Access denied. Parents only.', 'error')
         return redirect(url_for('homeconomy.index'))
     
     completed_chore = CompletedChore.query.get_or_404(chore_id)
     if completed_chore.chore.family_id != current_user.family.id:
+        activity_logger.log_error(
+            current_user.id,
+            'unauthorized_access',
+            f'User attempted to verify chore from another family: {chore_id}'
+        )
         flash('Access denied. Not your family.', 'error')
         return redirect(url_for('homeconomy.index'))
     
@@ -157,21 +248,42 @@ def verify_chore(chore_id):
             current_user.family.total_points += completed_chore.chore.points_reward
             
             db.session.commit()
+            
+            activity_logger.log_activity(
+                current_user.id,
+                'chore_verified',
+                {
+                    'chore_id': completed_chore.chore_id,
+                    'child_id': completed_chore.child_id,
+                    'coins_awarded': completed_chore.chore.coins_reward,
+                    'points_awarded': completed_chore.chore.points_reward
+                }
+            )
             flash('Chore verified and rewards distributed!', 'success')
         return redirect(url_for('homeconomy.parent_dashboard'))
     
     return render_template('homeconomy/chores/verify.html', 
                          form=form, completed_chore=completed_chore)
 
-# Reward Management Routes
 @bp.route('/rewards/create', methods=['GET', 'POST'])
 @login_required
+@log_action('create_reward')
 def create_reward():
     if not is_parent():
+        activity_logger.log_error(
+            current_user.id,
+            'unauthorized_access',
+            'Non-parent user attempted to create reward'
+        )
         flash('Access denied. Parents only.', 'error')
         return redirect(url_for('homeconomy.index'))
     
     if not current_user.family:
+        activity_logger.log_error(
+            current_user.id,
+            'no_family',
+            'User attempted to create reward without a family'
+        )
         flash('You need to create a family first.', 'error')
         return redirect(url_for('homeconomy.create_family'))
     
@@ -187,45 +299,41 @@ def create_reward():
         )
         db.session.add(reward)
         db.session.commit()
+        
+        activity_logger.log_activity(
+            current_user.id,
+            'reward_created',
+            {
+                'reward_name': reward.name,
+                'reward_id': reward.id,
+                'coin_cost': reward.coin_cost,
+                'quantity': reward.quantity
+            }
+        )
         flash(f'Reward {reward.name} created successfully!', 'success')
         return redirect(url_for('homeconomy.parent_dashboard'))
     
     return render_template('homeconomy/rewards/create.html', form=form)
 
-@bp.route('/rewards/<int:reward_id>/fulfill', methods=['GET', 'POST'])
-@login_required
-def fulfill_reward(reward_id):
-    if not is_parent():
-        flash('Access denied. Parents only.', 'error')
-        return redirect(url_for('homeconomy.index'))
-    
-    claimed_reward = ClaimedReward.query.get_or_404(reward_id)
-    if claimed_reward.reward.family_id != current_user.family.id:
-        flash('Access denied. Not your family.', 'error')
-        return redirect(url_for('homeconomy.index'))
-    
-    form = FulfillRewardForm()
-    if form.validate_on_submit():
-        if form.fulfilled.data:
-            claimed_reward.fulfilled = True
-            claimed_reward.fulfilled_at = datetime.utcnow()
-            claimed_reward.fulfilled_by_id = current_user.id
-            db.session.commit()
-            flash('Reward fulfilled successfully!', 'success')
-        return redirect(url_for('homeconomy.parent_dashboard'))
-    
-    return render_template('homeconomy/rewards/fulfill.html',
-                         form=form, claimed_reward=claimed_reward)
-
-# Goal Management Routes
 @bp.route('/goals/create', methods=['GET', 'POST'])
 @login_required
+@log_action('create_goal')
 def create_goal():
     if not is_parent():
+        activity_logger.log_error(
+            current_user.id,
+            'unauthorized_access',
+            'Non-parent user attempted to create goal'
+        )
         flash('Access denied. Parents only.', 'error')
         return redirect(url_for('homeconomy.index'))
     
     if not current_user.family:
+        activity_logger.log_error(
+            current_user.id,
+            'no_family',
+            'User attempted to create goal without a family'
+        )
         flash('You need to create a family first.', 'error')
         return redirect(url_for('homeconomy.create_family'))
     
@@ -240,6 +348,16 @@ def create_goal():
         )
         db.session.add(goal)
         db.session.commit()
+        
+        activity_logger.log_activity(
+            current_user.id,
+            'goal_created',
+            {
+                'goal_name': goal.name,
+                'goal_id': goal.id,
+                'points_required': goal.points_required
+            }
+        )
         flash(f'Goal {goal.name} created successfully!', 'success')
         return redirect(url_for('homeconomy.parent_dashboard'))
     
@@ -248,8 +366,14 @@ def create_goal():
 # Child Routes
 @bp.route('/child/dashboard')
 @login_required
+@log_action('child_dashboard_view')
 def child_dashboard():
     if not is_child():
+        activity_logger.log_error(
+            current_user.id,
+            'unauthorized_access',
+            'Non-child user attempted to access child dashboard'
+        )
         flash('Access denied. Children only.', 'error')
         return redirect(url_for('homeconomy.index'))
     
@@ -276,12 +400,23 @@ def child_dashboard():
 
 @bp.route('/chores/<int:chore_id>/complete', methods=['POST'])
 @login_required
+@log_action('complete_chore')
 def complete_chore(chore_id):
     if not is_child():
+        activity_logger.log_error(
+            current_user.id,
+            'unauthorized_access',
+            'Non-child user attempted to complete chore'
+        )
         return jsonify({'error': 'Access denied. Children only.'}), 403
     
     chore = Chore.query.get_or_404(chore_id)
     if chore.family_id != current_user.family_id:
+        activity_logger.log_error(
+            current_user.id,
+            'unauthorized_access',
+            f'User attempted to complete chore from another family: {chore_id}'
+        )
         return jsonify({'error': 'Access denied. Not your family.'}), 403
     
     completed_chore = CompletedChore(
@@ -290,6 +425,16 @@ def complete_chore(chore_id):
     )
     db.session.add(completed_chore)
     db.session.commit()
+    
+    activity_logger.log_activity(
+        current_user.id,
+        'chore_completed',
+        {
+            'chore_id': chore.id,
+            'chore_name': chore.name,
+            'completion_id': completed_chore.id
+        }
+    )
     
     return jsonify({
         'message': 'Chore marked as completed! Waiting for parent verification.',
