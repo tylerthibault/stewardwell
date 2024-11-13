@@ -1,0 +1,168 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto">
+    <div class="bg-white shadow-sm rounded-lg">
+        <!-- Header -->
+        <div class="px-4 py-5 sm:px-6 border-b">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-900">Security Settings</h1>
+                    <p class="mt-1 text-sm text-gray-500">Manage your account security and password.</p>
+                </div>
+                <a href="{{ url_for('settings.index') }}" 
+                   class="text-blue-600 hover:text-blue-800">
+                    <i class="fas fa-arrow-left mr-1"></i>
+                    Back to Settings
+                </a>
+            </div>
+        </div>
+
+        <!-- Password Change Form -->
+        <form method="POST" class="p-6 space-y-6">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            
+            <div class="space-y-4">
+                <h3 class="text-lg font-medium text-gray-900">Change Password</h3>
+                
+                <div>
+                    <label for="current_password" class="block text-sm font-medium text-gray-700">Current Password</label>
+                    <input type="password" name="current_password" id="current_password" 
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                           required>
+                </div>
+
+                <div>
+                    <label for="new_password" class="block text-sm font-medium text-gray-700">New Password</label>
+                    <input type="password" name="new_password" id="new_password" 
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                           required>
+                    <p class="mt-1 text-xs text-gray-500">Password must be at least 8 characters long</p>
+                </div>
+
+                <div>
+                    <label for="confirm_password" class="block text-sm font-medium text-gray-700">Confirm New Password</label>
+                    <input type="password" name="confirm_password" id="confirm_password" 
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                           required>
+                </div>
+            </div>
+
+            <!-- Two-Factor Authentication -->
+            <div class="space-y-4 pt-6 border-t">
+                <h3 class="text-lg font-medium text-gray-900">Two-Factor Authentication</h3>
+                <p class="text-sm text-gray-500">Add an extra layer of security to your account.</p>
+                
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-900">Two-Factor Authentication</p>
+                        <p class="text-sm text-gray-500">Currently disabled</p>
+                    </div>
+                    <button type="button"
+                            class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        Enable
+                    </button>
+                </div>
+            </div>
+
+            <!-- Login History -->
+            <div class="space-y-4 pt-6 border-t">
+                <h3 class="text-lg font-medium text-gray-900">Login History</h3>
+                <p class="text-sm text-gray-500">Recent login activity on your account.</p>
+                
+                <div class="bg-gray-50 rounded-lg p-4">
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium text-gray-900">Current Session</p>
+                                <p class="text-xs text-gray-500">Started {{ current_user.last_login.strftime('%B %d, %Y %H:%M') if current_user.last_login else 'Unknown' }}</p>
+                            </div>
+                            <span class="px-2 py-1 text-xs font-medium text-green-800 bg-green-100 rounded-full">
+                                Active
+                            </span>
+                        </div>
+                        <!-- Add more login history entries here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Account Activity -->
+            <div class="space-y-4 pt-6 border-t">
+                <h3 class="text-lg font-medium text-gray-900">Account Activity</h3>
+                <p class="text-sm text-gray-500">Monitor your account activity and security events.</p>
+                
+                <div class="bg-gray-50 rounded-lg p-4">
+                    <div class="space-y-4">
+                        <div class="flex items-center">
+                            <i class="fas fa-shield-alt text-gray-400 mr-3"></i>
+                            <div>
+                                <p class="text-sm font-medium text-gray-900">Security Audit</p>
+                                <p class="text-xs text-gray-500">Review your account security settings</p>
+                            </div>
+                            <button class="ml-auto text-sm text-blue-600 hover:text-blue-800">
+                                Review
+                            </button>
+                        </div>
+                        
+                        <div class="flex items-center">
+                            <i class="fas fa-history text-gray-400 mr-3"></i>
+                            <div>
+                                <p class="text-sm font-medium text-gray-900">Activity Log</p>
+                                <p class="text-xs text-gray-500">View your account activity history</p>
+                            </div>
+                            <button class="ml-auto text-sm text-blue-600 hover:text-blue-800">
+                                View Log
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Save Button -->
+            <div class="pt-5 border-t">
+                <div class="flex justify-end space-x-3">
+                    <button type="button"
+                            onclick="window.location.href='{{ url_for('settings.index') }}'"
+                            class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        Cancel
+                    </button>
+                    <button type="submit"
+                            class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        Save Changes
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        <!-- Connected Accounts -->
+        <div class="px-6 py-4 bg-gray-50 border-t">
+            <h3 class="text-lg font-medium text-gray-900">Connected Accounts</h3>
+            <p class="mt-1 text-sm text-gray-500">Manage your connected accounts and services.</p>
+            
+            <div class="mt-4 space-y-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <i class="fab fa-google text-gray-400 text-xl mr-3"></i>
+                        <div>
+                            <p class="text-sm font-medium text-gray-900">Google</p>
+                            <p class="text-xs text-gray-500">Not connected</p>
+                        </div>
+                    </div>
+                    <button class="text-sm text-blue-600 hover:text-blue-800">Connect</button>
+                </div>
+
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <i class="fab fa-apple text-gray-400 text-xl mr-3"></i>
+                        <div>
+                            <p class="text-sm font-medium text-gray-900">Apple</p>
+                            <p class="text-xs text-gray-500">Not connected</p>
+                        </div>
+                    </div>
+                    <button class="text-sm text-blue-600 hover:text-blue-800">Connect</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

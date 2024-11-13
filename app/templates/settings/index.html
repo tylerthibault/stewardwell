@@ -1,0 +1,224 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto">
+    <div class="bg-white shadow-sm rounded-lg">
+        <!-- Header -->
+        <div class="px-4 py-5 sm:px-6 border-b">
+            <h1 class="text-2xl font-bold text-gray-900">Settings</h1>
+            <p class="mt-1 text-sm text-gray-500">Manage your account preferences and settings.</p>
+        </div>
+
+        <!-- Settings Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 p-6">
+            <!-- Profile Settings -->
+            <div class="bg-white border rounded-lg hover:bg-gray-50 transition">
+                <div class="p-6">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                <i class="fas fa-user-circle text-2xl text-blue-600"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h2 class="text-lg font-medium text-gray-900">Profile Settings</h2>
+                                <p class="mt-1 text-sm text-gray-500">
+                                    Update your personal information and email preferences
+                                </p>
+                            </div>
+                        </div>
+                        <a href="{{ url_for('settings.profile') }}" 
+                           class="ml-6 text-sm font-medium text-blue-600 hover:text-blue-500">
+                            Edit<span class="hidden sm:inline"> settings</span>
+                        </a>
+                    </div>
+                    <div class="mt-4 border-t pt-4">
+                        <dl class="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
+                            <div>
+                                <dt class="text-sm font-medium text-gray-500">Email</dt>
+                                <dd class="mt-1 text-sm text-gray-900">{{ current_user.email or 'Not set' }}</dd>
+                            </div>
+                            <div>
+                                <dt class="text-sm font-medium text-gray-500">Email Updates</dt>
+                                <dd class="mt-1 text-sm text-gray-900">
+                                    {% if settings.email_updates %}
+                                        <span class="text-green-600">Enabled</span>
+                                    {% else %}
+                                        <span class="text-red-600">Disabled</span>
+                                    {% endif %}
+                                </dd>
+                            </div>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notification Settings -->
+            <div class="bg-white border rounded-lg hover:bg-gray-50 transition">
+                <div class="p-6">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                <i class="fas fa-bell text-2xl text-yellow-600"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h2 class="text-lg font-medium text-gray-900">Notifications</h2>
+                                <p class="mt-1 text-sm text-gray-500">
+                                    Configure your notification preferences
+                                </p>
+                            </div>
+                        </div>
+                        <a href="{{ url_for('settings.notifications') }}" 
+                           class="ml-6 text-sm font-medium text-blue-600 hover:text-blue-500">
+                            Edit<span class="hidden sm:inline"> settings</span>
+                        </a>
+                    </div>
+                    <div class="mt-4 border-t pt-4">
+                        <dl class="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
+                            <div>
+                                <dt class="text-sm font-medium text-gray-500">Email Notifications</dt>
+                                <dd class="mt-1 text-sm text-gray-900">
+                                    {{ settings.notification_frequency|title }}
+                                </dd>
+                            </div>
+                            <div>
+                                <dt class="text-sm font-medium text-gray-500">Quiet Hours</dt>
+                                <dd class="mt-1 text-sm text-gray-900">
+                                    {% if settings.quiet_hours_start and settings.quiet_hours_end %}
+                                        {{ settings.quiet_hours_start.strftime('%H:%M') }} - {{ settings.quiet_hours_end.strftime('%H:%M') }}
+                                    {% else %}
+                                        Not set
+                                    {% endif %}
+                                </dd>
+                            </div>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Security Settings -->
+            <div class="bg-white border rounded-lg hover:bg-gray-50 transition">
+                <div class="p-6">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                <i class="fas fa-shield-alt text-2xl text-green-600"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h2 class="text-lg font-medium text-gray-900">Security</h2>
+                                <p class="mt-1 text-sm text-gray-500">
+                                    Manage your password and security settings
+                                </p>
+                            </div>
+                        </div>
+                        <a href="{{ url_for('settings.security') }}" 
+                           class="ml-6 text-sm font-medium text-blue-600 hover:text-blue-500">
+                            Edit<span class="hidden sm:inline"> settings</span>
+                        </a>
+                    </div>
+                    <div class="mt-4 border-t pt-4">
+                        <dl class="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
+                            <div>
+                                <dt class="text-sm font-medium text-gray-500">Last Password Change</dt>
+                                <dd class="mt-1 text-sm text-gray-900">Not available</dd>
+                            </div>
+                            <div>
+                                <dt class="text-sm font-medium text-gray-500">Two-Factor Auth</dt>
+                                <dd class="mt-1 text-sm text-gray-900">
+                                    <span class="text-red-600">Not enabled</span>
+                                </dd>
+                            </div>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Appearance Settings -->
+            <div class="bg-white border rounded-lg hover:bg-gray-50 transition">
+                <div class="p-6">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                <i class="fas fa-palette text-2xl text-purple-600"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h2 class="text-lg font-medium text-gray-900">Appearance</h2>
+                                <p class="mt-1 text-sm text-gray-500">
+                                    Customize the look and feel
+                                </p>
+                            </div>
+                        </div>
+                        <a href="{{ url_for('settings.appearance') }}" 
+                           class="ml-6 text-sm font-medium text-blue-600 hover:text-blue-500">
+                            Edit<span class="hidden sm:inline"> settings</span>
+                        </a>
+                    </div>
+                    <div class="mt-4 border-t pt-4">
+                        <dl class="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
+                            <div>
+                                <dt class="text-sm font-medium text-gray-500">Theme</dt>
+                                <dd class="mt-1 text-sm text-gray-900">{{ settings.theme|title }}</dd>
+                            </div>
+                            <div>
+                                <dt class="text-sm font-medium text-gray-500">Color Scheme</dt>
+                                <dd class="mt-1 text-sm text-gray-900">{{ settings.color_scheme|title }}</dd>
+                            </div>
+                            <div>
+                                <dt class="text-sm font-medium text-gray-500">Font Size</dt>
+                                <dd class="mt-1 text-sm text-gray-900">{{ settings.font_size|title }}</dd>
+                            </div>
+                            <div>
+                                <dt class="text-sm font-medium text-gray-500">Layout Density</dt>
+                                <dd class="mt-1 text-sm text-gray-900">{{ settings.density|title }}</dd>
+                            </div>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Additional Settings -->
+        <div class="px-6 py-4 bg-gray-50 rounded-b-lg">
+            <h3 class="text-sm font-medium text-gray-500 uppercase tracking-wider">Additional Settings</h3>
+            <div class="mt-4 space-y-4">
+                {% if current_user.is_parent %}
+                <!-- Family Settings -->
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <i class="fas fa-home text-gray-400 mr-3"></i>
+                        <div>
+                            <p class="text-sm font-medium text-gray-900">Family Settings</p>
+                            <p class="text-xs text-gray-500">Manage your family preferences</p>
+                        </div>
+                    </div>
+                    <button class="text-sm text-blue-600 hover:text-blue-800">Configure</button>
+                </div>
+                {% endif %}
+
+                <!-- Data & Privacy -->
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <i class="fas fa-lock text-gray-400 mr-3"></i>
+                        <div>
+                            <p class="text-sm font-medium text-gray-900">Data & Privacy</p>
+                            <p class="text-xs text-gray-500">Manage your data and privacy settings</p>
+                        </div>
+                    </div>
+                    <button class="text-sm text-blue-600 hover:text-blue-800">Review</button>
+                </div>
+
+                <!-- Account Management -->
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <i class="fas fa-user-cog text-gray-400 mr-3"></i>
+                        <div>
+                            <p class="text-sm font-medium text-gray-900">Account Management</p>
+                            <p class="text-xs text-gray-500">Manage your account settings</p>
+                        </div>
+                    </div>
+                    <button class="text-sm text-blue-600 hover:text-blue-800">Manage</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

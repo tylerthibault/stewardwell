@@ -305,3 +305,1000 @@ WHERE user.id = ?]
 2024-11-12 18:17:54,649 - stewardwell - INFO - 1 - http://localhost:5000/admin/dashboard - 127.0.0.1 - GET - Request: GET http://localhost:5000/admin/dashboard
 2024-11-12 18:17:54,649 - stewardwell.admin - INFO - 1 - http://localhost:5000/admin/dashboard - 127.0.0.1 - GET - {"timestamp": "2024-11-13T02:17:54.649647", "module": "admin", "user_id": 1, "action": "admin_dashboard_view", "details": {"access_time": "2024-11-12T18:17:54.649647"}, "ip_address": "127.0.0.1", "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0"}
 2024-11-12 18:17:54,665 - stewardwell - INFO - 1 - http://localhost:5000/admin/dashboard - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 21:44:54,285 - stewardwell - INFO - None - None - None - None - Application started successfully
+2024-11-12 21:44:55,361 - stewardwell - INFO - None - None - None - None - Application started successfully
+2024-11-12 21:44:55,480 - stewardwell - INFO - None - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Request: GET http://localhost:5000/homeconomy/parent/dashboard
+2024-11-12 21:44:55,481 - stewardwell - INFO - None - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Response: 302 FOUND
+2024-11-12 21:44:55,490 - stewardwell - INFO - None - http://localhost:5000/login?next=/homeconomy/parent/dashboard - 127.0.0.1 - GET - Request: GET http://localhost:5000/login?next=/homeconomy/parent/dashboard
+2024-11-12 21:44:55,510 - stewardwell - INFO - None - http://localhost:5000/login?next=/homeconomy/parent/dashboard - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:25:58,040 - stewardwell - INFO - None - http://localhost:5000/login?next=/homeconomy/parent/dashboard - 127.0.0.1 - POST - Request: POST http://localhost:5000/login?next=/homeconomy/parent/dashboard
+2024-11-12 22:25:58,043 - stewardwell - INFO - None - http://localhost:5000/login?next=/homeconomy/parent/dashboard - 127.0.0.1 - POST - Response: 200 OK
+2024-11-12 22:26:07,576 - stewardwell - INFO - None - http://localhost:5000/login?next=/homeconomy/parent/dashboard - 127.0.0.1 - POST - Request: POST http://localhost:5000/login?next=/homeconomy/parent/dashboard
+2024-11-12 22:26:07,605 - stewardwell - INFO - None - http://localhost:5000/login?next=/homeconomy/parent/dashboard - 127.0.0.1 - POST - Response: 302 FOUND
+2024-11-12 22:26:07,612 - stewardwell - INFO - None - http://localhost:5000/login - 127.0.0.1 - GET - Request: GET http://localhost:5000/login
+2024-11-12 22:26:07,613 - stewardwell - INFO - None - http://localhost:5000/login - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:26:17,023 - stewardwell - INFO - None - http://localhost:5000/login - 127.0.0.1 - GET - Request: GET http://localhost:5000/login
+2024-11-12 22:26:17,025 - stewardwell - INFO - None - http://localhost:5000/login - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:26:25,427 - stewardwell - INFO - None - http://localhost:5000/login - 127.0.0.1 - POST - Request: POST http://localhost:5000/login
+2024-11-12 22:26:26,018 - stewardwell - INFO - None - http://localhost:5000/login - 127.0.0.1 - POST - Response: 302 FOUND
+2024-11-12 22:26:26,033 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Request: GET http://localhost:5000/homeconomy/parent/dashboard
+2024-11-12 22:26:26,033 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Starting parent_dashboard_view
+2024-11-12 22:26:26,051 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Completed parent_dashboard_view successfully
+2024-11-12 22:26:26,051 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:26:30,399 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/family/create - 127.0.0.1 - GET - Request: GET http://localhost:5000/homeconomy/family/create
+2024-11-12 22:26:30,399 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/family/create - 127.0.0.1 - GET - Starting family_creation
+2024-11-12 22:26:30,403 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/family/create - 127.0.0.1 - GET - Completed family_creation successfully
+2024-11-12 22:26:30,404 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/family/create - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:26:34,088 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/family/create - 127.0.0.1 - POST - Request: POST http://localhost:5000/homeconomy/family/create
+2024-11-12 22:26:34,088 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/family/create - 127.0.0.1 - POST - Starting family_creation
+2024-11-12 22:26:34,098 - stewardwell.homeconomy - INFO - 1 - http://localhost:5000/homeconomy/family/create - 127.0.0.1 - POST - {"timestamp": "2024-11-13T06:26:34.098077", "module": "homeconomy", "user_id": 1, "action": "family_created", "details": {"family_name": "Thibault", "family_id": 1}, "ip_address": "127.0.0.1", "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0"}
+2024-11-12 22:26:34,098 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/family/create - 127.0.0.1 - POST - Completed family_creation successfully
+2024-11-12 22:26:34,098 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/family/create - 127.0.0.1 - POST - Response: 302 FOUND
+2024-11-12 22:26:34,105 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Request: GET http://localhost:5000/homeconomy/parent/dashboard
+2024-11-12 22:26:34,105 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Starting parent_dashboard_view
+2024-11-12 22:26:34,120 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Completed parent_dashboard_view successfully
+2024-11-12 22:26:34,121 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:26:35,988 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/family/1/add_child - 127.0.0.1 - GET - Request: GET http://localhost:5000/homeconomy/family/1/add_child
+2024-11-12 22:26:35,988 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/family/1/add_child - 127.0.0.1 - GET - Starting add_child
+2024-11-12 22:26:35,995 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/family/1/add_child - 127.0.0.1 - GET - Completed add_child successfully
+2024-11-12 22:26:35,995 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/family/1/add_child - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:26:46,379 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/family/1/add_child - 127.0.0.1 - POST - Request: POST http://localhost:5000/homeconomy/family/1/add_child
+2024-11-12 22:26:46,380 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/family/1/add_child - 127.0.0.1 - POST - Starting add_child
+2024-11-12 22:26:46,896 - stewardwell.homeconomy - INFO - 1 - http://localhost:5000/homeconomy/family/1/add_child - 127.0.0.1 - POST - {"timestamp": "2024-11-13T06:26:46.896662", "module": "homeconomy", "user_id": 1, "action": "child_added", "details": {"child_username": "Theo", "child_id": 2, "family_id": 1}, "ip_address": "127.0.0.1", "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0"}
+2024-11-12 22:26:46,897 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/family/1/add_child - 127.0.0.1 - POST - Completed add_child successfully
+2024-11-12 22:26:46,897 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/family/1/add_child - 127.0.0.1 - POST - Response: 302 FOUND
+2024-11-12 22:26:46,909 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Request: GET http://localhost:5000/homeconomy/parent/dashboard
+2024-11-12 22:26:46,910 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Starting parent_dashboard_view
+2024-11-12 22:26:46,914 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Completed parent_dashboard_view successfully
+2024-11-12 22:26:46,914 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:26:48,610 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/family/1/add_child - 127.0.0.1 - GET - Request: GET http://localhost:5000/homeconomy/family/1/add_child
+2024-11-12 22:26:48,610 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/family/1/add_child - 127.0.0.1 - GET - Starting add_child
+2024-11-12 22:26:48,612 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/family/1/add_child - 127.0.0.1 - GET - Completed add_child successfully
+2024-11-12 22:26:48,612 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/family/1/add_child - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:26:55,002 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/family/1/add_child - 127.0.0.1 - POST - Request: POST http://localhost:5000/homeconomy/family/1/add_child
+2024-11-12 22:26:55,002 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/family/1/add_child - 127.0.0.1 - POST - Starting add_child
+2024-11-12 22:26:55,531 - stewardwell.homeconomy - INFO - 1 - http://localhost:5000/homeconomy/family/1/add_child - 127.0.0.1 - POST - {"timestamp": "2024-11-13T06:26:55.531973", "module": "homeconomy", "user_id": 1, "action": "child_added", "details": {"child_username": "Zee", "child_id": 3, "family_id": 1}, "ip_address": "127.0.0.1", "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0"}
+2024-11-12 22:26:55,531 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/family/1/add_child - 127.0.0.1 - POST - Completed add_child successfully
+2024-11-12 22:26:55,531 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/family/1/add_child - 127.0.0.1 - POST - Response: 302 FOUND
+2024-11-12 22:26:55,539 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Request: GET http://localhost:5000/homeconomy/parent/dashboard
+2024-11-12 22:26:55,539 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Starting parent_dashboard_view
+2024-11-12 22:26:55,543 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Completed parent_dashboard_view successfully
+2024-11-12 22:26:55,543 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:27:24,900 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/chores/create - 127.0.0.1 - GET - Request: GET http://localhost:5000/homeconomy/chores/create
+2024-11-12 22:27:24,901 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/chores/create - 127.0.0.1 - GET - Starting create_chore
+2024-11-12 22:27:24,911 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/chores/create - 127.0.0.1 - GET - Completed create_chore successfully
+2024-11-12 22:27:24,911 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/chores/create - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:27:36,478 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/chores/create - 127.0.0.1 - POST - Request: POST http://localhost:5000/homeconomy/chores/create
+2024-11-12 22:27:36,478 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/chores/create - 127.0.0.1 - POST - Starting create_chore
+2024-11-12 22:27:36,491 - stewardwell.homeconomy - INFO - 1 - http://localhost:5000/homeconomy/chores/create - 127.0.0.1 - POST - {"timestamp": "2024-11-13T06:27:36.491868", "module": "homeconomy", "user_id": 1, "action": "chore_created", "details": {"chore_name": "clean room", "chore_id": 1, "coins_reward": 5, "points_reward": 10, "assigned_to": null}, "ip_address": "127.0.0.1", "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0"}
+2024-11-12 22:27:36,492 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/chores/create - 127.0.0.1 - POST - Completed create_chore successfully
+2024-11-12 22:27:36,492 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/chores/create - 127.0.0.1 - POST - Response: 302 FOUND
+2024-11-12 22:27:36,498 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Request: GET http://localhost:5000/homeconomy/parent/dashboard
+2024-11-12 22:27:36,498 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Starting parent_dashboard_view
+2024-11-12 22:27:36,503 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Completed parent_dashboard_view successfully
+2024-11-12 22:27:36,504 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:27:53,146 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/family/1/add_child - 127.0.0.1 - GET - Request: GET http://localhost:5000/homeconomy/family/1/add_child
+2024-11-12 22:27:53,146 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/family/1/add_child - 127.0.0.1 - GET - Starting add_child
+2024-11-12 22:27:53,147 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/family/1/add_child - 127.0.0.1 - GET - Completed add_child successfully
+2024-11-12 22:27:53,148 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/family/1/add_child - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:27:57,070 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Request: GET http://localhost:5000/homeconomy/parent/dashboard
+2024-11-12 22:27:57,071 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Starting parent_dashboard_view
+2024-11-12 22:27:57,075 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Completed parent_dashboard_view successfully
+2024-11-12 22:27:57,076 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:27:58,024 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/family/1/add_child - 127.0.0.1 - GET - Request: GET http://localhost:5000/homeconomy/family/1/add_child
+2024-11-12 22:27:58,024 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/family/1/add_child - 127.0.0.1 - GET - Starting add_child
+2024-11-12 22:27:58,026 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/family/1/add_child - 127.0.0.1 - GET - Completed add_child successfully
+2024-11-12 22:27:58,026 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/family/1/add_child - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:27:59,522 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Request: GET http://localhost:5000/homeconomy/parent/dashboard
+2024-11-12 22:27:59,523 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Starting parent_dashboard_view
+2024-11-12 22:27:59,528 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Completed parent_dashboard_view successfully
+2024-11-12 22:27:59,529 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:28:01,482 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/chores/create - 127.0.0.1 - GET - Request: GET http://localhost:5000/homeconomy/chores/create
+2024-11-12 22:28:01,482 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/chores/create - 127.0.0.1 - GET - Starting create_chore
+2024-11-12 22:28:01,485 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/chores/create - 127.0.0.1 - GET - Completed create_chore successfully
+2024-11-12 22:28:01,486 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/chores/create - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:28:11,818 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/chores/create - 127.0.0.1 - POST - Request: POST http://localhost:5000/homeconomy/chores/create
+2024-11-12 22:28:11,818 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/chores/create - 127.0.0.1 - POST - Starting create_chore
+2024-11-12 22:28:11,830 - stewardwell.homeconomy - INFO - 1 - http://localhost:5000/homeconomy/chores/create - 127.0.0.1 - POST - {"timestamp": "2024-11-13T06:28:11.830875", "module": "homeconomy", "user_id": 1, "action": "chore_created", "details": {"chore_name": "Do Dishes", "chore_id": 2, "coins_reward": 6, "points_reward": 2, "assigned_to": 2}, "ip_address": "127.0.0.1", "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0"}
+2024-11-12 22:28:11,830 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/chores/create - 127.0.0.1 - POST - Completed create_chore successfully
+2024-11-12 22:28:11,830 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/chores/create - 127.0.0.1 - POST - Response: 302 FOUND
+2024-11-12 22:28:12,129 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Request: GET http://localhost:5000/homeconomy/parent/dashboard
+2024-11-12 22:28:12,129 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Starting parent_dashboard_view
+2024-11-12 22:28:12,133 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Completed parent_dashboard_view successfully
+2024-11-12 22:28:12,134 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:28:16,982 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/chores/create - 127.0.0.1 - GET - Request: GET http://localhost:5000/homeconomy/chores/create
+2024-11-12 22:28:16,982 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/chores/create - 127.0.0.1 - GET - Starting create_chore
+2024-11-12 22:28:16,985 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/chores/create - 127.0.0.1 - GET - Completed create_chore successfully
+2024-11-12 22:28:16,985 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/chores/create - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:28:32,067 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/chores/create - 127.0.0.1 - POST - Request: POST http://localhost:5000/homeconomy/chores/create
+2024-11-12 22:28:32,067 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/chores/create - 127.0.0.1 - POST - Starting create_chore
+2024-11-12 22:28:32,078 - stewardwell.homeconomy - INFO - 1 - http://localhost:5000/homeconomy/chores/create - 127.0.0.1 - POST - {"timestamp": "2024-11-13T06:28:32.078832", "module": "homeconomy", "user_id": 1, "action": "chore_created", "details": {"chore_name": "Vaccum", "chore_id": 3, "coins_reward": 5, "points_reward": 2, "assigned_to": 3}, "ip_address": "127.0.0.1", "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0"}
+2024-11-12 22:28:32,079 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/chores/create - 127.0.0.1 - POST - Completed create_chore successfully
+2024-11-12 22:28:32,079 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/chores/create - 127.0.0.1 - POST - Response: 302 FOUND
+2024-11-12 22:28:32,086 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Request: GET http://localhost:5000/homeconomy/parent/dashboard
+2024-11-12 22:28:32,087 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Starting parent_dashboard_view
+2024-11-12 22:28:32,091 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Completed parent_dashboard_view successfully
+2024-11-12 22:28:32,092 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:28:55,367 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/chores/create - 127.0.0.1 - GET - Request: GET http://localhost:5000/homeconomy/chores/create
+2024-11-12 22:28:55,367 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/chores/create - 127.0.0.1 - GET - Starting create_chore
+2024-11-12 22:28:55,371 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/chores/create - 127.0.0.1 - GET - Completed create_chore successfully
+2024-11-12 22:28:55,372 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/chores/create - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:28:56,917 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/rewards/create - 127.0.0.1 - GET - Request: GET http://localhost:5000/homeconomy/rewards/create
+2024-11-12 22:28:56,917 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/rewards/create - 127.0.0.1 - GET - Starting create_reward
+2024-11-12 22:28:56,925 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/rewards/create - 127.0.0.1 - GET - Completed create_reward successfully
+2024-11-12 22:28:56,925 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/rewards/create - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:29:09,014 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/rewards/create - 127.0.0.1 - POST - Request: POST http://localhost:5000/homeconomy/rewards/create
+2024-11-12 22:29:09,014 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/rewards/create - 127.0.0.1 - POST - Starting create_reward
+2024-11-12 22:29:09,022 - stewardwell.homeconomy - INFO - 1 - http://localhost:5000/homeconomy/rewards/create - 127.0.0.1 - POST - {"timestamp": "2024-11-13T06:29:09.022900", "module": "homeconomy", "user_id": 1, "action": "reward_created", "details": {"reward_name": "Watch TV", "reward_id": 1, "coin_cost": 20, "quantity": -1}, "ip_address": "127.0.0.1", "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0"}
+2024-11-12 22:29:09,023 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/rewards/create - 127.0.0.1 - POST - Completed create_reward successfully
+2024-11-12 22:29:09,023 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/rewards/create - 127.0.0.1 - POST - Response: 302 FOUND
+2024-11-12 22:29:09,321 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Request: GET http://localhost:5000/homeconomy/parent/dashboard
+2024-11-12 22:29:09,321 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Starting parent_dashboard_view
+2024-11-12 22:29:09,326 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Completed parent_dashboard_view successfully
+2024-11-12 22:29:09,327 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:29:10,981 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/rewards/create - 127.0.0.1 - GET - Request: GET http://localhost:5000/homeconomy/rewards/create
+2024-11-12 22:29:10,982 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/rewards/create - 127.0.0.1 - GET - Starting create_reward
+2024-11-12 22:29:10,983 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/rewards/create - 127.0.0.1 - GET - Completed create_reward successfully
+2024-11-12 22:29:10,984 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/rewards/create - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:29:20,345 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/rewards/create - 127.0.0.1 - POST - Request: POST http://localhost:5000/homeconomy/rewards/create
+2024-11-12 22:29:20,346 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/rewards/create - 127.0.0.1 - POST - Starting create_reward
+2024-11-12 22:29:20,354 - stewardwell.homeconomy - INFO - 1 - http://localhost:5000/homeconomy/rewards/create - 127.0.0.1 - POST - {"timestamp": "2024-11-13T06:29:20.354987", "module": "homeconomy", "user_id": 1, "action": "reward_created", "details": {"reward_name": "Eat candy", "reward_id": 2, "coin_cost": 10, "quantity": 5}, "ip_address": "127.0.0.1", "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0"}
+2024-11-12 22:29:20,355 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/rewards/create - 127.0.0.1 - POST - Completed create_reward successfully
+2024-11-12 22:29:20,355 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/rewards/create - 127.0.0.1 - POST - Response: 302 FOUND
+2024-11-12 22:29:20,370 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Request: GET http://localhost:5000/homeconomy/parent/dashboard
+2024-11-12 22:29:20,370 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Starting parent_dashboard_view
+2024-11-12 22:29:20,379 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Completed parent_dashboard_view successfully
+2024-11-12 22:29:20,379 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:29:39,427 - stewardwell - INFO - 1 - http://localhost:5000/index - 127.0.0.1 - GET - Request: GET http://localhost:5000/index
+2024-11-12 22:29:39,428 - stewardwell - INFO - 1 - http://localhost:5000/index - 127.0.0.1 - GET - Response: 302 FOUND
+2024-11-12 22:29:39,536 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Request: GET http://localhost:5000/homeconomy/parent/dashboard
+2024-11-12 22:29:39,536 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Starting parent_dashboard_view
+2024-11-12 22:29:39,540 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Completed parent_dashboard_view successfully
+2024-11-12 22:29:39,541 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:31:50,835 - stewardwell - INFO - None - None - None - None - Application started successfully
+2024-11-12 22:32:14,625 - stewardwell - INFO - None - None - None - None - Application started successfully
+2024-11-12 22:32:51,451 - stewardwell - INFO - 1 - http://localhost:5000/index - 127.0.0.1 - GET - Request: GET http://localhost:5000/index
+2024-11-12 22:32:51,452 - stewardwell - INFO - 1 - http://localhost:5000/index - 127.0.0.1 - GET - Response: 302 FOUND
+2024-11-12 22:32:51,463 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Request: GET http://localhost:5000/homeconomy/parent/dashboard
+2024-11-12 22:32:51,464 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Starting parent_dashboard_view
+2024-11-12 22:32:51,541 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Completed parent_dashboard_view successfully
+2024-11-12 22:32:51,542 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:33:06,778 - stewardwell - INFO - 1 - http://localhost:5000/admin/dashboard - 127.0.0.1 - GET - Request: GET http://localhost:5000/admin/dashboard
+2024-11-12 22:33:06,779 - stewardwell.admin - INFO - 1 - http://localhost:5000/admin/dashboard - 127.0.0.1 - GET - {"timestamp": "2024-11-13T06:33:06.779722", "module": "admin", "user_id": 1, "action": "admin_dashboard_view", "details": {"access_time": "2024-11-12T22:33:06.779722"}, "ip_address": "127.0.0.1", "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0"}
+2024-11-12 22:33:06,828 - stewardwell - INFO - 1 - http://localhost:5000/admin/dashboard - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:33:18,584 - stewardwell - INFO - 1 - http://localhost:5000/admin/logs - 127.0.0.1 - GET - Request: GET http://localhost:5000/admin/logs
+2024-11-12 22:33:18,585 - stewardwell.admin - INFO - 1 - http://localhost:5000/admin/logs - 127.0.0.1 - GET - {"timestamp": "2024-11-13T06:33:18.585306", "module": "admin", "user_id": 1, "action": "admin_log_view", "details": {"log_type": "general", "page": 1}, "ip_address": "127.0.0.1", "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0"}
+2024-11-12 22:33:18,606 - stewardwell - INFO - 1 - http://localhost:5000/admin/logs - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:33:28,755 - stewardwell - INFO - 1 - http://localhost:5000/admin/logs?type=error&level=all&range=1h&search= - 127.0.0.1 - GET - Request: GET http://localhost:5000/admin/logs?type=error&level=all&range=1h&search=
+2024-11-12 22:33:28,756 - stewardwell.admin - INFO - 1 - http://localhost:5000/admin/logs?type=error&level=all&range=1h&search= - 127.0.0.1 - GET - {"timestamp": "2024-11-13T06:33:28.756128", "module": "admin", "user_id": 1, "action": "admin_log_view", "details": {"log_type": "error", "page": 1}, "ip_address": "127.0.0.1", "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0"}
+2024-11-12 22:33:28,770 - stewardwell - INFO - 1 - http://localhost:5000/admin/logs?type=error&level=all&range=1h&search= - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:33:38,311 - stewardwell - INFO - 1 - http://localhost:5000/admin/logs?type=error&level=ERROR&range=1h&search= - 127.0.0.1 - GET - Request: GET http://localhost:5000/admin/logs?type=error&level=ERROR&range=1h&search=
+2024-11-12 22:33:38,311 - stewardwell.admin - INFO - 1 - http://localhost:5000/admin/logs?type=error&level=ERROR&range=1h&search= - 127.0.0.1 - GET - {"timestamp": "2024-11-13T06:33:38.311120", "module": "admin", "user_id": 1, "action": "admin_log_view", "details": {"log_type": "error", "page": 1}, "ip_address": "127.0.0.1", "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0"}
+2024-11-12 22:33:38,325 - stewardwell - INFO - 1 - http://localhost:5000/admin/logs?type=error&level=ERROR&range=1h&search= - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:34:03,915 - stewardwell - INFO - 1 - http://localhost:5000/admin/logs?type=all&level=all&range=1h&search= - 127.0.0.1 - GET - Request: GET http://localhost:5000/admin/logs?type=all&level=all&range=1h&search=
+2024-11-12 22:34:03,916 - stewardwell.admin - INFO - 1 - http://localhost:5000/admin/logs?type=all&level=all&range=1h&search= - 127.0.0.1 - GET - {"timestamp": "2024-11-13T06:34:03.916852", "module": "admin", "user_id": 1, "action": "admin_log_view", "details": {"log_type": "all", "page": 1}, "ip_address": "127.0.0.1", "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0"}
+2024-11-12 22:34:03,929 - stewardwell - INFO - 1 - http://localhost:5000/admin/logs?type=all&level=all&range=1h&search= - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:34:15,427 - stewardwell - INFO - 1 - http://localhost:5000/admin/dashboard - 127.0.0.1 - GET - Request: GET http://localhost:5000/admin/dashboard
+2024-11-12 22:34:15,427 - stewardwell.admin - INFO - 1 - http://localhost:5000/admin/dashboard - 127.0.0.1 - GET - {"timestamp": "2024-11-13T06:34:15.427501", "module": "admin", "user_id": 1, "action": "admin_dashboard_view", "details": {"access_time": "2024-11-12T22:34:15.427501"}, "ip_address": "127.0.0.1", "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0"}
+2024-11-12 22:34:15,446 - stewardwell - INFO - 1 - http://localhost:5000/admin/dashboard - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:34:34,517 - stewardwell - INFO - None - http://localhost:5000/ - 127.0.0.1 - GET - Request: GET http://localhost:5000/
+2024-11-12 22:34:34,524 - stewardwell - INFO - None - http://localhost:5000/ - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:34:37,317 - stewardwell - INFO - None - http://localhost:5000/register - 127.0.0.1 - GET - Request: GET http://localhost:5000/register
+2024-11-12 22:34:37,329 - stewardwell - INFO - None - http://localhost:5000/register - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:34:56,805 - stewardwell - INFO - None - http://localhost:5000/register - 127.0.0.1 - POST - Request: POST http://localhost:5000/register
+2024-11-12 22:34:57,412 - stewardwell - INFO - None - http://localhost:5000/register - 127.0.0.1 - POST - Response: 302 FOUND
+2024-11-12 22:34:57,418 - stewardwell - INFO - None - http://localhost:5000/login - 127.0.0.1 - GET - Request: GET http://localhost:5000/login
+2024-11-12 22:34:57,426 - stewardwell - INFO - None - http://localhost:5000/login - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:35:02,654 - stewardwell - INFO - 1 - http://localhost:5000/admin/dashboard - 127.0.0.1 - GET - Request: GET http://localhost:5000/admin/dashboard
+2024-11-12 22:35:02,655 - stewardwell.admin - INFO - 1 - http://localhost:5000/admin/dashboard - 127.0.0.1 - GET - {"timestamp": "2024-11-13T06:35:02.655127", "module": "admin", "user_id": 1, "action": "admin_dashboard_view", "details": {"access_time": "2024-11-12T22:35:02.654112"}, "ip_address": "127.0.0.1", "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0"}
+2024-11-12 22:35:02,673 - stewardwell - INFO - 1 - http://localhost:5000/admin/dashboard - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:35:13,481 - stewardwell - INFO - None - http://localhost:5000/login - 127.0.0.1 - POST - Request: POST http://localhost:5000/login
+2024-11-12 22:35:13,484 - stewardwell - INFO - None - http://localhost:5000/login - 127.0.0.1 - POST - Response: 302 FOUND
+2024-11-12 22:35:13,746 - stewardwell - INFO - None - http://localhost:5000/login - 127.0.0.1 - GET - Request: GET http://localhost:5000/login
+2024-11-12 22:35:13,749 - stewardwell - INFO - None - http://localhost:5000/login - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:35:20,458 - stewardwell - INFO - None - http://localhost:5000/login - 127.0.0.1 - POST - Request: POST http://localhost:5000/login
+2024-11-12 22:35:21,048 - stewardwell - INFO - None - http://localhost:5000/login - 127.0.0.1 - POST - Response: 302 FOUND
+2024-11-12 22:35:21,362 - stewardwell - INFO - 4 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Request: GET http://localhost:5000/homeconomy/parent/dashboard
+2024-11-12 22:35:21,362 - stewardwell - INFO - 4 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Starting parent_dashboard_view
+2024-11-12 22:35:21,363 - stewardwell - INFO - 4 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Completed parent_dashboard_view successfully
+2024-11-12 22:35:21,363 - stewardwell - INFO - 4 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:35:23,672 - stewardwell - INFO - 1 - http://localhost:5000/admin/dashboard - 127.0.0.1 - GET - Request: GET http://localhost:5000/admin/dashboard
+2024-11-12 22:35:23,673 - stewardwell.admin - INFO - 1 - http://localhost:5000/admin/dashboard - 127.0.0.1 - GET - {"timestamp": "2024-11-13T06:35:23.673931", "module": "admin", "user_id": 1, "action": "admin_dashboard_view", "details": {"access_time": "2024-11-12T22:35:23.673931"}, "ip_address": "127.0.0.1", "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0"}
+2024-11-12 22:35:23,697 - stewardwell - INFO - 1 - http://localhost:5000/admin/dashboard - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:35:28,772 - stewardwell - INFO - 4 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Request: GET http://localhost:5000/homeconomy/parent/dashboard
+2024-11-12 22:35:28,773 - stewardwell - INFO - 4 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Starting parent_dashboard_view
+2024-11-12 22:35:28,774 - stewardwell - INFO - 4 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Completed parent_dashboard_view successfully
+2024-11-12 22:35:28,774 - stewardwell - INFO - 4 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:35:31,153 - stewardwell - INFO - 4 - http://localhost:5000/homeconomy/family/create - 127.0.0.1 - GET - Request: GET http://localhost:5000/homeconomy/family/create
+2024-11-12 22:35:31,153 - stewardwell - INFO - 4 - http://localhost:5000/homeconomy/family/create - 127.0.0.1 - GET - Starting family_creation
+2024-11-12 22:35:31,158 - stewardwell - INFO - 4 - http://localhost:5000/homeconomy/family/create - 127.0.0.1 - GET - Completed family_creation successfully
+2024-11-12 22:35:31,158 - stewardwell - INFO - 4 - http://localhost:5000/homeconomy/family/create - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:35:33,032 - stewardwell - INFO - 4 - http://localhost:5000/index - 127.0.0.1 - GET - Request: GET http://localhost:5000/index
+2024-11-12 22:35:33,033 - stewardwell - INFO - 4 - http://localhost:5000/index - 127.0.0.1 - GET - Response: 302 FOUND
+2024-11-12 22:35:33,340 - stewardwell - INFO - 4 - http://localhost:5000/homeconomy/family/create - 127.0.0.1 - GET - Request: GET http://localhost:5000/homeconomy/family/create
+2024-11-12 22:35:33,340 - stewardwell - INFO - 4 - http://localhost:5000/homeconomy/family/create - 127.0.0.1 - GET - Starting family_creation
+2024-11-12 22:35:33,342 - stewardwell - INFO - 4 - http://localhost:5000/homeconomy/family/create - 127.0.0.1 - GET - Completed family_creation successfully
+2024-11-12 22:35:33,342 - stewardwell - INFO - 4 - http://localhost:5000/homeconomy/family/create - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:35:34,974 - stewardwell - INFO - 4 - http://localhost:5000/index - 127.0.0.1 - GET - Request: GET http://localhost:5000/index
+2024-11-12 22:35:34,974 - stewardwell - INFO - 4 - http://localhost:5000/index - 127.0.0.1 - GET - Response: 302 FOUND
+2024-11-12 22:35:35,289 - stewardwell - INFO - 4 - http://localhost:5000/homeconomy/family/create - 127.0.0.1 - GET - Request: GET http://localhost:5000/homeconomy/family/create
+2024-11-12 22:35:35,289 - stewardwell - INFO - 4 - http://localhost:5000/homeconomy/family/create - 127.0.0.1 - GET - Starting family_creation
+2024-11-12 22:35:35,291 - stewardwell - INFO - 4 - http://localhost:5000/homeconomy/family/create - 127.0.0.1 - GET - Completed family_creation successfully
+2024-11-12 22:35:35,292 - stewardwell - INFO - 4 - http://localhost:5000/homeconomy/family/create - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:35:36,583 - stewardwell - INFO - 4 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Request: GET http://localhost:5000/homeconomy/parent/dashboard
+2024-11-12 22:35:36,583 - stewardwell - INFO - 4 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Starting parent_dashboard_view
+2024-11-12 22:35:36,584 - stewardwell - INFO - 4 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Completed parent_dashboard_view successfully
+2024-11-12 22:35:36,584 - stewardwell - INFO - 4 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:35:49,578 - stewardwell - INFO - 1 - http://localhost:5000/admin/user/4/edit - 127.0.0.1 - GET - Request: GET http://localhost:5000/admin/user/4/edit
+2024-11-12 22:35:49,590 - stewardwell - ERROR - 1 - http://localhost:5000/admin/user/4/edit - 127.0.0.1 - GET - Unhandled exception: 'csrf_token' is undefined
+Traceback (most recent call last):
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1484, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1469, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_login\utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\app\admin\routes.py", line 175, in edit_user
+    return render_template('admin/edit_user.html',
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\templating.py", line 151, in render_template
+    return _render(app, template, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\templating.py", line 132, in _render
+    rv = template.render(context)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\jinja2\environment.py", line 1301, in render
+    self.environment.handle_exception()
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\jinja2\environment.py", line 936, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "D:\coding\Flask\newStewardWell\app\templates\admin\edit_user.html", line 1, in top-level template code
+    {% extends "base.html" %}
+  File "D:\coding\Flask\newStewardWell\app\templates\base.html", line 206, in top-level template code
+    {% block content %}{% endblock %}
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\app\templates\admin\edit_user.html", line 15, in block 'content'
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\jinja2\utils.py", line 83, in from_obj
+    if hasattr(obj, "jinja_pass_arg"):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+jinja2.exceptions.UndefinedError: 'csrf_token' is undefined
+2024-11-12 22:35:59,626 - stewardwell - INFO - 1 - http://localhost:5000/admin/dashboard - 127.0.0.1 - GET - Request: GET http://localhost:5000/admin/dashboard
+2024-11-12 22:35:59,627 - stewardwell.admin - INFO - 1 - http://localhost:5000/admin/dashboard - 127.0.0.1 - GET - {"timestamp": "2024-11-13T06:35:59.627596", "module": "admin", "user_id": 1, "action": "admin_dashboard_view", "details": {"access_time": "2024-11-12T22:35:59.627596"}, "ip_address": "127.0.0.1", "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0"}
+2024-11-12 22:35:59,685 - stewardwell - ERROR - 1 - http://localhost:5000/admin/dashboard - 127.0.0.1 - GET - Unhandled exception: Could not build url for endpoint 'settings.profile'. Did you mean 'main.profile' instead?
+Traceback (most recent call last):
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1484, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1469, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_login\utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\app\admin\routes.py", line 112, in dashboard
+    return render_template('admin/dashboard.html',
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\templating.py", line 151, in render_template
+    return _render(app, template, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\templating.py", line 132, in _render
+    rv = template.render(context)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\jinja2\environment.py", line 1301, in render
+    self.environment.handle_exception()
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\jinja2\environment.py", line 936, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "D:\coding\Flask\newStewardWell\app\templates\admin\dashboard.html", line 1, in top-level template code
+    {% extends "base.html" %}
+  File "D:\coding\Flask\newStewardWell\app\templates\base.html", line 117, in top-level template code
+    <a href="{{ url_for('settings.profile') }}"
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1697, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1686, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\werkzeug\routing\map.py", line 950, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'settings.profile'. Did you mean 'main.profile' instead?
+2024-11-12 22:36:12,315 - stewardwell - INFO - 4 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Request: GET http://localhost:5000/homeconomy/parent/dashboard
+2024-11-12 22:36:12,315 - stewardwell - INFO - 4 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Starting parent_dashboard_view
+2024-11-12 22:36:12,323 - stewardwell - ERROR - 4 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Error in parent_dashboard_view: Could not build url for endpoint 'settings.profile'. Did you mean 'main.profile' instead?
+2024-11-12 22:36:12,323 - stewardwell - ERROR - 4 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Unhandled exception: Could not build url for endpoint 'settings.profile'. Did you mean 'main.profile' instead?
+Traceback (most recent call last):
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1484, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1469, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_login\utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\app\utils\logger.py", line 113, in decorated_function
+    result = f(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\app\modules\homeconomy\routes.py", line 49, in parent_dashboard
+    return render_template('homeconomy/parent/dashboard.html',
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\templating.py", line 151, in render_template
+    return _render(app, template, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\templating.py", line 132, in _render
+    rv = template.render(context)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\jinja2\environment.py", line 1301, in render
+    self.environment.handle_exception()
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\jinja2\environment.py", line 936, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "D:\coding\Flask\newStewardWell\app\templates\homeconomy\parent\dashboard.html", line 1, in top-level template code
+    {% extends "base.html" %}
+  File "D:\coding\Flask\newStewardWell\app\templates\base.html", line 117, in top-level template code
+    <a href="{{ url_for('settings.profile') }}"
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1697, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1686, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\werkzeug\routing\map.py", line 950, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'settings.profile'. Did you mean 'main.profile' instead?
+2024-11-12 22:39:06,146 - stewardwell - INFO - None - None - None - None - Application started successfully
+2024-11-12 22:40:21,484 - stewardwell - INFO - 1 - http://localhost:5000/admin/dashboard - 127.0.0.1 - GET - Request: GET http://localhost:5000/admin/dashboard
+2024-11-12 22:40:21,485 - stewardwell.admin - INFO - 1 - http://localhost:5000/admin/dashboard - 127.0.0.1 - GET - {"timestamp": "2024-11-13T06:40:21.485954", "module": "admin", "user_id": 1, "action": "admin_dashboard_view", "details": {"access_time": "2024-11-12T22:40:21.485954"}, "ip_address": "127.0.0.1", "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0"}
+2024-11-12 22:40:21,556 - stewardwell - INFO - 1 - http://localhost:5000/admin/dashboard - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:40:25,751 - stewardwell - INFO - 1 - http://localhost:5000/settings/appearance - 127.0.0.1 - GET - Request: GET http://localhost:5000/settings/appearance
+2024-11-12 22:40:25,769 - stewardwell - ERROR - 1 - http://localhost:5000/settings/appearance - 127.0.0.1 - GET - Unhandled exception: 'csrf_token' is undefined
+Traceback (most recent call last):
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1484, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1469, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_login\utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\app\settings\routes.py", line 140, in appearance
+    return render_template('settings/appearance.html', title='Appearance Settings')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\templating.py", line 151, in render_template
+    return _render(app, template, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\templating.py", line 132, in _render
+    rv = template.render(context)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\jinja2\environment.py", line 1301, in render
+    self.environment.handle_exception()
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\jinja2\environment.py", line 936, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "D:\coding\Flask\newStewardWell\app\templates\settings\appearance.html", line 1, in top-level template code
+    {% extends "base.html" %}
+  File "D:\coding\Flask\newStewardWell\app\templates\base.html", line 210, in top-level template code
+    {% block content %}{% endblock %}
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\app\templates\settings\appearance.html", line 22, in block 'content'
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\jinja2\utils.py", line 83, in from_obj
+    if hasattr(obj, "jinja_pass_arg"):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+jinja2.exceptions.UndefinedError: 'csrf_token' is undefined
+2024-11-12 22:40:31,329 - stewardwell - INFO - 1 - http://localhost:5000/logout - 127.0.0.1 - GET - Request: GET http://localhost:5000/logout
+2024-11-12 22:40:31,329 - stewardwell - INFO - 1 - http://localhost:5000/logout - 127.0.0.1 - GET - Response: 302 FOUND
+2024-11-12 22:40:31,341 - stewardwell - INFO - None - http://localhost:5000/index - 127.0.0.1 - GET - Request: GET http://localhost:5000/index
+2024-11-12 22:40:31,345 - stewardwell - INFO - None - http://localhost:5000/index - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:40:33,042 - stewardwell - INFO - None - http://localhost:5000/login - 127.0.0.1 - GET - Request: GET http://localhost:5000/login
+2024-11-12 22:40:33,050 - stewardwell - INFO - None - http://localhost:5000/login - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:40:40,358 - stewardwell - INFO - None - http://localhost:5000/login - 127.0.0.1 - POST - Request: POST http://localhost:5000/login
+2024-11-12 22:40:41,031 - stewardwell - INFO - None - http://localhost:5000/login - 127.0.0.1 - POST - Response: 302 FOUND
+2024-11-12 22:40:41,044 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Request: GET http://localhost:5000/homeconomy/parent/dashboard
+2024-11-12 22:40:41,045 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Starting parent_dashboard_view
+2024-11-12 22:40:41,083 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Completed parent_dashboard_view successfully
+2024-11-12 22:40:41,083 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:40:43,674 - stewardwell - INFO - 1 - http://localhost:5000/settings/appearance - 127.0.0.1 - GET - Request: GET http://localhost:5000/settings/appearance
+2024-11-12 22:40:43,675 - stewardwell - ERROR - 1 - http://localhost:5000/settings/appearance - 127.0.0.1 - GET - Unhandled exception: 'csrf_token' is undefined
+Traceback (most recent call last):
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1484, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1469, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_login\utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\app\settings\routes.py", line 140, in appearance
+    return render_template('settings/appearance.html', title='Appearance Settings')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\templating.py", line 151, in render_template
+    return _render(app, template, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\templating.py", line 132, in _render
+    rv = template.render(context)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\jinja2\environment.py", line 1301, in render
+    self.environment.handle_exception()
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\jinja2\environment.py", line 936, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "D:\coding\Flask\newStewardWell\app\templates\settings\appearance.html", line 1, in top-level template code
+    {% extends "base.html" %}
+  File "D:\coding\Flask\newStewardWell\app\templates\base.html", line 210, in top-level template code
+    {% block content %}{% endblock %}
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\app\templates\settings\appearance.html", line 22, in block 'content'
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\jinja2\utils.py", line 83, in from_obj
+    if hasattr(obj, "jinja_pass_arg"):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+jinja2.exceptions.UndefinedError: 'csrf_token' is undefined
+2024-11-12 22:41:20,903 - stewardwell - INFO - None - None - None - None - Application started successfully
+2024-11-12 22:41:28,923 - stewardwell - INFO - 1 - http://localhost:5000/settings/appearance - 127.0.0.1 - GET - Request: GET http://localhost:5000/settings/appearance
+2024-11-12 22:41:28,941 - stewardwell - ERROR - 1 - http://localhost:5000/settings/appearance - 127.0.0.1 - GET - Unhandled exception: 'csrf_token' is undefined
+Traceback (most recent call last):
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1484, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1469, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_login\utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\app\settings\routes.py", line 149, in appearance
+    return render_template('settings/appearance.html', title='Appearance Settings')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\templating.py", line 151, in render_template
+    return _render(app, template, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\templating.py", line 132, in _render
+    rv = template.render(context)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\jinja2\environment.py", line 1301, in render
+    self.environment.handle_exception()
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\jinja2\environment.py", line 936, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "D:\coding\Flask\newStewardWell\app\templates\settings\appearance.html", line 1, in top-level template code
+    {% extends "base.html" %}
+  File "D:\coding\Flask\newStewardWell\app\templates\base.html", line 210, in top-level template code
+    {% block content %}{% endblock %}
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\app\templates\settings\appearance.html", line 22, in block 'content'
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\jinja2\utils.py", line 83, in from_obj
+    if hasattr(obj, "jinja_pass_arg"):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+jinja2.exceptions.UndefinedError: 'csrf_token' is undefined
+2024-11-12 22:41:35,360 - stewardwell - INFO - 1 - http://localhost:5000/settings/profile - 127.0.0.1 - GET - Request: GET http://localhost:5000/settings/profile
+2024-11-12 22:41:35,377 - stewardwell - ERROR - 1 - http://localhost:5000/settings/profile - 127.0.0.1 - GET - Unhandled exception: 'csrf_token' is undefined
+Traceback (most recent call last):
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1484, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1469, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_login\utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\app\settings\routes.py", line 42, in profile
+    return render_template('settings/profile.html', title='Profile Settings')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\templating.py", line 151, in render_template
+    return _render(app, template, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\templating.py", line 132, in _render
+    rv = template.render(context)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\jinja2\environment.py", line 1301, in render
+    self.environment.handle_exception()
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\jinja2\environment.py", line 936, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "D:\coding\Flask\newStewardWell\app\templates\settings\profile.html", line 1, in top-level template code
+    {% extends "base.html" %}
+  File "D:\coding\Flask\newStewardWell\app\templates\base.html", line 210, in top-level template code
+    {% block content %}{% endblock %}
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\app\templates\settings\profile.html", line 23, in block 'content'
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\jinja2\utils.py", line 83, in from_obj
+    if hasattr(obj, "jinja_pass_arg"):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+jinja2.exceptions.UndefinedError: 'csrf_token' is undefined
+2024-11-12 22:41:38,478 - stewardwell - INFO - 1 - http://localhost:5000/settings/notifications - 127.0.0.1 - GET - Request: GET http://localhost:5000/settings/notifications
+2024-11-12 22:41:38,491 - stewardwell - ERROR - 1 - http://localhost:5000/settings/notifications - 127.0.0.1 - GET - Unhandled exception: 'csrf_token' is undefined
+Traceback (most recent call last):
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1484, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1469, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_login\utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\app\settings\routes.py", line 77, in notifications
+    return render_template('settings/notifications.html', title='Notification Settings')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\templating.py", line 151, in render_template
+    return _render(app, template, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\templating.py", line 132, in _render
+    rv = template.render(context)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\jinja2\environment.py", line 1301, in render
+    self.environment.handle_exception()
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\jinja2\environment.py", line 936, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "D:\coding\Flask\newStewardWell\app\templates\settings\notifications.html", line 1, in top-level template code
+    {% extends "base.html" %}
+  File "D:\coding\Flask\newStewardWell\app\templates\base.html", line 210, in top-level template code
+    {% block content %}{% endblock %}
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\app\templates\settings\notifications.html", line 22, in block 'content'
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\jinja2\utils.py", line 83, in from_obj
+    if hasattr(obj, "jinja_pass_arg"):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+jinja2.exceptions.UndefinedError: 'csrf_token' is undefined
+2024-11-12 22:41:45,250 - stewardwell - INFO - 1 - http://localhost:5000/settings/security - 127.0.0.1 - GET - Request: GET http://localhost:5000/settings/security
+2024-11-12 22:41:45,263 - stewardwell - ERROR - 1 - http://localhost:5000/settings/security - 127.0.0.1 - GET - Unhandled exception: 'csrf_token' is undefined
+Traceback (most recent call last):
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1484, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1469, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_login\utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\app\settings\routes.py", line 115, in security
+    return render_template('settings/security.html', title='Security Settings')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\templating.py", line 151, in render_template
+    return _render(app, template, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\templating.py", line 132, in _render
+    rv = template.render(context)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\jinja2\environment.py", line 1301, in render
+    self.environment.handle_exception()
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\jinja2\environment.py", line 936, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "D:\coding\Flask\newStewardWell\app\templates\settings\security.html", line 1, in top-level template code
+    {% extends "base.html" %}
+  File "D:\coding\Flask\newStewardWell\app\templates\base.html", line 210, in top-level template code
+    {% block content %}{% endblock %}
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\app\templates\settings\security.html", line 23, in block 'content'
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\jinja2\utils.py", line 83, in from_obj
+    if hasattr(obj, "jinja_pass_arg"):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+jinja2.exceptions.UndefinedError: 'csrf_token' is undefined
+2024-11-12 22:42:14,126 - stewardwell - INFO - 1 - http://localhost:5000/admin/users - 127.0.0.1 - GET - Request: GET http://localhost:5000/admin/users
+2024-11-12 22:42:14,132 - stewardwell.admin - INFO - 1 - http://localhost:5000/admin/users - 127.0.0.1 - GET - {"timestamp": "2024-11-13T06:42:14.132918", "module": "admin", "user_id": 1, "action": "admin_user_list_view", "details": {"page": 1}, "ip_address": "127.0.0.1", "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0"}
+2024-11-12 22:42:14,145 - stewardwell - INFO - 1 - http://localhost:5000/admin/users - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:42:20,483 - stewardwell - INFO - None - None - None - None - Application started successfully
+2024-11-12 22:42:20,623 - stewardwell - INFO - 1 - http://localhost:5000/admin/logs - 127.0.0.1 - GET - Request: GET http://localhost:5000/admin/logs
+2024-11-12 22:42:20,624 - stewardwell.admin - INFO - 1 - http://localhost:5000/admin/logs - 127.0.0.1 - GET - {"timestamp": "2024-11-13T06:42:20.624744", "module": "admin", "user_id": 1, "action": "admin_log_view", "details": {"log_type": "general", "page": 1}, "ip_address": "127.0.0.1", "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0"}
+2024-11-12 22:42:20,664 - stewardwell - INFO - 1 - http://localhost:5000/admin/logs - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:42:22,386 - stewardwell - INFO - 1 - http://localhost:5000/admin/users - 127.0.0.1 - GET - Request: GET http://localhost:5000/admin/users
+2024-11-12 22:42:22,397 - stewardwell.admin - INFO - 1 - http://localhost:5000/admin/users - 127.0.0.1 - GET - {"timestamp": "2024-11-13T06:42:22.397425", "module": "admin", "user_id": 1, "action": "admin_user_list_view", "details": {"page": 1}, "ip_address": "127.0.0.1", "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0"}
+2024-11-12 22:42:22,408 - stewardwell - INFO - 1 - http://localhost:5000/admin/users - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:42:38,093 - stewardwell - INFO - None - None - None - None - Application started successfully
+2024-11-12 22:43:09,361 - stewardwell - INFO - None - None - None - None - Application started successfully
+2024-11-12 22:43:11,588 - stewardwell - INFO - 1 - http://localhost:5000/settings/profile - 127.0.0.1 - GET - Request: GET http://localhost:5000/settings/profile
+2024-11-12 22:43:11,606 - stewardwell - INFO - 1 - http://localhost:5000/settings/profile - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:43:13,769 - stewardwell - INFO - 1 - http://localhost:5000/settings/notifications - 127.0.0.1 - GET - Request: GET http://localhost:5000/settings/notifications
+2024-11-12 22:43:13,774 - stewardwell - INFO - 1 - http://localhost:5000/settings/notifications - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:43:15,391 - stewardwell - INFO - 1 - http://localhost:5000/settings/security - 127.0.0.1 - GET - Request: GET http://localhost:5000/settings/security
+2024-11-12 22:43:15,397 - stewardwell - INFO - 1 - http://localhost:5000/settings/security - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:43:17,606 - stewardwell - INFO - 1 - http://localhost:5000/settings/appearance - 127.0.0.1 - GET - Request: GET http://localhost:5000/settings/appearance
+2024-11-12 22:43:17,612 - stewardwell - INFO - 1 - http://localhost:5000/settings/appearance - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:43:26,465 - stewardwell - INFO - 1 - http://localhost:5000/settings/appearance - 127.0.0.1 - POST - Request: POST http://localhost:5000/settings/appearance
+2024-11-12 22:43:26,466 - stewardwell.settings - INFO - 1 - http://localhost:5000/settings/appearance - 127.0.0.1 - POST - {"timestamp": "2024-11-13T06:43:26.466878", "module": "settings", "user_id": 1, "action": "appearance_updated", "details": {"theme": "dark", "color_scheme": "blue", "font_size": "medium", "density": "compact", "enable_animations": true, "reduce_motion": false}, "ip_address": "127.0.0.1", "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0"}
+2024-11-12 22:43:26,466 - stewardwell - INFO - 1 - http://localhost:5000/settings/appearance - 127.0.0.1 - POST - Response: 302 FOUND
+2024-11-12 22:43:26,774 - stewardwell - INFO - 1 - http://localhost:5000/settings/appearance - 127.0.0.1 - GET - Request: GET http://localhost:5000/settings/appearance
+2024-11-12 22:43:26,776 - stewardwell - INFO - 1 - http://localhost:5000/settings/appearance - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:43:33,074 - stewardwell - INFO - 1 - http://localhost:5000/settings/appearance - 127.0.0.1 - POST - Request: POST http://localhost:5000/settings/appearance
+2024-11-12 22:43:33,074 - stewardwell.settings - INFO - 1 - http://localhost:5000/settings/appearance - 127.0.0.1 - POST - {"timestamp": "2024-11-13T06:43:33.074577", "module": "settings", "user_id": 1, "action": "appearance_updated", "details": {"theme": "dark", "color_scheme": "blue", "font_size": "medium", "density": "comfortable", "enable_animations": false, "reduce_motion": false}, "ip_address": "127.0.0.1", "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0"}
+2024-11-12 22:43:33,075 - stewardwell - INFO - 1 - http://localhost:5000/settings/appearance - 127.0.0.1 - POST - Response: 302 FOUND
+2024-11-12 22:43:33,099 - stewardwell - INFO - 1 - http://localhost:5000/settings/appearance - 127.0.0.1 - GET - Request: GET http://localhost:5000/settings/appearance
+2024-11-12 22:43:33,101 - stewardwell - INFO - 1 - http://localhost:5000/settings/appearance - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:43:39,161 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/goals/create - 127.0.0.1 - GET - Request: GET http://localhost:5000/homeconomy/goals/create
+2024-11-12 22:43:39,162 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/goals/create - 127.0.0.1 - GET - Starting create_goal
+2024-11-12 22:43:39,169 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/goals/create - 127.0.0.1 - GET - Completed create_goal successfully
+2024-11-12 22:43:39,170 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/goals/create - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:43:39,903 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/rewards/create - 127.0.0.1 - GET - Request: GET http://localhost:5000/homeconomy/rewards/create
+2024-11-12 22:43:39,904 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/rewards/create - 127.0.0.1 - GET - Starting create_reward
+2024-11-12 22:43:39,912 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/rewards/create - 127.0.0.1 - GET - Completed create_reward successfully
+2024-11-12 22:43:39,913 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/rewards/create - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:43:40,649 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/chores/create - 127.0.0.1 - GET - Request: GET http://localhost:5000/homeconomy/chores/create
+2024-11-12 22:43:40,649 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/chores/create - 127.0.0.1 - GET - Starting create_chore
+2024-11-12 22:43:40,664 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/chores/create - 127.0.0.1 - GET - Completed create_chore successfully
+2024-11-12 22:43:40,664 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/chores/create - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:43:41,551 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Request: GET http://localhost:5000/homeconomy/parent/dashboard
+2024-11-12 22:43:41,551 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Starting parent_dashboard_view
+2024-11-12 22:43:41,589 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Completed parent_dashboard_view successfully
+2024-11-12 22:43:41,590 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:43:52,840 - stewardwell - INFO - 4 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Request: GET http://localhost:5000/homeconomy/parent/dashboard
+2024-11-12 22:43:52,841 - stewardwell - INFO - 4 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Starting parent_dashboard_view
+2024-11-12 22:43:52,841 - stewardwell - INFO - 4 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Completed parent_dashboard_view successfully
+2024-11-12 22:43:52,842 - stewardwell - INFO - 4 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:43:54,865 - stewardwell - INFO - 4 - http://localhost:5000/settings/appearance - 127.0.0.1 - GET - Request: GET http://localhost:5000/settings/appearance
+2024-11-12 22:43:54,883 - stewardwell - INFO - 4 - http://localhost:5000/settings/appearance - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:44:07,383 - stewardwell - INFO - 1 - http://localhost:5000/settings/appearance - 127.0.0.1 - GET - Request: GET http://localhost:5000/settings/appearance
+2024-11-12 22:44:07,384 - stewardwell - INFO - 1 - http://localhost:5000/settings/appearance - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:44:15,968 - stewardwell - INFO - 4 - http://localhost:5000/settings/appearance - 127.0.0.1 - GET - Request: GET http://localhost:5000/settings/appearance
+2024-11-12 22:44:15,970 - stewardwell - INFO - 4 - http://localhost:5000/settings/appearance - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:44:28,270 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Request: GET http://localhost:5000/homeconomy/parent/dashboard
+2024-11-12 22:44:28,270 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Starting parent_dashboard_view
+2024-11-12 22:44:28,276 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Completed parent_dashboard_view successfully
+2024-11-12 22:44:28,277 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:44:55,457 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Request: GET http://localhost:5000/homeconomy/parent/dashboard
+2024-11-12 22:44:55,458 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Starting parent_dashboard_view
+2024-11-12 22:44:55,491 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Completed parent_dashboard_view successfully
+2024-11-12 22:44:55,491 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:45:24,116 - stewardwell - INFO - None - None - None - None - Application started successfully
+2024-11-12 22:45:42,189 - stewardwell - INFO - 1 - http://localhost:5000/settings/appearance - 127.0.0.1 - GET - Request: GET http://localhost:5000/settings/appearance
+2024-11-12 22:45:42,211 - stewardwell - INFO - 1 - http://localhost:5000/settings/appearance - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:45:54,482 - stewardwell - INFO - None - None - None - None - Application started successfully
+2024-11-12 22:45:57,956 - stewardwell - ERROR - Anonymous - http://localhost:5000/settings/ - 127.0.0.1 - GET - Unhandled exception: When initializing mapper Mapper[User(user)], expression 'UserSettings' failed to locate a name ('UserSettings'). If this is a class name, consider adding this relationship() to the <class 'app.models.user.User'> class after both dependent classes have been defined.
+Traceback (most recent call last):
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\clsregistry.py", line 515, in _resolve_name
+    rval = d[token]
+           ~^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\util\_collections.py", line 346, in __missing__
+    self[key] = val = self.creator(key)
+                      ^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\clsregistry.py", line 483, in _access_cls
+    return self.fallback[key]
+           ~~~~~~~~~~~~~^^^^^
+KeyError: 'UserSettings'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1482, in full_dispatch_request
+    rv = self.preprocess_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1974, in preprocess_request
+    rv = self.ensure_sync(before_func)()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\app\__init__.py", line 39, in before_request
+    if current_user.is_authenticated:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\werkzeug\local.py", line 311, in __get__
+    obj = instance._get_current_object()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\werkzeug\local.py", line 515, in _get_current_object
+    return get_name(local())
+                    ^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_login\utils.py", line 25, in <lambda>
+    current_user = LocalProxy(lambda: _get_user())
+                                      ^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_login\utils.py", line 372, in _get_user
+    current_app.login_manager._load_user()
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_login\login_manager.py", line 364, in _load_user
+    user = self._user_callback(user_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\app\models\user.py", line 8, in load_user
+    return User.query.get(int(id))
+           ^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_sqlalchemy\model.py", line 22, in __get__
+    return cls.query_class(
+           ^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 274, in __init__
+    self._set_entities(entities)
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 284, in _set_entities
+    coercions.expect(
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\sql\coercions.py", line 406, in expect
+    insp._post_inspect
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 1252, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+                                           ^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2707, in _post_inspect
+    self._check_configure()
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2386, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4199, in _configure_registries
+    _do_configure_registries(registries, cascade)
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4240, in _do_configure_registries
+    mapper._post_configure_properties()
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2403, in _post_configure_properties
+    prop.init()
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\interfaces.py", line 579, in init
+    self.do_init()
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\relationships.py", line 1634, in do_init
+    self._setup_entity()
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\relationships.py", line 1851, in _setup_entity
+    self._clsregistry_resolve_name(argument)(),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\clsregistry.py", line 519, in _resolve_name
+    self._raise_for_name(name, err)
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\clsregistry.py", line 500, in _raise_for_name
+    raise exc.InvalidRequestError(
+sqlalchemy.exc.InvalidRequestError: When initializing mapper Mapper[User(user)], expression 'UserSettings' failed to locate a name ('UserSettings'). If this is a class name, consider adding this relationship() to the <class 'app.models.user.User'> class after both dependent classes have been defined.
+2024-11-12 22:46:03,841 - stewardwell - ERROR - Anonymous - http://localhost:5000/admin/dashboard - 127.0.0.1 - GET - Unhandled exception: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[User(user)]'. Original exception was: When initializing mapper Mapper[User(user)], expression 'UserSettings' failed to locate a name ('UserSettings'). If this is a class name, consider adding this relationship() to the <class 'app.models.user.User'> class after both dependent classes have been defined.
+Traceback (most recent call last):
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1482, in full_dispatch_request
+    rv = self.preprocess_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1974, in preprocess_request
+    rv = self.ensure_sync(before_func)()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\app\__init__.py", line 39, in before_request
+    if current_user.is_authenticated:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\werkzeug\local.py", line 311, in __get__
+    obj = instance._get_current_object()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\werkzeug\local.py", line 515, in _get_current_object
+    return get_name(local())
+                    ^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_login\utils.py", line 25, in <lambda>
+    current_user = LocalProxy(lambda: _get_user())
+                                      ^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_login\utils.py", line 372, in _get_user
+    current_app.login_manager._load_user()
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_login\login_manager.py", line 364, in _load_user
+    user = self._user_callback(user_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\app\models\user.py", line 8, in load_user
+    return User.query.get(int(id))
+           ^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_sqlalchemy\model.py", line 22, in __get__
+    return cls.query_class(
+           ^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 274, in __init__
+    self._set_entities(entities)
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 284, in _set_entities
+    coercions.expect(
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\sql\coercions.py", line 406, in expect
+    insp._post_inspect
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 1252, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+                                           ^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2707, in _post_inspect
+    self._check_configure()
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2386, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4199, in _configure_registries
+    _do_configure_registries(registries, cascade)
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4236, in _do_configure_registries
+    raise e
+sqlalchemy.exc.InvalidRequestError: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[User(user)]'. Original exception was: When initializing mapper Mapper[User(user)], expression 'UserSettings' failed to locate a name ('UserSettings'). If this is a class name, consider adding this relationship() to the <class 'app.models.user.User'> class after both dependent classes have been defined.
+2024-11-12 22:46:38,335 - stewardwell - ERROR - Anonymous - http://localhost:5000/admin/dashboard - 127.0.0.1 - GET - Unhandled exception: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[User(user)]'. Original exception was: When initializing mapper Mapper[User(user)], expression 'UserSettings' failed to locate a name ('UserSettings'). If this is a class name, consider adding this relationship() to the <class 'app.models.user.User'> class after both dependent classes have been defined.
+Traceback (most recent call last):
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1482, in full_dispatch_request
+    rv = self.preprocess_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1974, in preprocess_request
+    rv = self.ensure_sync(before_func)()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\app\__init__.py", line 39, in before_request
+    if current_user.is_authenticated:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\werkzeug\local.py", line 311, in __get__
+    obj = instance._get_current_object()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\werkzeug\local.py", line 515, in _get_current_object
+    return get_name(local())
+                    ^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_login\utils.py", line 25, in <lambda>
+    current_user = LocalProxy(lambda: _get_user())
+                                      ^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_login\utils.py", line 372, in _get_user
+    current_app.login_manager._load_user()
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_login\login_manager.py", line 364, in _load_user
+    user = self._user_callback(user_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\app\models\user.py", line 8, in load_user
+    return User.query.get(int(id))
+           ^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_sqlalchemy\model.py", line 22, in __get__
+    return cls.query_class(
+           ^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 274, in __init__
+    self._set_entities(entities)
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 284, in _set_entities
+    coercions.expect(
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\sql\coercions.py", line 406, in expect
+    insp._post_inspect
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 1252, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+                                           ^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2707, in _post_inspect
+    self._check_configure()
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2386, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4199, in _configure_registries
+    _do_configure_registries(registries, cascade)
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4236, in _do_configure_registries
+    raise e
+sqlalchemy.exc.InvalidRequestError: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[User(user)]'. Original exception was: When initializing mapper Mapper[User(user)], expression 'UserSettings' failed to locate a name ('UserSettings'). If this is a class name, consider adding this relationship() to the <class 'app.models.user.User'> class after both dependent classes have been defined.
+2024-11-12 22:46:50,723 - stewardwell - INFO - None - None - None - None - Application started successfully
+2024-11-12 22:46:51,421 - stewardwell - ERROR - Anonymous - http://localhost:5000/admin/dashboard - 127.0.0.1 - GET - Unhandled exception: When initializing mapper Mapper[User(user)], expression 'UserSettings' failed to locate a name ('UserSettings'). If this is a class name, consider adding this relationship() to the <class 'app.models.user.User'> class after both dependent classes have been defined.
+Traceback (most recent call last):
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\clsregistry.py", line 515, in _resolve_name
+    rval = d[token]
+           ~^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\util\_collections.py", line 346, in __missing__
+    self[key] = val = self.creator(key)
+                      ^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\clsregistry.py", line 483, in _access_cls
+    return self.fallback[key]
+           ~~~~~~~~~~~~~^^^^^
+KeyError: 'UserSettings'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1482, in full_dispatch_request
+    rv = self.preprocess_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1974, in preprocess_request
+    rv = self.ensure_sync(before_func)()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\app\__init__.py", line 39, in before_request
+    if current_user.is_authenticated:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\werkzeug\local.py", line 311, in __get__
+    obj = instance._get_current_object()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\werkzeug\local.py", line 515, in _get_current_object
+    return get_name(local())
+                    ^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_login\utils.py", line 25, in <lambda>
+    current_user = LocalProxy(lambda: _get_user())
+                                      ^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_login\utils.py", line 372, in _get_user
+    current_app.login_manager._load_user()
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_login\login_manager.py", line 364, in _load_user
+    user = self._user_callback(user_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\app\models\user.py", line 8, in load_user
+    return User.query.get(int(id))
+           ^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_sqlalchemy\model.py", line 22, in __get__
+    return cls.query_class(
+           ^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 274, in __init__
+    self._set_entities(entities)
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 284, in _set_entities
+    coercions.expect(
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\sql\coercions.py", line 406, in expect
+    insp._post_inspect
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 1252, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+                                           ^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2707, in _post_inspect
+    self._check_configure()
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2386, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4199, in _configure_registries
+    _do_configure_registries(registries, cascade)
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4240, in _do_configure_registries
+    mapper._post_configure_properties()
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2403, in _post_configure_properties
+    prop.init()
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\interfaces.py", line 579, in init
+    self.do_init()
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\relationships.py", line 1634, in do_init
+    self._setup_entity()
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\relationships.py", line 1851, in _setup_entity
+    self._clsregistry_resolve_name(argument)(),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\clsregistry.py", line 519, in _resolve_name
+    self._raise_for_name(name, err)
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\clsregistry.py", line 500, in _raise_for_name
+    raise exc.InvalidRequestError(
+sqlalchemy.exc.InvalidRequestError: When initializing mapper Mapper[User(user)], expression 'UserSettings' failed to locate a name ('UserSettings'). If this is a class name, consider adding this relationship() to the <class 'app.models.user.User'> class after both dependent classes have been defined.
+2024-11-12 22:48:56,564 - stewardwell - ERROR - Anonymous - http://localhost:5000/admin/dashboard - 127.0.0.1 - GET - Unhandled exception: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[User(user)]'. Original exception was: When initializing mapper Mapper[User(user)], expression 'UserSettings' failed to locate a name ('UserSettings'). If this is a class name, consider adding this relationship() to the <class 'app.models.user.User'> class after both dependent classes have been defined.
+Traceback (most recent call last):
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1482, in full_dispatch_request
+    rv = self.preprocess_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1974, in preprocess_request
+    rv = self.ensure_sync(before_func)()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\app\__init__.py", line 39, in before_request
+    if current_user.is_authenticated:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\werkzeug\local.py", line 311, in __get__
+    obj = instance._get_current_object()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\werkzeug\local.py", line 515, in _get_current_object
+    return get_name(local())
+                    ^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_login\utils.py", line 25, in <lambda>
+    current_user = LocalProxy(lambda: _get_user())
+                                      ^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_login\utils.py", line 372, in _get_user
+    current_app.login_manager._load_user()
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_login\login_manager.py", line 364, in _load_user
+    user = self._user_callback(user_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\app\models\user.py", line 8, in load_user
+    return User.query.get(int(id))
+           ^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_sqlalchemy\model.py", line 22, in __get__
+    return cls.query_class(
+           ^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 274, in __init__
+    self._set_entities(entities)
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 284, in _set_entities
+    coercions.expect(
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\sql\coercions.py", line 406, in expect
+    insp._post_inspect
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 1252, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+                                           ^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2707, in _post_inspect
+    self._check_configure()
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2386, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4199, in _configure_registries
+    _do_configure_registries(registries, cascade)
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4236, in _do_configure_registries
+    raise e
+sqlalchemy.exc.InvalidRequestError: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[User(user)]'. Original exception was: When initializing mapper Mapper[User(user)], expression 'UserSettings' failed to locate a name ('UserSettings'). If this is a class name, consider adding this relationship() to the <class 'app.models.user.User'> class after both dependent classes have been defined.
+2024-11-12 22:49:56,568 - stewardwell - INFO - None - None - None - None - Application started successfully
+2024-11-12 22:51:40,116 - stewardwell - INFO - 1 - http://localhost:5000/admin/dashboard - 127.0.0.1 - GET - Request: GET http://localhost:5000/admin/dashboard
+2024-11-12 22:51:40,116 - stewardwell.admin - INFO - 1 - http://localhost:5000/admin/dashboard - 127.0.0.1 - GET - {"timestamp": "2024-11-13T06:51:40.116441", "module": "admin", "user_id": 1, "action": "admin_dashboard_view", "details": {"access_time": "2024-11-12T22:51:40.116441"}, "ip_address": "127.0.0.1", "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0"}
+2024-11-12 22:51:40,194 - stewardwell - INFO - 1 - http://localhost:5000/admin/dashboard - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:58:30,811 - stewardwell - INFO - 1 - http://localhost:5000/settings/appearance - 127.0.0.1 - GET - Request: GET http://localhost:5000/settings/appearance
+2024-11-12 22:58:30,866 - stewardwell - INFO - 1 - http://localhost:5000/settings/appearance - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:58:57,260 - stewardwell - INFO - 1 - http://localhost:5000/settings/ - 127.0.0.1 - GET - Request: GET http://localhost:5000/settings/
+2024-11-12 22:58:57,275 - stewardwell - INFO - 1 - http://localhost:5000/settings/ - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:59:03,640 - stewardwell - INFO - 1 - http://localhost:5000/settings/appearance - 127.0.0.1 - GET - Request: GET http://localhost:5000/settings/appearance
+2024-11-12 22:59:03,642 - stewardwell - INFO - 1 - http://localhost:5000/settings/appearance - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 22:59:05,583 - stewardwell - INFO - 1 - http://localhost:5000/settings/ - 127.0.0.1 - GET - Request: GET http://localhost:5000/settings/
+2024-11-12 22:59:05,584 - stewardwell - INFO - 1 - http://localhost:5000/settings/ - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 23:01:30,666 - stewardwell - INFO - 1 - http://localhost:5000/settings/appearance - 127.0.0.1 - GET - Request: GET http://localhost:5000/settings/appearance
+2024-11-12 23:01:30,683 - stewardwell - INFO - 1 - http://localhost:5000/settings/appearance - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 23:03:53,417 - stewardwell - INFO - None - None - None - None - Application started successfully
+2024-11-12 23:06:30,326 - stewardwell - INFO - None - None - None - None - Application started successfully
+2024-11-12 23:07:09,857 - stewardwell - INFO - 1 - http://localhost:5000/settings/appearance - 127.0.0.1 - GET - Request: GET http://localhost:5000/settings/appearance
+2024-11-12 23:07:09,913 - stewardwell - INFO - 1 - http://localhost:5000/settings/appearance - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 23:07:09,971 - stewardwell - INFO - 1 - http://localhost:5000/static/css/theme.css - 127.0.0.1 - GET - Request: GET http://localhost:5000/static/css/theme.css
+2024-11-12 23:07:10,083 - stewardwell - INFO - 1 - http://localhost:5000/static/css/theme.css - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 23:07:10,084 - stewardwell - INFO - 1 - http://localhost:5000/static/js/theme.js - 127.0.0.1 - GET - Request: GET http://localhost:5000/static/js/theme.js
+2024-11-12 23:07:10,099 - stewardwell - INFO - 1 - http://localhost:5000/static/js/theme.js - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 23:07:10,485 - stewardwell - INFO - 1 - http://localhost:5000/settings/update-theme - 127.0.0.1 - POST - Request: POST http://localhost:5000/settings/update-theme
+2024-11-12 23:07:10,515 - stewardwell.settings - INFO - 1 - http://localhost:5000/settings/update-theme - 127.0.0.1 - POST - {"timestamp": "2024-11-13T07:07:10.515623", "module": "settings", "user_id": 1, "action": "theme_updated", "details": {"theme": "light"}, "ip_address": "127.0.0.1", "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0"}
+2024-11-12 23:07:10,516 - stewardwell - INFO - 1 - http://localhost:5000/settings/update-theme - 127.0.0.1 - POST - Response: 200 OK
+2024-11-12 23:11:28,890 - stewardwell - INFO - 1 - http://localhost:5000/settings/appearance - 127.0.0.1 - POST - Request: POST http://localhost:5000/settings/appearance
+2024-11-12 23:11:28,892 - stewardwell - INFO - 1 - http://localhost:5000/settings/appearance - 127.0.0.1 - POST - Response: 200 OK
+2024-11-12 23:11:28,950 - stewardwell - INFO - 1 - http://localhost:5000/static/css/theme.css - 127.0.0.1 - GET - Request: GET http://localhost:5000/static/css/theme.css
+2024-11-12 23:11:28,952 - stewardwell - INFO - 1 - http://localhost:5000/static/css/theme.css - 127.0.0.1 - GET - Response: 304 NOT MODIFIED
+2024-11-12 23:11:29,140 - stewardwell - INFO - 1 - http://localhost:5000/static/js/theme.js - 127.0.0.1 - GET - Request: GET http://localhost:5000/static/js/theme.js
+2024-11-12 23:11:29,141 - stewardwell - INFO - 1 - http://localhost:5000/static/js/theme.js - 127.0.0.1 - GET - Response: 304 NOT MODIFIED
+2024-11-12 23:11:29,529 - stewardwell - INFO - 1 - http://localhost:5000/settings/update-theme - 127.0.0.1 - POST - Request: POST http://localhost:5000/settings/update-theme
+2024-11-12 23:11:29,549 - stewardwell.settings - INFO - 1 - http://localhost:5000/settings/update-theme - 127.0.0.1 - POST - {"timestamp": "2024-11-13T07:11:29.549631", "module": "settings", "user_id": 1, "action": "theme_updated", "details": {"theme": "light"}, "ip_address": "127.0.0.1", "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0"}
+2024-11-12 23:11:29,550 - stewardwell - INFO - 1 - http://localhost:5000/settings/update-theme - 127.0.0.1 - POST - Response: 200 OK
+2024-11-12 23:11:32,583 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Request: GET http://localhost:5000/homeconomy/parent/dashboard
+2024-11-12 23:11:32,584 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Starting parent_dashboard_view
+2024-11-12 23:11:32,618 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Completed parent_dashboard_view successfully
+2024-11-12 23:11:32,618 - stewardwell - INFO - 1 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Response: 200 OK
+2024-11-12 23:11:32,891 - stewardwell - INFO - 1 - http://localhost:5000/static/css/theme.css - 127.0.0.1 - GET - Request: GET http://localhost:5000/static/css/theme.css
+2024-11-12 23:11:32,893 - stewardwell - INFO - 1 - http://localhost:5000/static/css/theme.css - 127.0.0.1 - GET - Response: 304 NOT MODIFIED
+2024-11-12 23:11:32,995 - stewardwell - INFO - 1 - http://localhost:5000/static/js/theme.js - 127.0.0.1 - GET - Request: GET http://localhost:5000/static/js/theme.js
+2024-11-12 23:11:32,996 - stewardwell - INFO - 1 - http://localhost:5000/static/js/theme.js - 127.0.0.1 - GET - Response: 304 NOT MODIFIED
+2024-11-12 23:11:33,373 - stewardwell - INFO - 1 - http://localhost:5000/settings/update-theme - 127.0.0.1 - POST - Request: POST http://localhost:5000/settings/update-theme
+2024-11-12 23:11:33,380 - stewardwell.settings - INFO - 1 - http://localhost:5000/settings/update-theme - 127.0.0.1 - POST - {"timestamp": "2024-11-13T07:11:33.380745", "module": "settings", "user_id": 1, "action": "theme_updated", "details": {"theme": "light"}, "ip_address": "127.0.0.1", "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0"}
+2024-11-12 23:11:33,380 - stewardwell - INFO - 1 - http://localhost:5000/settings/update-theme - 127.0.0.1 - POST - Response: 200 OK

@@ -46,6 +46,17 @@ class User(UserMixin, db.Model):
         foreign_keys='CompletedChore.verified_by_id'
     )
 
+    # User settings
+    settings = db.relationship('UserSettings', backref='user', uselist=False, lazy='joined',
+                             cascade='all, delete-orphan')
+
+    def __init__(self, **kwargs):
+        super(User, self).__init__(**kwargs)
+        # Create default settings for new users
+        if not self.settings:
+            from app.models.settings import UserSettings
+            self.settings = UserSettings()
+
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
 
@@ -75,6 +86,15 @@ class User(UserMixin, db.Model):
         for chore in verified_chores:
             total += chore.chore.points_reward
         return total
+
+    def get_settings(self):
+        """Get or create user settings"""
+        if not self.settings:
+            from app.models.settings import UserSettings
+            self.settings = UserSettings(user_id=self.id)
+            db.session.add(self.settings)
+            db.session.commit()
+        return self.settings
 
 class Family(db.Model):
     id = db.Column(db.Integer, primary_key=True)

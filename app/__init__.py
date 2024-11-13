@@ -2,22 +2,32 @@ from flask import Flask, request, g
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, current_user
 from flask_migrate import Migrate
+from flask_wtf.csrf import CSRFProtect
 from config import Config
 from app.utils.logger import setup_logger
 import logging
+import os
 
 db = SQLAlchemy()
 login_manager = LoginManager()
 migrate = Migrate()
+csrf = CSRFProtect()
 
 def create_app():
-    app = Flask(__name__)
+    app = Flask(__name__, static_folder='static')
     app.config.from_object(Config)
+
+    # Ensure static directory exists
+    if not os.path.exists(app.static_folder):
+        os.makedirs(app.static_folder)
+        os.makedirs(os.path.join(app.static_folder, 'js'))
+        os.makedirs(os.path.join(app.static_folder, 'css'))
 
     # Initialize extensions
     db.init_app(app)
     login_manager.init_app(app)
     migrate.init_app(app, db)
+    csrf.init_app(app)
 
     # Set up login manager
     login_manager.login_view = 'auth.login'
@@ -28,6 +38,7 @@ def create_app():
 
     # Import models to ensure they're known to Flask-Migrate
     from app.models.user import User, Family
+    from app.models.settings import UserSettings
     from app.modules.homeconomy.models import Chore, CompletedChore, Reward, ClaimedReward, Goal
 
     @app.before_request
@@ -92,6 +103,9 @@ def create_app():
 
     from app.admin import bp as admin_bp
     app.register_blueprint(admin_bp)
+
+    from app.settings import bp as settings_bp
+    app.register_blueprint(settings_bp)
 
     # Create database tables
     with app.app_context():
