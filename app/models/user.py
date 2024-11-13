@@ -10,7 +10,7 @@ def load_user(id):
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), unique=True, nullable=False)
-    email = db.Column(db.String(120), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=True)  # Made nullable for child accounts
     password_hash = db.Column(db.String(128))
     is_admin = db.Column(db.Boolean, default=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
@@ -51,6 +51,9 @@ class User(UserMixin, db.Model):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
+    def __repr__(self):
+        return f'<User {self.username}>'
+
 class Family(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), nullable=False)
@@ -72,3 +75,6 @@ class Family(db.Model):
     def add_points(self, points):
         self.total_points += points
         db.session.commit()
+
+    def __repr__(self):
+        return f'<Family {self.name}>'

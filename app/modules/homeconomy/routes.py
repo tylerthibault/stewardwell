@@ -13,7 +13,6 @@ from app.modules.homeconomy.models import (
 )
 from app.models.user import User, Family
 from datetime import datetime
-import secrets
 
 def is_parent():
     return current_user.user_type == 'parent'
@@ -36,9 +35,8 @@ def parent_dashboard():
         flash('Access denied. Parents only.', 'error')
         return redirect(url_for('homeconomy.index'))
     
-    family = current_user.family
     return render_template('homeconomy/parent/dashboard.html',
-                         family=family)
+                         title='Parent Dashboard')
 
 @bp.route('/family/create', methods=['GET', 'POST'])
 @login_required
@@ -46,6 +44,10 @@ def create_family():
     if not is_parent():
         flash('Access denied. Parents only.', 'error')
         return redirect(url_for('homeconomy.index'))
+    
+    if current_user.family:
+        flash('You already have a family.', 'error')
+        return redirect(url_for('homeconomy.parent_dashboard'))
     
     form = FamilyForm()
     if form.validate_on_submit():
@@ -75,17 +77,28 @@ def add_child(family_id):
     
     form = AddChildForm()
     if form.validate_on_submit():
+        if User.query.filter_by(username=form.username.data).first():
+            flash('Username already exists. Please choose a different one.', 'error')
+            return render_template('homeconomy/family/add_child.html', form=form, family=family)
+        
         child = User(
             username=form.username.data,
-            email=form.email.data,
+            email=form.email.data if form.email.data else None,
             user_type='child',
-            family_id=family.id
+            family_id=family.id,
+            created_at=datetime.utcnow()
         )
         child.set_password(form.password.data)
         db.session.add(child)
-        db.session.commit()
-        flash(f'Child {child.username} added successfully!', 'success')
-        return redirect(url_for('homeconomy.parent_dashboard'))
+        
+        try:
+            db.session.commit()
+            flash(f'Child {child.username} added successfully!', 'success')
+            return redirect(url_for('homeconomy.parent_dashboard'))
+        except Exception as e:
+            db.session.rollback()
+            flash('An error occurred while adding the child. Please try again.', 'error')
+            return render_template('homeconomy/family/add_child.html', form=form, family=family)
     
     return render_template('homeconomy/family/add_child.html', form=form, family=family)
 
@@ -96,6 +109,10 @@ def create_chore():
     if not is_parent():
         flash('Access denied. Parents only.', 'error')
         return redirect(url_for('homeconomy.index'))
+    
+    if not current_user.family:
+        flash('You need to create a family first.', 'error')
+        return redirect(url_for('homeconomy.create_family'))
     
     form = ChoreForm(family=current_user.family)
     if form.validate_on_submit():
@@ -154,6 +171,10 @@ def create_reward():
         flash('Access denied. Parents only.', 'error')
         return redirect(url_for('homeconomy.index'))
     
+    if not current_user.family:
+        flash('You need to create a family first.', 'error')
+        return redirect(url_for('homeconomy.create_family'))
+    
     form = RewardForm()
     if form.validate_on_submit():
         reward = Reward(
@@ -161,7 +182,8 @@ def create_reward():
             description=form.description.data,
             coin_cost=form.coin_cost.data,
             quantity=form.quantity.data,
-            family_id=current_user.family.id
+            family_id=current_user.family.id,
+            is_active=form.is_active.data
         )
         db.session.add(reward)
         db.session.commit()
@@ -203,13 +225,18 @@ def create_goal():
         flash('Access denied. Parents only.', 'error')
         return redirect(url_for('homeconomy.index'))
     
+    if not current_user.family:
+        flash('You need to create a family first.', 'error')
+        return redirect(url_for('homeconomy.create_family'))
+    
     form = GoalForm()
     if form.validate_on_submit():
         goal = Goal(
             name=form.name.data,
             description=form.description.data,
             points_required=form.points_required.data,
-            family_id=current_user.family.id
+            family_id=current_user.family.id,
+            is_active=form.is_active.data
         )
         db.session.add(goal)
         db.session.commit()
@@ -267,36 +294,4 @@ def complete_chore(chore_id):
     return jsonify({
         'message': 'Chore marked as completed! Waiting for parent verification.',
         'completed_chore_id': completed_chore.id
-    })
-
-@bp.route('/rewards/<int:reward_id>/claim', methods=['POST'])
-@login_required
-def claim_reward(reward_id):
-    if not is_child():
-        return jsonify({'error': 'Access denied. Children only.'}), 403
-    
-    reward = Reward.query.get_or_404(reward_id)
-    if reward.family_id != current_user.family_id:
-        return jsonify({'error': 'Access denied. Not your family.'}), 403
-    
-    if current_user.coins < reward.coin_cost:
-        return jsonify({'error': 'Not enough coins!'}), 400
-    
-    if reward.quantity == 0:
-        return jsonify({'error': 'Reward out of stock!'}), 400
-    
-    current_user.coins -= reward.coin_cost
-    if reward.quantity > 0:
-        reward.quantity -= 1
-    
-    claimed_reward = ClaimedReward(
-        reward_id=reward.id,
-        child_id=current_user.id
-    )
-    db.session.add(claimed_reward)
-    db.session.commit()
-    
-    return jsonify({
-        'message': 'Reward claimed successfully!',
-        'new_coin_balance': current_user.coins
     })
