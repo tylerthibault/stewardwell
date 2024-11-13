@@ -32,7 +32,18 @@ class User(UserMixin, db.Model):
     
     # Child-specific relationships
     coins = db.Column(db.Integer, default=0)
-    completed_chores = db.relationship('CompletedChore', backref='child', lazy='dynamic')
+    completed_chores = db.relationship(
+        'CompletedChore',
+        backref='child',
+        lazy='dynamic',
+        foreign_keys='CompletedChore.child_id'
+    )
+    verified_chores = db.relationship(
+        'CompletedChore',
+        backref='verified_by',
+        lazy='dynamic',
+        foreign_keys='CompletedChore.verified_by_id'
+    )
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
