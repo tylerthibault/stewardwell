@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto">
+    <div class="bg-white shadow-sm rounded-lg">
+        <!-- Header -->
+        <div class="px-4 py-5 sm:px-6 border-b">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-900">Notification Settings</h1>
+                    <p class="mt-1 text-sm text-gray-500">Manage how you receive notifications.</p>
+                </div>
+                <a href="{{ url_for('settings.index') }}" 
+                   class="text-blue-600 hover:text-blue-800">
+                    <i class="fas fa-arrow-left mr-1"></i>
+                    Back to Settings
+                </a>
+            </div>
+        </div>
+
+        <form method="POST" class="p-6 space-y-8">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+            <!-- Email Notifications -->
+            <div class="space-y-4">
+                <h3 class="text-lg font-medium text-gray-900">Email Notifications</h3>
+                <div class="space-y-4">
+                    <div class="flex items-start">
+                        <div class="flex items-center h-5">
+                            <input type="checkbox" name="email_chores" id="email_chores"
+                                   class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                        </div>
+                        <div class="ml-3">
+                            <label for="email_chores" class="text-sm font-medium text-gray-900">Chore Updates</label>
+                            <p class="text-sm text-gray-500">Receive emails about new chores and verifications</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start">
+                        <div class="flex items-center h-5">
+                            <input type="checkbox" name="email_rewards" id="email_rewards"
+                                   class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                        </div>
+                        <div class="ml-3">
+                            <label for="email_rewards" class="text-sm font-medium text-gray-900">Reward Updates</label>
+                            <p class="text-sm text-gray-500">Receive emails about rewards and achievements</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start">
+                        <div class="flex items-center h-5">
+                            <input type="checkbox" name="email_goals" id="email_goals"
+                                   class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                        </div>
+                        <div class="ml-3">
+                            <label for="email_goals" class="text-sm font-medium text-gray-900">Goal Progress</label>
+                            <p class="text-sm text-gray-500">Receive emails about family goal progress</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- In-App Notifications -->
+            <div class="space-y-4 pt-6 border-t">
+                <h3 class="text-lg font-medium text-gray-900">In-App Notifications</h3>
+                <div class="space-y-4">
+                    <div class="flex items-start">
+                        <div class="flex items-center h-5">
+                            <input type="checkbox" name="inapp_chores" id="inapp_chores"
+                                   class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                        </div>
+                        <div class="ml-3">
+                            <label for="inapp_chores" class="text-sm font-medium text-gray-900">Chore Notifications</label>
+                            <p class="text-sm text-gray-500">Show notifications for chore-related activities</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start">
+                        <div class="flex items-center h-5">
+                            <input type="checkbox" name="inapp_rewards" id="inapp_rewards"
+                                   class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                        </div>
+                        <div class="ml-3">
+                            <label for="inapp_rewards" class="text-sm font-medium text-gray-900">Reward Notifications</label>
+                            <p class="text-sm text-gray-500">Show notifications for rewards and achievements</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start">
+                        <div class="flex items-center h-5">
+                            <input type="checkbox" name="inapp_goals" id="inapp_goals"
+                                   class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                        </div>
+                        <div class="ml-3">
+                            <label for="inapp_goals" class="text-sm font-medium text-gray-900">Goal Notifications</label>
+                            <p class="text-sm text-gray-500">Show notifications for goal progress</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notification Schedule -->
+            <div class="space-y-4 pt-6 border-t">
+                <h3 class="text-lg font-medium text-gray-900">Notification Schedule</h3>
+                <div class="space-y-4">
+                    <div>
+                        <label for="notification_frequency" class="block text-sm font-medium text-gray-700">
+                            Email Digest Frequency
+                        </label>
+                        <select id="notification_frequency" name="notification_frequency"
+                                class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
+                            <option>Immediately</option>
+                            <option>Daily Digest</option>
+                            <option>Weekly Digest</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="quiet_hours_start" class="block text-sm font-medium text-gray-700">
+                            Quiet Hours Start
+                        </label>
+                        <input type="time" id="quiet_hours_start" name="quiet_hours_start"
+                               class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                    </div>
+
+                    <div>
+                        <label for="quiet_hours_end" class="block text-sm font-medium text-gray-700">
+                            Quiet Hours End
+                        </label>
+                        <input type="time" id="quiet_hours_end" name="quiet_hours_end"
+                               class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile Notifications -->
+            <div class="space-y-4 pt-6 border-t">
+                <h3 class="text-lg font-medium text-gray-900">Mobile Notifications</h3>
+                <div class="bg-gray-50 p-4 rounded-lg">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-gray-900">Push Notifications</p>
+                            <p class="text-sm text-gray-500">Enable notifications on your mobile device</p>
+                        </div>
+                        <button type="button"
+                                class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                            Configure
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Save Button -->
+            <div class="pt-5 border-t">
+                <div class="flex justify-end space-x-3">
+                    <button type="button"
+                            onclick="window.location.href='{{ url_for('settings.index') }}'"
+                            class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        Cancel
+                    </button>
+                    <button type="submit"
+                            class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        Save Changes
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

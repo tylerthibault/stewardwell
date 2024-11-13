@@ -1,0 +1,847 @@
+2024-11-12 18:04:03,961 - stewardwell - ERROR - 1 - http://localhost:5000/homeconomy/admin/dashboard - 127.0.0.1 - GET - Unhandled exception: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+Traceback (most recent call last):
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1484, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1458, in dispatch_request
+    self.raise_routing_exception(req)
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1440, in raise_routing_exception
+    raise request.routing_exception  # type: ignore
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\ctx.py", line 353, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\werkzeug\routing\map.py", line 655, in match
+    raise NotFound() from None
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-11-12 18:04:08,324 - stewardwell - ERROR - 1 - http://localhost:5000/admin/dashboard - 127.0.0.1 - GET - Unhandled exception: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+Traceback (most recent call last):
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1484, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1458, in dispatch_request
+    self.raise_routing_exception(req)
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1440, in raise_routing_exception
+    raise request.routing_exception  # type: ignore
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\ctx.py", line 353, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\werkzeug\routing\map.py", line 655, in match
+    raise NotFound() from None
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-11-12 18:14:16,095 - stewardwell - ERROR - Anonymous - http://localhost:5000/admin/dashboard - 127.0.0.1 - GET - Unhandled exception: (sqlite3.OperationalError) no such column: user.is_active
+[SQL: SELECT user.id AS user_id, user.username AS user_username, user.email AS user_email, user.password_hash AS user_password_hash, user.is_admin AS user_is_admin, user.is_active AS user_is_active, user.created_at AS user_created_at, user.last_login AS user_last_login, user.user_type AS user_user_type, user.family_id AS user_family_id, user.coins AS user_coins, family_1.id AS family_1_id, family_1.name AS family_1_name, family_1.created_at AS family_1_created_at, family_1.owner_id AS family_1_owner_id, family_1.total_points AS family_1_total_points 
+FROM user LEFT OUTER JOIN family AS family_1 ON family_1.id = user.family_id 
+WHERE user.id = ?]
+[parameters: (1,)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+Traceback (most recent call last):
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1965, in _exec_single_context
+    self.dialect.do_execute(
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\engine\default.py", line 921, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.OperationalError: no such column: user.is_active
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1482, in full_dispatch_request
+    rv = self.preprocess_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1974, in preprocess_request
+    rv = self.ensure_sync(before_func)()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\app\__init__.py", line 36, in before_request
+    if current_user.is_authenticated:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\werkzeug\local.py", line 311, in __get__
+    obj = instance._get_current_object()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\werkzeug\local.py", line 515, in _get_current_object
+    return get_name(local())
+                    ^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_login\utils.py", line 25, in <lambda>
+    current_user = LocalProxy(lambda: _get_user())
+                                      ^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_login\utils.py", line 372, in _get_user
+    current_app.login_manager._load_user()
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_login\login_manager.py", line 364, in _load_user
+    user = self._user_callback(user_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\app\models\user.py", line 8, in load_user
+    return User.query.get(int(id))
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 2, in get
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\util\deprecations.py", line 386, in warned
+    return fn(*args, **kwargs)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 1131, in get
+    return self._get_impl(ident, loading.load_on_pk_identity)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 1140, in _get_impl
+    return self.session._get_impl(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 3700, in _get_impl
+    return db_load_fn(
+           ^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\loading.py", line 666, in load_on_pk_identity
+    session.execute(
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2262, in execute
+    return self._execute_internal(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2144, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\context.py", line 293, in orm_execute_statement
+    result = conn.execute(
+             ^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1412, in execute
+    return meth(
+           ^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 516, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1635, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1844, in _execute_context
+    return self._exec_single_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1984, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2339, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1965, in _exec_single_context
+    self.dialect.do_execute(
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\engine\default.py", line 921, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such column: user.is_active
+[SQL: SELECT user.id AS user_id, user.username AS user_username, user.email AS user_email, user.password_hash AS user_password_hash, user.is_admin AS user_is_admin, user.is_active AS user_is_active, user.created_at AS user_created_at, user.last_login AS user_last_login, user.user_type AS user_user_type, user.family_id AS user_family_id, user.coins AS user_coins, family_1.id AS family_1_id, family_1.name AS family_1_name, family_1.created_at AS family_1_created_at, family_1.owner_id AS family_1_owner_id, family_1.total_points AS family_1_total_points 
+FROM user LEFT OUTER JOIN family AS family_1 ON family_1.id = user.family_id 
+WHERE user.id = ?]
+[parameters: (1,)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2024-11-12 18:15:40,962 - stewardwell - ERROR - Anonymous - http://localhost:5000/admin/dashboard - 127.0.0.1 - GET - Unhandled exception: (sqlite3.OperationalError) no such column: user.is_active
+[SQL: SELECT user.id AS user_id, user.username AS user_username, user.email AS user_email, user.password_hash AS user_password_hash, user.is_admin AS user_is_admin, user.is_active AS user_is_active, user.created_at AS user_created_at, user.last_login AS user_last_login, user.user_type AS user_user_type, user.family_id AS user_family_id, user.coins AS user_coins, family_1.id AS family_1_id, family_1.name AS family_1_name, family_1.created_at AS family_1_created_at, family_1.owner_id AS family_1_owner_id, family_1.total_points AS family_1_total_points 
+FROM user LEFT OUTER JOIN family AS family_1 ON family_1.id = user.family_id 
+WHERE user.id = ?]
+[parameters: (1,)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+Traceback (most recent call last):
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1965, in _exec_single_context
+    self.dialect.do_execute(
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\engine\default.py", line 921, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.OperationalError: no such column: user.is_active
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1482, in full_dispatch_request
+    rv = self.preprocess_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1974, in preprocess_request
+    rv = self.ensure_sync(before_func)()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\app\__init__.py", line 36, in before_request
+    if current_user.is_authenticated:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\werkzeug\local.py", line 311, in __get__
+    obj = instance._get_current_object()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\werkzeug\local.py", line 515, in _get_current_object
+    return get_name(local())
+                    ^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_login\utils.py", line 25, in <lambda>
+    current_user = LocalProxy(lambda: _get_user())
+                                      ^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_login\utils.py", line 372, in _get_user
+    current_app.login_manager._load_user()
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_login\login_manager.py", line 364, in _load_user
+    user = self._user_callback(user_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\app\models\user.py", line 8, in load_user
+    return User.query.get(int(id))
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 2, in get
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\util\deprecations.py", line 386, in warned
+    return fn(*args, **kwargs)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 1131, in get
+    return self._get_impl(ident, loading.load_on_pk_identity)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 1140, in _get_impl
+    return self.session._get_impl(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 3700, in _get_impl
+    return db_load_fn(
+           ^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\loading.py", line 666, in load_on_pk_identity
+    session.execute(
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2262, in execute
+    return self._execute_internal(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2144, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\context.py", line 293, in orm_execute_statement
+    result = conn.execute(
+             ^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1412, in execute
+    return meth(
+           ^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 516, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1635, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1844, in _execute_context
+    return self._exec_single_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1984, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2339, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1965, in _exec_single_context
+    self.dialect.do_execute(
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\engine\default.py", line 921, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such column: user.is_active
+[SQL: SELECT user.id AS user_id, user.username AS user_username, user.email AS user_email, user.password_hash AS user_password_hash, user.is_admin AS user_is_admin, user.is_active AS user_is_active, user.created_at AS user_created_at, user.last_login AS user_last_login, user.user_type AS user_user_type, user.family_id AS user_family_id, user.coins AS user_coins, family_1.id AS family_1_id, family_1.name AS family_1_name, family_1.created_at AS family_1_created_at, family_1.owner_id AS family_1_owner_id, family_1.total_points AS family_1_total_points 
+FROM user LEFT OUTER JOIN family AS family_1 ON family_1.id = user.family_id 
+WHERE user.id = ?]
+[parameters: (1,)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2024-11-12 22:35:49,590 - stewardwell - ERROR - 1 - http://localhost:5000/admin/user/4/edit - 127.0.0.1 - GET - Unhandled exception: 'csrf_token' is undefined
+Traceback (most recent call last):
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1484, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1469, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_login\utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\app\admin\routes.py", line 175, in edit_user
+    return render_template('admin/edit_user.html',
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\templating.py", line 151, in render_template
+    return _render(app, template, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\templating.py", line 132, in _render
+    rv = template.render(context)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\jinja2\environment.py", line 1301, in render
+    self.environment.handle_exception()
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\jinja2\environment.py", line 936, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "D:\coding\Flask\newStewardWell\app\templates\admin\edit_user.html", line 1, in top-level template code
+    {% extends "base.html" %}
+  File "D:\coding\Flask\newStewardWell\app\templates\base.html", line 206, in top-level template code
+    {% block content %}{% endblock %}
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\app\templates\admin\edit_user.html", line 15, in block 'content'
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\jinja2\utils.py", line 83, in from_obj
+    if hasattr(obj, "jinja_pass_arg"):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+jinja2.exceptions.UndefinedError: 'csrf_token' is undefined
+2024-11-12 22:35:59,685 - stewardwell - ERROR - 1 - http://localhost:5000/admin/dashboard - 127.0.0.1 - GET - Unhandled exception: Could not build url for endpoint 'settings.profile'. Did you mean 'main.profile' instead?
+Traceback (most recent call last):
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1484, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1469, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_login\utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\app\admin\routes.py", line 112, in dashboard
+    return render_template('admin/dashboard.html',
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\templating.py", line 151, in render_template
+    return _render(app, template, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\templating.py", line 132, in _render
+    rv = template.render(context)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\jinja2\environment.py", line 1301, in render
+    self.environment.handle_exception()
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\jinja2\environment.py", line 936, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "D:\coding\Flask\newStewardWell\app\templates\admin\dashboard.html", line 1, in top-level template code
+    {% extends "base.html" %}
+  File "D:\coding\Flask\newStewardWell\app\templates\base.html", line 117, in top-level template code
+    <a href="{{ url_for('settings.profile') }}"
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1697, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1686, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\werkzeug\routing\map.py", line 950, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'settings.profile'. Did you mean 'main.profile' instead?
+2024-11-12 22:36:12,323 - stewardwell - ERROR - 4 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Error in parent_dashboard_view: Could not build url for endpoint 'settings.profile'. Did you mean 'main.profile' instead?
+2024-11-12 22:36:12,323 - stewardwell - ERROR - 4 - http://localhost:5000/homeconomy/parent/dashboard - 127.0.0.1 - GET - Unhandled exception: Could not build url for endpoint 'settings.profile'. Did you mean 'main.profile' instead?
+Traceback (most recent call last):
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1484, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1469, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_login\utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\app\utils\logger.py", line 113, in decorated_function
+    result = f(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\app\modules\homeconomy\routes.py", line 49, in parent_dashboard
+    return render_template('homeconomy/parent/dashboard.html',
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\templating.py", line 151, in render_template
+    return _render(app, template, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\templating.py", line 132, in _render
+    rv = template.render(context)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\jinja2\environment.py", line 1301, in render
+    self.environment.handle_exception()
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\jinja2\environment.py", line 936, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "D:\coding\Flask\newStewardWell\app\templates\homeconomy\parent\dashboard.html", line 1, in top-level template code
+    {% extends "base.html" %}
+  File "D:\coding\Flask\newStewardWell\app\templates\base.html", line 117, in top-level template code
+    <a href="{{ url_for('settings.profile') }}"
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1697, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1686, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\werkzeug\routing\map.py", line 950, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'settings.profile'. Did you mean 'main.profile' instead?
+2024-11-12 22:40:25,769 - stewardwell - ERROR - 1 - http://localhost:5000/settings/appearance - 127.0.0.1 - GET - Unhandled exception: 'csrf_token' is undefined
+Traceback (most recent call last):
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1484, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1469, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_login\utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\app\settings\routes.py", line 140, in appearance
+    return render_template('settings/appearance.html', title='Appearance Settings')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\templating.py", line 151, in render_template
+    return _render(app, template, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\templating.py", line 132, in _render
+    rv = template.render(context)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\jinja2\environment.py", line 1301, in render
+    self.environment.handle_exception()
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\jinja2\environment.py", line 936, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "D:\coding\Flask\newStewardWell\app\templates\settings\appearance.html", line 1, in top-level template code
+    {% extends "base.html" %}
+  File "D:\coding\Flask\newStewardWell\app\templates\base.html", line 210, in top-level template code
+    {% block content %}{% endblock %}
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\app\templates\settings\appearance.html", line 22, in block 'content'
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\jinja2\utils.py", line 83, in from_obj
+    if hasattr(obj, "jinja_pass_arg"):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+jinja2.exceptions.UndefinedError: 'csrf_token' is undefined
+2024-11-12 22:40:43,675 - stewardwell - ERROR - 1 - http://localhost:5000/settings/appearance - 127.0.0.1 - GET - Unhandled exception: 'csrf_token' is undefined
+Traceback (most recent call last):
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1484, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1469, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_login\utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\app\settings\routes.py", line 140, in appearance
+    return render_template('settings/appearance.html', title='Appearance Settings')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\templating.py", line 151, in render_template
+    return _render(app, template, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\templating.py", line 132, in _render
+    rv = template.render(context)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\jinja2\environment.py", line 1301, in render
+    self.environment.handle_exception()
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\jinja2\environment.py", line 936, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "D:\coding\Flask\newStewardWell\app\templates\settings\appearance.html", line 1, in top-level template code
+    {% extends "base.html" %}
+  File "D:\coding\Flask\newStewardWell\app\templates\base.html", line 210, in top-level template code
+    {% block content %}{% endblock %}
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\app\templates\settings\appearance.html", line 22, in block 'content'
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\jinja2\utils.py", line 83, in from_obj
+    if hasattr(obj, "jinja_pass_arg"):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+jinja2.exceptions.UndefinedError: 'csrf_token' is undefined
+2024-11-12 22:41:28,941 - stewardwell - ERROR - 1 - http://localhost:5000/settings/appearance - 127.0.0.1 - GET - Unhandled exception: 'csrf_token' is undefined
+Traceback (most recent call last):
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1484, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1469, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_login\utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\app\settings\routes.py", line 149, in appearance
+    return render_template('settings/appearance.html', title='Appearance Settings')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\templating.py", line 151, in render_template
+    return _render(app, template, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\templating.py", line 132, in _render
+    rv = template.render(context)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\jinja2\environment.py", line 1301, in render
+    self.environment.handle_exception()
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\jinja2\environment.py", line 936, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "D:\coding\Flask\newStewardWell\app\templates\settings\appearance.html", line 1, in top-level template code
+    {% extends "base.html" %}
+  File "D:\coding\Flask\newStewardWell\app\templates\base.html", line 210, in top-level template code
+    {% block content %}{% endblock %}
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\app\templates\settings\appearance.html", line 22, in block 'content'
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\jinja2\utils.py", line 83, in from_obj
+    if hasattr(obj, "jinja_pass_arg"):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+jinja2.exceptions.UndefinedError: 'csrf_token' is undefined
+2024-11-12 22:41:35,377 - stewardwell - ERROR - 1 - http://localhost:5000/settings/profile - 127.0.0.1 - GET - Unhandled exception: 'csrf_token' is undefined
+Traceback (most recent call last):
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1484, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1469, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_login\utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\app\settings\routes.py", line 42, in profile
+    return render_template('settings/profile.html', title='Profile Settings')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\templating.py", line 151, in render_template
+    return _render(app, template, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\templating.py", line 132, in _render
+    rv = template.render(context)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\jinja2\environment.py", line 1301, in render
+    self.environment.handle_exception()
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\jinja2\environment.py", line 936, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "D:\coding\Flask\newStewardWell\app\templates\settings\profile.html", line 1, in top-level template code
+    {% extends "base.html" %}
+  File "D:\coding\Flask\newStewardWell\app\templates\base.html", line 210, in top-level template code
+    {% block content %}{% endblock %}
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\app\templates\settings\profile.html", line 23, in block 'content'
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\jinja2\utils.py", line 83, in from_obj
+    if hasattr(obj, "jinja_pass_arg"):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+jinja2.exceptions.UndefinedError: 'csrf_token' is undefined
+2024-11-12 22:41:38,491 - stewardwell - ERROR - 1 - http://localhost:5000/settings/notifications - 127.0.0.1 - GET - Unhandled exception: 'csrf_token' is undefined
+Traceback (most recent call last):
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1484, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1469, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_login\utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\app\settings\routes.py", line 77, in notifications
+    return render_template('settings/notifications.html', title='Notification Settings')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\templating.py", line 151, in render_template
+    return _render(app, template, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\templating.py", line 132, in _render
+    rv = template.render(context)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\jinja2\environment.py", line 1301, in render
+    self.environment.handle_exception()
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\jinja2\environment.py", line 936, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "D:\coding\Flask\newStewardWell\app\templates\settings\notifications.html", line 1, in top-level template code
+    {% extends "base.html" %}
+  File "D:\coding\Flask\newStewardWell\app\templates\base.html", line 210, in top-level template code
+    {% block content %}{% endblock %}
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\app\templates\settings\notifications.html", line 22, in block 'content'
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\jinja2\utils.py", line 83, in from_obj
+    if hasattr(obj, "jinja_pass_arg"):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+jinja2.exceptions.UndefinedError: 'csrf_token' is undefined
+2024-11-12 22:41:45,263 - stewardwell - ERROR - 1 - http://localhost:5000/settings/security - 127.0.0.1 - GET - Unhandled exception: 'csrf_token' is undefined
+Traceback (most recent call last):
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1484, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1469, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_login\utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\app\settings\routes.py", line 115, in security
+    return render_template('settings/security.html', title='Security Settings')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\templating.py", line 151, in render_template
+    return _render(app, template, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\templating.py", line 132, in _render
+    rv = template.render(context)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\jinja2\environment.py", line 1301, in render
+    self.environment.handle_exception()
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\jinja2\environment.py", line 936, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "D:\coding\Flask\newStewardWell\app\templates\settings\security.html", line 1, in top-level template code
+    {% extends "base.html" %}
+  File "D:\coding\Flask\newStewardWell\app\templates\base.html", line 210, in top-level template code
+    {% block content %}{% endblock %}
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\app\templates\settings\security.html", line 23, in block 'content'
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\jinja2\utils.py", line 83, in from_obj
+    if hasattr(obj, "jinja_pass_arg"):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+jinja2.exceptions.UndefinedError: 'csrf_token' is undefined
+2024-11-12 22:45:57,956 - stewardwell - ERROR - Anonymous - http://localhost:5000/settings/ - 127.0.0.1 - GET - Unhandled exception: When initializing mapper Mapper[User(user)], expression 'UserSettings' failed to locate a name ('UserSettings'). If this is a class name, consider adding this relationship() to the <class 'app.models.user.User'> class after both dependent classes have been defined.
+Traceback (most recent call last):
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\clsregistry.py", line 515, in _resolve_name
+    rval = d[token]
+           ~^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\util\_collections.py", line 346, in __missing__
+    self[key] = val = self.creator(key)
+                      ^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\clsregistry.py", line 483, in _access_cls
+    return self.fallback[key]
+           ~~~~~~~~~~~~~^^^^^
+KeyError: 'UserSettings'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1482, in full_dispatch_request
+    rv = self.preprocess_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1974, in preprocess_request
+    rv = self.ensure_sync(before_func)()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\app\__init__.py", line 39, in before_request
+    if current_user.is_authenticated:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\werkzeug\local.py", line 311, in __get__
+    obj = instance._get_current_object()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\werkzeug\local.py", line 515, in _get_current_object
+    return get_name(local())
+                    ^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_login\utils.py", line 25, in <lambda>
+    current_user = LocalProxy(lambda: _get_user())
+                                      ^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_login\utils.py", line 372, in _get_user
+    current_app.login_manager._load_user()
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_login\login_manager.py", line 364, in _load_user
+    user = self._user_callback(user_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\app\models\user.py", line 8, in load_user
+    return User.query.get(int(id))
+           ^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_sqlalchemy\model.py", line 22, in __get__
+    return cls.query_class(
+           ^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 274, in __init__
+    self._set_entities(entities)
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 284, in _set_entities
+    coercions.expect(
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\sql\coercions.py", line 406, in expect
+    insp._post_inspect
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 1252, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+                                           ^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2707, in _post_inspect
+    self._check_configure()
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2386, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4199, in _configure_registries
+    _do_configure_registries(registries, cascade)
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4240, in _do_configure_registries
+    mapper._post_configure_properties()
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2403, in _post_configure_properties
+    prop.init()
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\interfaces.py", line 579, in init
+    self.do_init()
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\relationships.py", line 1634, in do_init
+    self._setup_entity()
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\relationships.py", line 1851, in _setup_entity
+    self._clsregistry_resolve_name(argument)(),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\clsregistry.py", line 519, in _resolve_name
+    self._raise_for_name(name, err)
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\clsregistry.py", line 500, in _raise_for_name
+    raise exc.InvalidRequestError(
+sqlalchemy.exc.InvalidRequestError: When initializing mapper Mapper[User(user)], expression 'UserSettings' failed to locate a name ('UserSettings'). If this is a class name, consider adding this relationship() to the <class 'app.models.user.User'> class after both dependent classes have been defined.
+2024-11-12 22:46:03,841 - stewardwell - ERROR - Anonymous - http://localhost:5000/admin/dashboard - 127.0.0.1 - GET - Unhandled exception: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[User(user)]'. Original exception was: When initializing mapper Mapper[User(user)], expression 'UserSettings' failed to locate a name ('UserSettings'). If this is a class name, consider adding this relationship() to the <class 'app.models.user.User'> class after both dependent classes have been defined.
+Traceback (most recent call last):
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1482, in full_dispatch_request
+    rv = self.preprocess_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1974, in preprocess_request
+    rv = self.ensure_sync(before_func)()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\app\__init__.py", line 39, in before_request
+    if current_user.is_authenticated:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\werkzeug\local.py", line 311, in __get__
+    obj = instance._get_current_object()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\werkzeug\local.py", line 515, in _get_current_object
+    return get_name(local())
+                    ^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_login\utils.py", line 25, in <lambda>
+    current_user = LocalProxy(lambda: _get_user())
+                                      ^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_login\utils.py", line 372, in _get_user
+    current_app.login_manager._load_user()
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_login\login_manager.py", line 364, in _load_user
+    user = self._user_callback(user_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\app\models\user.py", line 8, in load_user
+    return User.query.get(int(id))
+           ^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_sqlalchemy\model.py", line 22, in __get__
+    return cls.query_class(
+           ^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 274, in __init__
+    self._set_entities(entities)
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 284, in _set_entities
+    coercions.expect(
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\sql\coercions.py", line 406, in expect
+    insp._post_inspect
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 1252, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+                                           ^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2707, in _post_inspect
+    self._check_configure()
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2386, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4199, in _configure_registries
+    _do_configure_registries(registries, cascade)
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4236, in _do_configure_registries
+    raise e
+sqlalchemy.exc.InvalidRequestError: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[User(user)]'. Original exception was: When initializing mapper Mapper[User(user)], expression 'UserSettings' failed to locate a name ('UserSettings'). If this is a class name, consider adding this relationship() to the <class 'app.models.user.User'> class after both dependent classes have been defined.
+2024-11-12 22:46:38,335 - stewardwell - ERROR - Anonymous - http://localhost:5000/admin/dashboard - 127.0.0.1 - GET - Unhandled exception: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[User(user)]'. Original exception was: When initializing mapper Mapper[User(user)], expression 'UserSettings' failed to locate a name ('UserSettings'). If this is a class name, consider adding this relationship() to the <class 'app.models.user.User'> class after both dependent classes have been defined.
+Traceback (most recent call last):
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1482, in full_dispatch_request
+    rv = self.preprocess_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1974, in preprocess_request
+    rv = self.ensure_sync(before_func)()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\app\__init__.py", line 39, in before_request
+    if current_user.is_authenticated:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\werkzeug\local.py", line 311, in __get__
+    obj = instance._get_current_object()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\werkzeug\local.py", line 515, in _get_current_object
+    return get_name(local())
+                    ^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_login\utils.py", line 25, in <lambda>
+    current_user = LocalProxy(lambda: _get_user())
+                                      ^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_login\utils.py", line 372, in _get_user
+    current_app.login_manager._load_user()
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_login\login_manager.py", line 364, in _load_user
+    user = self._user_callback(user_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\app\models\user.py", line 8, in load_user
+    return User.query.get(int(id))
+           ^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_sqlalchemy\model.py", line 22, in __get__
+    return cls.query_class(
+           ^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 274, in __init__
+    self._set_entities(entities)
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 284, in _set_entities
+    coercions.expect(
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\sql\coercions.py", line 406, in expect
+    insp._post_inspect
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 1252, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+                                           ^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2707, in _post_inspect
+    self._check_configure()
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2386, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4199, in _configure_registries
+    _do_configure_registries(registries, cascade)
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4236, in _do_configure_registries
+    raise e
+sqlalchemy.exc.InvalidRequestError: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[User(user)]'. Original exception was: When initializing mapper Mapper[User(user)], expression 'UserSettings' failed to locate a name ('UserSettings'). If this is a class name, consider adding this relationship() to the <class 'app.models.user.User'> class after both dependent classes have been defined.
+2024-11-12 22:46:51,421 - stewardwell - ERROR - Anonymous - http://localhost:5000/admin/dashboard - 127.0.0.1 - GET - Unhandled exception: When initializing mapper Mapper[User(user)], expression 'UserSettings' failed to locate a name ('UserSettings'). If this is a class name, consider adding this relationship() to the <class 'app.models.user.User'> class after both dependent classes have been defined.
+Traceback (most recent call last):
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\clsregistry.py", line 515, in _resolve_name
+    rval = d[token]
+           ~^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\util\_collections.py", line 346, in __missing__
+    self[key] = val = self.creator(key)
+                      ^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\clsregistry.py", line 483, in _access_cls
+    return self.fallback[key]
+           ~~~~~~~~~~~~~^^^^^
+KeyError: 'UserSettings'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1482, in full_dispatch_request
+    rv = self.preprocess_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1974, in preprocess_request
+    rv = self.ensure_sync(before_func)()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\app\__init__.py", line 39, in before_request
+    if current_user.is_authenticated:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\werkzeug\local.py", line 311, in __get__
+    obj = instance._get_current_object()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\werkzeug\local.py", line 515, in _get_current_object
+    return get_name(local())
+                    ^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_login\utils.py", line 25, in <lambda>
+    current_user = LocalProxy(lambda: _get_user())
+                                      ^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_login\utils.py", line 372, in _get_user
+    current_app.login_manager._load_user()
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_login\login_manager.py", line 364, in _load_user
+    user = self._user_callback(user_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\app\models\user.py", line 8, in load_user
+    return User.query.get(int(id))
+           ^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_sqlalchemy\model.py", line 22, in __get__
+    return cls.query_class(
+           ^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 274, in __init__
+    self._set_entities(entities)
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 284, in _set_entities
+    coercions.expect(
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\sql\coercions.py", line 406, in expect
+    insp._post_inspect
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 1252, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+                                           ^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2707, in _post_inspect
+    self._check_configure()
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2386, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4199, in _configure_registries
+    _do_configure_registries(registries, cascade)
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4240, in _do_configure_registries
+    mapper._post_configure_properties()
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2403, in _post_configure_properties
+    prop.init()
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\interfaces.py", line 579, in init
+    self.do_init()
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\relationships.py", line 1634, in do_init
+    self._setup_entity()
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\relationships.py", line 1851, in _setup_entity
+    self._clsregistry_resolve_name(argument)(),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\clsregistry.py", line 519, in _resolve_name
+    self._raise_for_name(name, err)
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\clsregistry.py", line 500, in _raise_for_name
+    raise exc.InvalidRequestError(
+sqlalchemy.exc.InvalidRequestError: When initializing mapper Mapper[User(user)], expression 'UserSettings' failed to locate a name ('UserSettings'). If this is a class name, consider adding this relationship() to the <class 'app.models.user.User'> class after both dependent classes have been defined.
+2024-11-12 22:48:56,564 - stewardwell - ERROR - Anonymous - http://localhost:5000/admin/dashboard - 127.0.0.1 - GET - Unhandled exception: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[User(user)]'. Original exception was: When initializing mapper Mapper[User(user)], expression 'UserSettings' failed to locate a name ('UserSettings'). If this is a class name, consider adding this relationship() to the <class 'app.models.user.User'> class after both dependent classes have been defined.
+Traceback (most recent call last):
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1482, in full_dispatch_request
+    rv = self.preprocess_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask\app.py", line 1974, in preprocess_request
+    rv = self.ensure_sync(before_func)()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\app\__init__.py", line 39, in before_request
+    if current_user.is_authenticated:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\werkzeug\local.py", line 311, in __get__
+    obj = instance._get_current_object()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\werkzeug\local.py", line 515, in _get_current_object
+    return get_name(local())
+                    ^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_login\utils.py", line 25, in <lambda>
+    current_user = LocalProxy(lambda: _get_user())
+                                      ^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_login\utils.py", line 372, in _get_user
+    current_app.login_manager._load_user()
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_login\login_manager.py", line 364, in _load_user
+    user = self._user_callback(user_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\app\models\user.py", line 8, in load_user
+    return User.query.get(int(id))
+           ^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\flask_sqlalchemy\model.py", line 22, in __get__
+    return cls.query_class(
+           ^^^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 274, in __init__
+    self._set_entities(entities)
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 284, in _set_entities
+    coercions.expect(
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\sql\coercions.py", line 406, in expect
+    insp._post_inspect
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 1252, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+                                           ^^^^^^^^^^^^^^
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2707, in _post_inspect
+    self._check_configure()
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2386, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4199, in _configure_registries
+    _do_configure_registries(registries, cascade)
+  File "D:\coding\Flask\newStewardWell\venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4236, in _do_configure_registries
+    raise e
+sqlalchemy.exc.InvalidRequestError: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[User(user)]'. Original exception was: When initializing mapper Mapper[User(user)], expression 'UserSettings' failed to locate a name ('UserSettings'). If this is a class name, consider adding this relationship() to the <class 'app.models.user.User'> class after both dependent classes have been defined.

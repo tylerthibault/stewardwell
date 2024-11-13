@@ -1,0 +1,171 @@
+/* Light theme (default) */
+:root {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f9fafb;
+    --text-primary: #111827;
+    --text-secondary: #4b5563;
+    --text-muted: #6b7280;
+    --border-color: #e5e7eb;
+    --hover-bg: #f3f4f6;
+}
+
+/* Dark theme */
+.dark {
+    --bg-primary: #1f2937;
+    --bg-secondary: #111827;
+    --text-primary: #f9fafb;
+    --text-secondary: #e5e7eb;
+    --text-muted: #9ca3af;
+    --border-color: #374151;
+    --hover-bg: #374151;
+}
+
+/* Apply theme variables */
+body {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+.bg-white {
+    background-color: var(--bg-primary) !important;
+}
+
+.bg-gray-50 {
+    background-color: var(--bg-secondary) !important;
+}
+
+.text-gray-900 {
+    color: var(--text-primary) !important;
+}
+
+.text-gray-700 {
+    color: var(--text-secondary) !important;
+}
+
+.text-gray-600, .text-gray-500 {
+    color: var(--text-muted) !important;
+}
+
+.border-gray-200, .border-gray-300 {
+    border-color: var(--border-color) !important;
+}
+
+.hover\:bg-gray-50:hover {
+    background-color: var(--hover-bg) !important;
+}
+
+/* Sidebar styles */
+.dark .sidebar {
+    background-color: var(--bg-primary);
+    border-color: var(--border-color);
+}
+
+/* Form styles */
+.dark input[type="text"],
+.dark input[type="email"],
+.dark input[type="password"],
+.dark select,
+.dark textarea {
+    background-color: var(--bg-primary);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+.dark input[type="text"]:focus,
+.dark input[type="email"]:focus,
+.dark input[type="password"]:focus,
+.dark select:focus,
+.dark textarea:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+/* Card styles */
+.dark .card {
+    background-color: var(--bg-primary);
+    border-color: var(--border-color);
+}
+
+/* Button styles */
+.dark .btn-secondary {
+    background-color: var(--bg-primary);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+.dark .btn-secondary:hover {
+    background-color: var(--hover-bg);
+}
+
+/* Table styles */
+.dark table {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+}
+
+.dark th {
+    background-color: var(--bg-secondary);
+}
+
+.dark td {
+    border-color: var(--border-color);
+}
+
+/* Modal styles */
+.dark .modal-content {
+    background-color: var(--bg-primary);
+    border-color: var(--border-color);
+}
+
+/* Alert styles */
+.dark .alert {
+    background-color: var(--bg-primary);
+    border-color: var(--border-color);
+}
+
+/* Custom scrollbar for dark mode */
+.dark ::-webkit-scrollbar {
+    width: 12px;
+}
+
+.dark ::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+    background-color: var(--border-color);
+    border-radius: 6px;
+    border: 3px solid var(--bg-secondary);
+}
+
+/* Theme preview boxes in appearance settings */
+.theme-preview {
+    width: 100%;
+    height: 120px;
+    border-radius: 8px;
+    border: 2px solid var(--border-color);
+    overflow: hidden;
+    position: relative;
+}
+
+.theme-preview.light {
+    background-color: #ffffff;
+}
+
+.theme-preview.dark {
+    background-color: #1f2937;
+}
+
+.theme-preview.system {
+    background: linear-gradient(to right, #ffffff 50%, #1f2937 50%);
+}
+
+.theme-preview::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 30%;
+    background-color: rgba(0, 0, 0, 0.1);
+}
